@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-deep: #0a192f;
+  --color-brand-teal: #0d9488;
+
+  --font-inter: var(--font-inter);
+  --font-montserrat: var(--font-montserrat);
+}
+
+@layer base {
+  body {
+    @apply text-slate-800 antialiased;
+    font-family: var(--font-inter), ui-sans-serif, system-ui;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv03";
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-bold tracking-tight text-brand-deep;
+    font-family: var(--font-montserrat), ui-sans-serif, system-ui;
+  }
+}
+
+@layer components {
+  .nav-link {
+    @apply relative transition-colors duration-300 hover:text-brand-teal font-semibold text-sm;
+  }
+
+  .nav-link::after {
+    @apply content-[''] absolute w-0 h-[2px] -bottom-1 left-0 bg-brand-teal transition-all duration-300;
+  }
+
+  .nav-link:hover::after {
+    @apply w-full;
+  }
+
+  .btn-primary {
+    @apply px-8 py-4 bg-brand-deep text-white font-bold rounded-lg hover:bg-brand-teal transition-all duration-300 shadow-lg text-center flex items-center justify-center gap-2;
+  }
+
+  .btn-outline {
+    @apply px-8 py-4 bg-transparent text-brand-deep font-bold rounded-lg border-2 border-brand-deep/20 hover:border-brand-teal hover:text-brand-teal transition-all duration-300 text-center;
+  }
+
+  .section-padding {
+    @apply py-24 md:py-32;
+  }
+}
+
+.hero-overlay {
+  background: linear-gradient(rgba(10, 25, 47, 0.9), rgba(10, 25, 47, 0.85));
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-container {
+  display: flex;
+  width: max-content;
+  animation: marquee 60s linear infinite;
+}
+
+.marquee-container:hover {
+  animation-play-state: paused;
+}

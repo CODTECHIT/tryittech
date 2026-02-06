@@ -1,11 +1,14 @@
 import Navbar from '@/components/Navbar';
 import PageHeader from '@/components/PageHeader';
-import About from '@/components/About';
+import AboutSection from '@/components/AboutSection';
+import CoreValues from '@/components/CoreValues';
+import Leadership from '@/components/Leadership';
+import Policies from '@/components/Policies';
 import Footer from '@/components/Footer';
 
 export const metadata = {
     title: 'About Us | TRYITTECH LLP',
-    description: 'Learn about TryITTech LLP, our leadership, and our 10+ years of US staffing expertise.',
+    description: 'Meet the visionaries behind TRYITTECH LLP, and review our corporate policies including Human Rights, Ethics, and Data Protection.',
 };
 
 export default function AboutPage() {
@@ -13,11 +16,19 @@ export default function AboutPage() {
         <main>
             <Navbar />
             <PageHeader
-                title="About Us"
-                subtitle="A strategic extension of proven global excellence, delivering future-ready human capital solutions."
+                title="Company"
+                subtitle="“We don’t just fill roles—we build futures by connecting the right talent with the right opportunities.”"
             />
-            <About />
+            <AboutSection />
+            <CoreValues />
+            <Leadership />
+            <Policies />
             <Footer />
         </main>
     );
 }
+
+
+
+
+

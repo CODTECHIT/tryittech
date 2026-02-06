@@ -1,4 +1,4 @@
-import { MapPin, Phone, Mail, Globe, Linkedin, Twitter, Send } from 'lucide-react';
+import { Phone, Mail, Globe, Linkedin, Send } from 'lucide-react';
 
 export default function Contact() {
     return (
@@ -15,18 +15,7 @@ export default function Contact() {
                             </p>
 
                             <div className="space-y-10">
-                                <div className="flex items-start gap-6 group">
-                                    <div className="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-[#0d9488] group-hover:border-[#0d9488] transition-all duration-300">
-                                        <MapPin className="text-[#0d9488] w-6 h-6 group-hover:text-white" />
-                                    </div>
-                                    <div className="space-y-1">
-                                        <span className="block text-[10px] font-black text-slate-500 uppercase tracking-widest">Office Address</span>
-                                        <span className="text-sm text-slate-300 leading-relaxed font-medium">
-                                            9-346, Sita Homes, New Gayathri Nagar, Jillelaguda,<br />
-                                            Hyderabad, Telangana – 500097
-                                        </span>
-                                    </div>
-                                </div>
+
 
                                 <div className="flex items-center gap-6 group">
                                     <div className="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-[#0d9488] group-hover:border-[#0d9488] transition-all duration-300">
@@ -64,9 +53,7 @@ export default function Contact() {
                             <a href="#" className="w-12 h-12 border border-white/10 flex items-center justify-center hover:bg-[#0d9488] hover:border-[#0d9488] transition-all group">
                                 <Linkedin className="w-5 h-5 text-slate-400 group-hover:text-white" />
                             </a>
-                            <a href="#" className="w-12 h-12 border border-white/10 flex items-center justify-center hover:bg-[#0d9488] hover:border-[#0d9488] transition-all group">
-                                <Twitter className="w-5 h-5 text-slate-400 group-hover:text-white" />
-                            </a>
+
                         </div>
 
                         {/* Decor */}

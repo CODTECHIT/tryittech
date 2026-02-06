@@ -9,7 +9,7 @@ export const services = [
         slug: 'permanent-staffing',
         title: 'Permanent Staffing',
         icon: Users,
-        image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&h=400&fit=crop',
+        image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&q=80',
         shortDescription: 'We help organizations hire expert full-time talent across IT and Non-IT roles using creative sourcing strategies.',
         fullDescription: `In today's volatile market, finding the right permanent talent is the cornerstone of organizational stability. At TRYITTECH LLP, we simplify technical and non-technical recruitment by matching your company culture with candidates who possess the right skills and mindset. 
 
@@ -27,7 +27,7 @@ Our approach goes beyond keyword matching. We utilize deep-market insights and m
         slug: 'contract-staffing',
         title: 'Contract Staffing',
         icon: FileText,
-        image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&h=400&fit=crop',
+        image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80',
         shortDescription: 'Temporary staffing solutions enabling enterprises to focus on core business operations with strategic agility.',
         fullDescription: `Agility is the new currency in business. Our contract staffing services empower organizations to manage seasonal workloads, project-based requirements, and specialized skill gaps without the long-term overhead of permanent hiring.
 
@@ -45,7 +45,7 @@ We handle the entire lifecycle of temporary staff, from onboarding and complianc
         slug: 'offshore-it-staffing',
         title: 'Offshore IT Staffing',
         icon: Globe,
-        image: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&h=400&fit=crop',
+        image: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&q=80',
         shortDescription: 'Cost-effective offshore IT staffing solutions that save time, cost, and significant operational effort.',
         fullDescription: `Leverage the power of global talent with our Offshore IT Staffing solutions. We help international businesses establish and manage high-performing technical teams in India, providing a seamless extension to their home-base operations.
 
@@ -63,7 +63,7 @@ Operating from our Hyderabad hub, we bridge the gap between global expectations 
         slug: 'staff-augmentation',
         title: 'Staff Augmentation',
         icon: Briefcase,
-        image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&h=400&fit=crop',
+        image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80',
         shortDescription: 'Dedicated IT professionals and fully managed teams tailored to your specific technical business needs.',
         fullDescription: `Bridge specific skill gaps instantly with our Staff Augmentation services. Instead of hiring a full team, you can add specific expertise—developers, architects, or project managers—directly into your existing workflows.
 
@@ -81,7 +81,7 @@ Our augmented staff works under your direction, following your processes and too
         slug: 'managed-rpo',
         title: 'Managed RPO',
         icon: GitBranch,
-        image: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=600&h=400&fit=crop',
+        image: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=800&q=80',
         shortDescription: 'Scalable talent acquisition models (Recruitment Process Outsourcing) that evolve with business growth.',
         fullDescription: `Our Recruitment Process Outsourcing (RPO) is a strategic partnership where we take full ownership of the recruitment function. From employer branding and sourcing technology to interviewing and onboarding, we become your internal talent acquisition department.
 
@@ -99,7 +99,7 @@ An RPO with TRYITTECH LLP is not just about filling seats; it's about transformi
         slug: 'payroll-services',
         title: 'Payroll Services',
         icon: Banknote,
-        image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=400&fit=crop',
+        image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&q=80',
         shortDescription: 'End-to-end payroll solutions for Indian businesses, ensuring compliance and operational excellence.',
         fullDescription: `Managing payroll in India involves navigating complex labor laws, tax regulations, and compliance requirements. Our Payroll Services take this burden off your shoulders, ensuring your employees are paid accurately and on time, every time.
 

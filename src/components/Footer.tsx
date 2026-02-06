@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Mail, Phone, MapPin, Linkedin, Twitter } from 'lucide-react';
+import { Mail, Phone, Linkedin } from 'lucide-react';
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();
@@ -19,9 +19,7 @@ export default function Footer() {
                             <a href="#" className="w-12 h-12 border border-white/10 flex items-center justify-center hover:bg-[#0d9488] hover:border-[#0d9488] transition-all group">
                                 <Linkedin className="w-5 h-5 group-hover:text-white" />
                             </a>
-                            <a href="#" className="w-12 h-12 border border-white/10 flex items-center justify-center hover:bg-[#0d9488] hover:border-[#0d9488] transition-all group">
-                                <Twitter className="w-5 h-5 group-hover:text-white" />
-                            </a>
+
                         </div>
                     </div>
 
@@ -56,18 +54,21 @@ export default function Footer() {
                                 <Phone className="w-5 h-5 text-[#0d9488] shrink-0" />
                                 <span>+91 9640946464</span>
                             </li>
-                            <li className="flex gap-4 items-start">
-                                <MapPin className="w-5 h-5 text-[#0d9488] shrink-0" />
-                                <span className="leading-relaxed">Hyderabad, Telangana<br />India – 500097</span>
-                            </li>
+
                         </ul>
                     </div>
                 </div>
 
                 <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
-                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
-                        © {currentYear} TRYITTECH LLP. All Rights Reserved.
-                    </p>
+                    <div className="flex flex-col md:flex-row items-center gap-4">
+                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
+                            © {currentYear} TRYITTECH LLP. All Rights Reserved.
+                        </p>
+                        <span className="hidden md:block text-slate-700">|</span>
+                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
+                            Developed by <a href="https://www.codtechitsolutions.com/" target="_blank" rel="noopener noreferrer" className="text-[#0d9488] hover:text-white transition-colors">CODTECH IT Solutions</a>
+                        </p>
+                    </div>
                     <div className="flex gap-12 text-[10px] font-black uppercase tracking-[0.2em]">
                         <Link href="#" className="hover:text-white transition-colors">Privacy Principles</Link>
                         <Link href="#" className="hover:text-white transition-colors">Terms of Operations</Link>

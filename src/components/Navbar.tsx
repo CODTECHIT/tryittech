@@ -38,12 +38,13 @@ export default function Navbar() {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center space-x-10">
-          <Link href="/about" className={`nav-link ${linkColor}`}>About Us</Link>
-          <Link href="/industries" className={`nav-link ${linkColor}`}>Industries</Link>
+          <Link href="/" className={`nav-link ${linkColor}`}>Home</Link>
           <Link href="/services" className={`nav-link ${linkColor}`}>Services</Link>
-          <Link href="/contact" className={`nav-link ${linkColor}`}>Contact</Link>
+          <Link href="/industries" className={`nav-link ${linkColor}`}>Industries</Link>
+          <Link href="/training" className={`nav-link ${linkColor}`}>Training</Link>
+          <Link href="/about" className={`nav-link ${linkColor}`}>Company</Link>
           <Link href="/contact" className={`px-6 py-2.5 rounded font-bold transition-all shadow-md ${isHome && !isScrolled ? 'bg-white text-[#0a192f] hover:bg-[#0d9488] hover:text-white' : 'bg-[#0d9488] text-white hover:bg-[#0a192f]'}`}>
-            Hire Talent
+            Contact
           </Link>
         </div>
 
@@ -63,12 +64,13 @@ export default function Navbar() {
           </button>
         </div>
         <div className="flex flex-col space-y-6 text-lg font-medium text-slate-600">
-          <Link href="/about" onClick={() => setIsOpen(false)} className="hover:text-[#0d9488]">About Us</Link>
-          <Link href="/industries" onClick={() => setIsOpen(false)} className="hover:text-[#0d9488]">Industries</Link>
+          <Link href="/" onClick={() => setIsOpen(false)} className="hover:text-[#0d9488]">Home</Link>
           <Link href="/services" onClick={() => setIsOpen(false)} className="hover:text-[#0d9488]">Services</Link>
-          <Link href="/contact" onClick={() => setIsOpen(false)} className="hover:text-[#0d9488]">Contact</Link>
+          <Link href="/industries" onClick={() => setIsOpen(false)} className="hover:text-[#0d9488]">Industries</Link>
+          <Link href="/training" onClick={() => setIsOpen(false)} className="hover:text-[#0d9488]">Training</Link>
+          <Link href="/about" onClick={() => setIsOpen(false)} className="hover:text-[#0d9488]">Company</Link>
           <hr className="border-slate-100" />
-          <Link href="/contact" onClick={() => setIsOpen(false)} className="bg-[#0a192f] text-white text-center py-4 rounded font-bold">Hire Talent</Link>
+          <Link href="/contact" onClick={() => setIsOpen(false)} className="bg-[#0a192f] text-white text-center py-4 rounded font-bold">Contact</Link>
         </div>
       </div>
     </nav>

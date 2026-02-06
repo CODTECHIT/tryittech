@@ -26,6 +26,8 @@ export const metadata: Metadata = {
   }
 };
 
+import StyledComponentsRegistry from "@/lib/registry";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -34,8 +36,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className={`${inter.variable} ${montserrat.variable} antialiased`}>
-        {children}
+        <StyledComponentsRegistry>
+          {children}
+        </StyledComponentsRegistry>
       </body>
     </html>
   );
 }
+

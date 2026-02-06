@@ -1,57 +1,177 @@
+'use client';
+
+import styled from 'styled-components';
 import Image from 'next/image';
 
 const industries = [
-    { 
-        name: 'Telecom', 
-        image: '/images/industries/telecom.jpg',
-        fallback: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=400&h=300&fit=crop'
+    {
+        name: 'IT',
+        image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&q=80',
+        info: 'Innovative tech leadership search.'
     },
-    { 
-        name: 'BFSI', 
-        image: '/images/industries/bfsi.jpg',
-        fallback: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=400&h=300&fit=crop'
+    {
+        name: 'Non-IT',
+        image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80',
+        info: 'Diverse professional staffing solutions.'
     },
-    { 
-        name: 'BPO / KPO', 
-        image: '/images/industries/bpo-kpo.jpg',
-        fallback: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=400&h=300&fit=crop'
+    {
+        name: 'Healthcare',
+        image: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?w=800&q=80',
+        info: 'Specialized medical talent acquisition.'
     },
-    { 
-        name: 'Software & IT', 
-        image: '/images/industries/software-it.jpg',
-        fallback: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=300&fit=crop'
+    {
+        name: 'BFSI',
+        image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80',
+        info: 'Secure banking and finance staffing.'
     },
-    { 
-        name: 'Pharma', 
-        image: '/images/industries/pharma.jpg',
-        fallback: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&h=300&fit=crop'
+    {
+        name: 'Automotive',
+        image: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&q=80',
+        info: 'Driving automotive excellence.'
     },
-    { 
-        name: 'Automobile', 
-        image: '/images/industries/automobile.jpg',
-        fallback: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400&h=300&fit=crop'
+    {
+        name: 'Logistics',
+        image: 'https://images.unsplash.com/photo-1566650554919-44ec6bbe2518?w=800&q=80',
+        info: 'Optimizing supply chain talent.'
     },
-    { 
-        name: 'Engineering', 
-        image: '/images/industries/engineering.jpg',
-        fallback: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=400&h=300&fit=crop'
+    {
+        name: 'Retail',
+        image: 'https://images.unsplash.com/photo-1534452203293-494d7ddbf7e0?w=800&q=80',
+        info: 'Customer-centric retail staffing.'
     },
-    { 
-        name: 'E-Automotive', 
-        image: '/images/industries/e-automotive.jpg',
-        fallback: 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=400&h=300&fit=crop'
+    {
+        name: 'Telecom',
+        image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&q=80',
+        info: 'Next-gen network solutions.'
     },
-    { 
-        name: 'Manufacturing', 
-        image: '/images/industries/manufacturing.jpg',
-        fallback: 'https://images.unsplash.com/photo-1565793298595-6a879b1d9492?w=400&h=300&fit=crop'
+    {
+        name: 'Manufacturing',
+        image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80',
+        info: 'Industrial growth through talent.'
     },
-    { 
-        name: 'Infrastructure', 
-        image: '/images/industries/infrastructure.jpg',
-        fallback: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&h=300&fit=crop'
+    {
+        name: 'BPO Services',
+        image: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=800&q=80',
+        info: 'Efficiency-driven outsourcing talent.'
     },
 ];
+
+const IndustryCard = ({ name, image, info }: { name: string, image: string, info: string }) => {
+    return (
+        <StyledWrapper>
+            <div className="card">
+                <div className="card-inner">
+                    <div className="card-front">
+                        <div className="img-container">
+                            <Image src={image} alt={name} fill className="object-cover" />
+                            <div className="overlay" />
+                        </div>
+                        <span className="card-title">{name}</span>
+                    </div>
+                    <div className="card-back">
+                        <span className="info-text">{info}</span>
+                    </div>
+                </div>
+            </div>
+        </StyledWrapper>
+    );
+}
+
+const StyledWrapper = styled.div`
+  .card {
+    background-color: transparent;
+    width: 100%;
+    height: 254px;
+    perspective: 1000px;
+    border-radius: 12px;
+  }
+
+  .card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+  }
+
+  .card:hover .card-inner {
+    transform: rotateY(180deg);
+  }
+
+  .card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .card-front {
+    background-color: #0a192f;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    z-index: 2;
+  }
+
+  .img-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 75%;
+    background: linear-gradient(to top, rgba(10, 25, 47, 0.98), transparent);
+    z-index: 2;
+  }
+
+  .card-title {
+    position: relative;
+    z-index: 3;
+    padding-bottom: 25px;
+    font-size: 18px;
+    font-weight: 800;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+  }
+
+  .card-back {
+    background-color: #0d9488;
+    color: white;
+    transform: rotateY(180deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    z-index: 1;
+  }
+
+  .info-text {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: white;
+    line-height: 1.5;
+  }
+
+  .card:hover {
+    cursor: pointer;
+  }
+`;
 
 export default function Industries() {
     return (
@@ -63,29 +183,18 @@ export default function Industries() {
                     <div className="w-16 h-1 bg-[#0d9488] mx-auto mt-8" />
                 </div>
 
-                <div className="grid grid-cols-2 lg:grid-cols-5 gap-6 md:gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 md:gap-10">
                     {industries.map((item, index) => (
-                        <div
+                        <IndustryCard
                             key={index}
-                            className="bg-white border border-slate-200 text-center hover:shadow-xl hover:border-[#0d9488] transition-all duration-300 group rounded-sm overflow-hidden"
-                        >
-                            <div className="relative h-40 w-full overflow-hidden">
-                                <Image
-                                    src={item.fallback}
-                                    alt={`${item.name} industry`}
-                                    fill
-                                    className="object-cover group-hover:scale-110 transition-transform duration-500"
-                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 20vw"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                            </div>
-                            <div className="p-4">
-                                <h5 className="font-bold text-[#0a192f] text-sm uppercase tracking-wider group-hover:text-[#0d9488]">{item.name}</h5>
-                            </div>
-                        </div>
+                            name={item.name}
+                            image={item.image}
+                            info={item.info}
+                        />
                     ))}
                 </div>
             </div>
         </section>
     );
 }
+

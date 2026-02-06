@@ -1,10 +1,11 @@
 import { notFound } from 'next/navigation';
-import { ChevronRight, CheckCircle2, ArrowLeft } from 'lucide-react';
+import { CheckCircle2, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import PageHeader from '@/components/PageHeader';
 import Footer from '@/components/Footer';
 import Contact from '@/components/Contact';
+import ProcessGlobe from '@/components/ProcessGlobe';
 import { services } from '@/constants/services';
 
 export async function generateStaticParams() {
@@ -40,68 +41,50 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
                 subtitle="Detailed workforce solutions backed by a decade of global excellence."
             />
 
-            <section className="section-padding">
+            <section className="py-24">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex mb-12">
+                    <div className="flex mb-16">
                         <Link href="/services" className="flex items-center gap-2 text-[#0d9488] font-bold text-sm uppercase tracking-widest hover:gap-4 transition-all">
                             <ArrowLeft className="w-5 h-5" /> Back to All Services
                         </Link>
                     </div>
 
-                    <div className="grid lg:grid-cols-3 gap-20">
-                        {/* Left Column: Detailed Content */}
-                        <div className="lg:col-span-2 space-y-12">
-                            <div className="space-y-6">
-                                <h2 className="text-3xl font-bold text-[#0a192f] flex items-center gap-4">
-                                    Overview
+                    <div className="space-y-24">
+                        {/* Overview & Benefits (Now Full Width on Top) */}
+                        <div className="space-y-16">
+                            <div className="space-y-8">
+                                <h2 className="text-4xl font-bold text-[#0a192f] flex items-center gap-4">
+                                    <span className="w-8 h-1 bg-[#0d9488] rounded-full" /> Overview
                                 </h2>
-                                <div className="text-lg text-slate-600 leading-relaxed whitespace-pre-line">
+                                <div className="text-xl text-slate-600 leading-relaxed whitespace-pre-line bg-slate-50/50 p-10 rounded-3xl border border-slate-100 shadow-sm">
                                     {service.fullDescription}
                                 </div>
                             </div>
 
-                            <div className="space-y-8 bg-slate-50 p-10 rounded-sm border border-slate-100">
-                                <h3 className="text-2xl font-bold text-[#0a192f]">Key Strategic Benefits</h3>
-                                <div className="grid md:grid-cols-2 gap-6">
+                            <div className="space-y-10">
+                                <h3 className="text-3xl font-bold text-[#0a192f] text-center">Why Partner with Us for {service.title}?</h3>
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                                     {service.benefits.map((benefit, idx) => (
-                                        <div key={idx} className="flex gap-4">
-                                            <CheckCircle2 className="w-6 h-6 text-[#0d9488] shrink-0" />
-                                            <p className="text-slate-600 font-medium">{benefit}</p>
+                                        <div key={idx} className="group p-8 bg-white border border-slate-100 rounded-2xl hover:shadow-2xl hover:border-[#0d9488]/30 transition-all duration-500 flex flex-col items-center text-center">
+                                            <div className="w-14 h-14 bg-slate-50 rounded-xl flex items-center justify-center mb-6 group-hover:bg-[#0d9488] text-[#0d9488] group-hover:text-white transition-all duration-300 transform group-hover:-translate-y-1 shadow-inner">
+                                                <CheckCircle2 className="w-7 h-7" />
+                                            </div>
+                                            <p className="text-slate-800 font-bold leading-tight text-lg">{benefit}</p>
                                         </div>
                                     ))}
                                 </div>
                             </div>
                         </div>
 
-                        {/* Right Column: Process & Contact Sidebar */}
-                        <div className="lg:col-span-1 space-y-12">
-                            {/* Process Card */}
-                            <div className="bg-[#0a192f] p-10 text-white rounded-sm">
-                                <h4 className="text-xl font-bold mb-8 border-b border-white/10 pb-6 uppercase tracking-widest text-[#0d9488]">Delivery Process</h4>
-                                <div className="space-y-8">
-                                    {service.process.map((step, idx) => (
-                                        <div key={idx} className="flex items-start gap-6 relative group">
-                                            {idx < service.process.length - 1 && (
-                                                <div className="absolute left-[15px] top-10 bottom-[-20px] w-px bg-white/10" />
-                                            )}
-                                            <div className="w-8 h-8 rounded-full border border-[#0d9488] flex items-center justify-center text-xs font-bold text-[#0d9488] shrink-0 group-hover:bg-[#0d9488] group-hover:text-white transition-all">
-                                                {idx + 1}
-                                            </div>
-                                            <span className="text-sm font-bold tracking-wide pt-1">{step}</span>
-                                        </div>
-                                    ))}
+                        {/* Process Globe Side (Now Centered Below) */}
+                        <div className="pt-24 border-t border-slate-100">
+                            <div className="max-w-4xl mx-auto">
+                                <div className="text-center mb-16">
+                                    <h4 className="text-[#0d9488] font-black uppercase tracking-[0.4em] text-xs mb-4">Our Methodology</h4>
+                                    <h2 className="text-4xl md:text-5xl font-bold text-[#0a192f] mb-6">Delivery <span className="text-[#0d9488]">Framework</span></h2>
+                                    <div className="w-24 h-1.5 bg-[#0d9488] mx-auto rounded-full" />
                                 </div>
-                            </div>
-
-                            {/* Quick Contact Card */}
-                            <div className="bg-[#0d9488] p-10 text-white rounded-sm shadow-xl">
-                                <h4 className="text-xl font-bold mb-4">Need Talent?</h4>
-                                <p className="text-white/80 text-sm mb-8 leading-relaxed">
-                                    Discuss your specific {service.title} requirements with our strategic advisors today.
-                                </p>
-                                <Link href="/contact" className="block w-full bg-[#0a192f] text-white text-center py-4 font-bold text-sm uppercase tracking-widest hover:bg-white hover:text-[#0a192f] transition-all">
-                                    Consult Experts
-                                </Link>
+                                <ProcessGlobe steps={service.process} />
                             </div>
                         </div>
                     </div>

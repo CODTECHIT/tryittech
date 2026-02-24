@@ -1,4 +1,4 @@
-'use client';
+import Image from 'next/image';
 
 export default function ClientTrust() {
     const clients = [
@@ -30,19 +30,12 @@ export default function ClientTrust() {
                             className="flex-shrink-0 flex items-center justify-center bg-white p-8 w-64 h-32 rounded-lg group hover:shadow-[0_0_20px_rgba(0,140,120,0.3)] transition-all duration-500 hover:scale-105"
                         >
                             <div className="relative w-full h-full flex items-center justify-center">
-                                <img
+                                <Image
                                     src={client.localPath}
                                     alt={client.name}
-                                    className="max-w-full max-h-full object-contain"
-                                    onError={(e) => {
-                                        const target = e.target as HTMLImageElement;
-                                        target.style.display = 'none';
-                                        target.nextElementSibling?.classList.remove('hidden');
-                                    }}
+                                    fill
+                                    className="object-contain p-2"
                                 />
-                                <span className="hidden text-[#020617] font-black tracking-widest text-xs uppercase text-center opacity-70 group-hover:opacity-100 transition-opacity">
-                                    {client.name}
-                                </span>
                             </div>
                         </div>
                     ))}

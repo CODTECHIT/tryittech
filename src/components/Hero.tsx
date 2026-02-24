@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 
 const slides = [
@@ -10,43 +10,37 @@ const slides = [
         title: "Staffing for",
         highlight: "What's Next",
         subtitle: "Building the foundation of organizational success through specialized full-time talent acquisition and strategic headhunting.",
-        image: "https://innovasolutions.com/wp-content/uploads/2025/03/SOL_TAL_L2_B1_Desktop-2.jpg",
-        cta: "Hire Talent"
+        image: "https://innovasolutions.com/wp-content/uploads/2025/03/SOL_TAL_L2_B1_Desktop-2.jpg"
     },
     {
         title: "Contract",
         highlight: "Staffing",
         subtitle: "Agile and compliant temporary staffing solutions that empower your business to scale rapidly with project demands.",
-        image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=2069&auto=format&fit=crop",
-        cta: "Scale Now"
+        image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=2069&auto=format&fit=crop"
     },
     {
         title: "Staff",
         highlight: "Augmentation",
         subtitle: "Plug-and-play specialized expertise directly into your internal teams for immediate technical impact.",
-        image: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop",
-        cta: "Add Expertise"
+        image: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop"
     },
     {
         title: "Offshore",
         highlight: "IT Hub",
         subtitle: "Empowering global enterprises with high-performance GCCs and managed offshore delivery teams in India.",
-        image: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop",
-        cta: "Launch Hub"
+        image: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop"
     },
     {
         title: "RPO",
         highlight: "Frameworks",
         subtitle: "Transforming your recruitment lifecycle with scalable, data-driven frameworks for large-scale hiring surges.",
-        image: "https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?q=80&w=2047&auto=format&fit=crop",
-        cta: "Scale Hiring"
+        image: "https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?q=80&w=2047&auto=format&fit=crop"
     },
     {
         title: "Payroll",
         highlight: "Services",
         subtitle: "Zero-error, 100% compliant payroll engine managing PF, ESI, and statutory needs for Indian enterprises.",
-        image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=2011&auto=format&fit=crop",
-        cta: "Setup Payroll"
+        image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=2011&auto=format&fit=crop"
     }
 ];
 
@@ -108,11 +102,6 @@ export default function Hero() {
                             {slides[currentSlide].subtitle}
                         </p>
 
-                        <div className="flex flex-wrap gap-6 pt-4">
-                            <button className="px-10 py-5 bg-[#008C78] text-white font-black text-xs uppercase tracking-widest rounded-sm hover:bg-white hover:text-[#020617] transition-all flex items-center gap-3 group shadow-2xl">
-                                {slides[currentSlide].cta} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                            </button>
-                        </div>
                     </motion.div>
                 </div>
             </div>

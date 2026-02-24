@@ -1,9 +1,10 @@
 'use client';
 
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
 import Link from 'next/link';
-import { industriesData, Industry } from '../constants/industries';
+import { Industry } from '@/lib/industries';
 
 const IndustryCard = ({ industry }: { industry: Industry }) => {
   return (
@@ -13,7 +14,7 @@ const IndustryCard = ({ industry }: { industry: Industry }) => {
           {/* FRONT: Visual Identity */}
           <div className="face front">
             <div className="image-wrapper">
-              <Image src={industry.image} alt={industry.name} fill className="card-img" priority />
+              <Image src={industry.image || 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&q=80'} alt={industry.name} fill className="card-img" priority />
               <div className="image-overlay" />
             </div>
             <div className="front-content">
@@ -223,6 +224,22 @@ const StyledWrapper = styled.div`
 `;
 
 export default function Industries() {
+  const [items, setItems] = useState<Industry[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/industries')
+      .then(res => res.json())
+      .then(data => {
+        setItems(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to fetch industries:', err);
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <section id="industries" className="py-24 bg-white border-y border-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -238,13 +255,17 @@ export default function Industries() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-          {industriesData.map((item, index) => (
-            <Link key={index} href={`/industries/${item.slug}`} className="block">
-              <IndustryCard industry={item} />
-            </Link>
-          ))}
-        </div>
+        {loading ? (
+          <div className="flex justify-center text-slate-400 font-bold uppercase tracking-widest animate-pulse">Loading Industries...</div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+            {items.map((item, index) => (
+              <Link key={index} href={`/industries/${item.slug}`} className="block">
+                <IndustryCard industry={item} />
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

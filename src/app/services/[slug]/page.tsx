@@ -6,10 +6,11 @@ import Navbar from '@/components/Navbar';
 import PageHeader from '@/components/PageHeader';
 import Footer from '@/components/Footer';
 import Contact from '@/components/Contact';
-import { services } from '@/constants/services';
+import { getServices } from '@/lib/services';
 import SolarSystemProcess from '@/components/SolarSystemProcess';
 
 export async function generateStaticParams() {
+    const services = await getServices();
     return services.map((service) => ({
         slug: service.slug,
     }));
@@ -17,6 +18,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
+    const services = await getServices();
     const service = services.find((s) => s.slug === slug);
     if (!service) return { title: 'Service Not Found' };
 
@@ -28,6 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ServiceDetailPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
+    const services = await getServices();
     const service = services.find((s) => s.slug === slug);
 
     if (!service) {
@@ -46,7 +49,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
             <section className="relative h-[500px] w-full mt-[-2rem]">
                 <div className="absolute inset-0">
                     <Image
-                        src={service.image}
+                        src={service.image || 'https://img.freepik.com/free-photo/businesspeople-working-finance-accounting-office_23-2148908915.jpg?w=740'}
                         alt={service.title}
                         fill
                         className="object-cover"

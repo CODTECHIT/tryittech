@@ -1,22 +1,42 @@
 'use client';
 
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
 import Link from 'next/link';
-import { trainingCategories } from '@/data/trainingData';
+import { Laptop, BookOpen, ShieldCheck, Gamepad2 } from 'lucide-react';
 
-const TrainingCard = ({ title, description, icon, image }: { title: string, description: string, icon: React.ReactNode, image: string, subTrainings: string[] }) => {
+const iconMap: { [key: string]: React.ReactNode } = {
+  Laptop: <Laptop className="w-8 h-8 text-white relative z-10" />,
+  BookOpen: <BookOpen className="w-8 h-8 text-white relative z-10" />,
+  ShieldCheck: <ShieldCheck className="w-8 h-8 text-white relative z-10" />,
+  Gamepad2: <Gamepad2 className="w-8 h-8 text-white relative z-10" />,
+};
+
+interface Training {
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  image: string;
+  icon: string;
+  modules: string[];
+}
+
+const TrainingCard = ({ title, description, icon, image }: { title: string, description: string, icon: string, image: string }) => {
   return (
     <StyledWrapper>
       <div className="training-card">
         {/* FRONT: Visual State */}
         <div className="face-front">
           <div className="media">
-            <Image src={image} alt={title} fill className="card-img" />
+            <Image src={image || 'https://img.freepik.com/free-photo/business-startup-strategy-goals-concept_53876-120909.jpg'} alt={title} fill className="card-img" />
             <div className="scrim" />
           </div>
           <div className="info">
-            <div className="icon-box">{icon}</div>
+            <div className="icon-box">
+              {iconMap[icon] || <Laptop className="w-8 h-8 text-white relative z-10" />}
+            </div>
             <h4 className="card-title">{title}</h4>
           </div>
         </div>
@@ -189,16 +209,35 @@ const StyledWrapper = styled.div`
 `;
 
 export default function TrainingGrid() {
+  const [trainings, setTrainings] = useState<Training[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/trainings')
+      .then(res => res.json())
+      .then(data => {
+        setTrainings(Array.isArray(data) ? data : []);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.error('Error fetching trainings:', err);
+        setIsLoading(false);
+      });
+  }, []);
+
+  if (isLoading) {
+    return <div className="text-center py-20 text-slate-400">Loading courses...</div>;
+  }
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {trainingCategories.map((category, index) => (
-        <Link key={index} href={`/training/${category.slug}`} className="block">
+      {trainings.map((category) => (
+        <Link key={category.id} href={`/training/${category.slug}`} className="block">
           <TrainingCard
             title={category.title}
             description={category.description}
             icon={category.icon}
             image={category.image}
-            subTrainings={category.modules}
           />
         </Link>
       ))}

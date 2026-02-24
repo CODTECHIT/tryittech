@@ -1,16 +1,31 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ArrowRight, GraduationCap } from 'lucide-react';
-import { trainingCategories } from '@/data/trainingData';
 
 export default function TrainingSection() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [items, setItems] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/trainings')
+      .then(res => res.json())
+      .then(data => {
+        setItems(Array.isArray(data) ? data : []);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to fetch trainings:', err);
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <section className="py-32 bg-[#020617] text-white relative overflow-hidden">
-      {/* Background Decor */}
       <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#008C78] blur-[150px] -mr-96 -mt-96 rounded-full" />
       </div>
@@ -32,28 +47,31 @@ export default function TrainingSection() {
               </p>
             </div>
 
-            <div className="grid sm:grid-cols-2 gap-8">
-              {trainingCategories.map((category, idx) => (
-                <motion.div
-                  key={idx}
-                  whileHover={{ x: 10 }}
-                  className="space-y-4 group cursor-pointer"
-                >
-                  <div className="w-14 h-14 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center group-hover:bg-[#008C78] group-hover:border-[#008C78] transition-all duration-300">
-                    {/* We use the icon from category if it's a component or just generic ones for now */}
-                    <GraduationCap className="w-6 h-6 text-[#008C78] group-hover:text-white" />
-                  </div>
-                  <h4 className="text-xl font-bold uppercase tracking-widest">{category.title}</h4>
-                  <p className="text-sm text-slate-500 line-clamp-2">{category.description}</p>
-                  <Link
-                    href={`/training/${category.slug}`}
-                    className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#008C78] hover:text-white transition-colors"
+            {loading ? (
+              <div className="text-slate-500 font-bold uppercase tracking-widest animate-pulse">Synchronizing Global Talent...</div>
+            ) : (
+              <div className="grid sm:grid-cols-2 gap-8">
+                {items.map((category, idx) => (
+                  <motion.div
+                    key={idx}
+                    whileHover={{ x: 10 }}
+                    className="space-y-4 group cursor-pointer"
                   >
-                    Learn More <ArrowRight className="w-3 h-3" />
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
+                    <div className="w-14 h-14 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center group-hover:bg-[#008C78] group-hover:border-[#008C78] transition-all duration-300">
+                      <GraduationCap className="w-6 h-6 text-[#008C78] group-hover:text-white" />
+                    </div>
+                    <h4 className="text-xl font-bold uppercase tracking-widest">{category.title}</h4>
+                    <p className="text-sm text-slate-500 line-clamp-2">{category.description}</p>
+                    <Link
+                      href={`/training/${category.slug}`}
+                      className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#008C78] hover:text-white transition-colors"
+                    >
+                      Learn More <ArrowRight className="w-3 h-3" />
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="relative">
@@ -73,7 +91,6 @@ export default function TrainingSection() {
                 </p>
               </div>
             </div>
-            {/* Decor */}
             <div className="absolute -top-10 -right-10 w-40 h-40 bg-[#008C78] rounded-full blur-[80px] opacity-20" />
           </div>
         </div>

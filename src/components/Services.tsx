@@ -1,10 +1,23 @@
 'use client';
 
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight } from 'lucide-react';
-import { services, Service } from '@/constants/services';
+import { ArrowRight, Briefcase } from 'lucide-react';
+import { Service } from '@/lib/services';
+
+const DEFAULT_SERVICE_IMAGE = 'https://img.freepik.com/free-photo/businesspeople-working-finance-accounting-office_23-2148908915.jpg?w=740';
+
+function getSafeImageUrl(url: string | undefined | null): string {
+  if (!url || url.trim() === '') return DEFAULT_SERVICE_IMAGE;
+  try {
+    new URL(url);
+    return url;
+  } catch {
+    return DEFAULT_SERVICE_IMAGE;
+  }
+}
 
 const ServiceCard = ({ service }: { service: Service }) => {
   return (
@@ -15,7 +28,7 @@ const ServiceCard = ({ service }: { service: Service }) => {
           <div className="card-front">
             <div className="img-container">
               <Image
-                src={service.image}
+                src={getSafeImageUrl(service.image)}
                 alt={service.title}
                 fill
                 className="object-cover"
@@ -25,7 +38,7 @@ const ServiceCard = ({ service }: { service: Service }) => {
 
             <div className="content">
               <div className="icon-badge">
-                <service.icon className="w-6 h-6" />
+                <Briefcase className="w-6 h-6" />
               </div>
               <h3 className="card-title">{service.title}</h3>
             </div>
@@ -171,6 +184,22 @@ const CardWrapper = styled.div`
 `;
 
 export default function Services() {
+  const [items, setItems] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/services')
+      .then(res => res.json())
+      .then(data => {
+        setItems(Array.isArray(data) ? data : []);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to fetch services:', err);
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <section id="services" className="py-32 bg-slate-50 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -179,13 +208,17 @@ export default function Services() {
           <h3 className="text-5xl md:text-7xl font-black text-[#020617] tracking-tighter leading-none font-poppins">Our Talent <span className="text-[#008C78]">Solutions</span></h3>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((item, index) => (
-            <Link key={index} href={`/services/${item.slug}`} className="block">
-              <ServiceCard service={item} />
-            </Link>
-          ))}
-        </div>
+        {loading ? (
+          <div className="flex justify-center text-slate-400 font-bold uppercase tracking-widest animate-pulse">Loading Services...</div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {items.map((item) => (
+              <Link key={item.slug || item.id} href={`/services/${item.slug}`} className="block">
+                <ServiceCard service={item} />
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

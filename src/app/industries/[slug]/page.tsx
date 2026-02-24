@@ -10,26 +10,46 @@ import {
     Target,
     ChevronRight,
     MessageSquare,
-    Globe
+    Globe,
+    BarChart3,
+    Cpu,
+    LucideIcon
 } from 'lucide-react';
-import { industriesData } from '../../../constants/industries';
 import Navbar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import Contact from '../../../components/Contact';
+import { Industry } from '@/lib/industries';
+
+const ICON_MAP: Record<string, LucideIcon> = {
+    Shield, Zap, Target, Globe, BarChart3, Cpu
+};
 
 export default function IndustryDetailPage() {
     const params = useParams();
     const slug = params?.slug as string;
     const [isScrolled, setIsScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState('overview');
+    const [industry, setIndustry] = useState<Industry | null>(null);
+    const [loading, setLoading] = useState(true);
 
-    const industry = industriesData.find((ind) => ind.slug === slug);
+    useEffect(() => {
+        fetch('/api/industries')
+            .then(res => res.json())
+            .then(data => {
+                const found = data.find((ind: Industry) => ind.slug === slug);
+                setIndustry(found || null);
+                setLoading(false);
+            })
+            .catch(err => {
+                console.error('Failed to fetch industry:', err);
+                setLoading(false);
+            });
+    }, [slug]);
 
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 500);
 
-            // Basic active section detection
             const sections = ['overview', 'segments', 'edge'];
             for (const section of sections) {
                 const element = document.getElementById(section);
@@ -46,10 +66,17 @@ export default function IndustryDetailPage() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-slate-50 text-slate-400 font-bold uppercase tracking-[0.3em] animate-pulse">
+                Synchronizing Vertical Data...
+            </div>
+        );
+    }
+
     if (!industry) {
         notFound();
     }
-
 
     const navLinks = [
         { id: 'overview', label: 'Overview' },
@@ -61,17 +88,16 @@ export default function IndustryDetailPage() {
         <main className="bg-white min-h-screen font-inter">
             <Navbar />
 
-            {/* HERO SECTION - REFINED SLIDER STYLE */}
+            {/* HERO SECTION */}
             <section className="relative h-[85vh] w-full flex items-center overflow-hidden">
                 <div className="absolute inset-0">
                     <Image
-                        src={industry.image}
+                        src={industry.image || 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&q=80'}
                         alt={industry.name}
                         fill
                         className="object-cover scale-105"
                         priority
                     />
-                    {/* Multi-layered overlay for premium depth */}
                     <div className="absolute inset-0 bg-[#020617]/40" />
                     <div className="absolute inset-0 bg-gradient-to-r from-[#020617] via-transparent to-transparent opacity-80" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent opacity-60" />
@@ -108,7 +134,6 @@ export default function IndustryDetailPage() {
                     </motion.div>
                 </div>
 
-                {/* Scroll Indicator */}
                 <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
                     <span className="text-white/40 text-[10px] uppercase tracking-widest font-black">Scroll Down</span>
                     <div className="w-[1px] h-12 bg-gradient-to-b from-[#008C78] to-transparent" />
@@ -137,7 +162,7 @@ export default function IndustryDetailPage() {
                 </div>
             </nav>
 
-            {/* OVERVIEW SECTION - CLEAN & DATA DRIVEN */}
+            {/* OVERVIEW SECTION */}
             <section id="overview" className="py-32 relative overflow-hidden bg-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid lg:grid-cols-2 gap-20 items-center">
@@ -215,7 +240,7 @@ export default function IndustryDetailPage() {
                 </div>
             </section>
 
-            {/* THE INNOVA EDGE - ICONIC GRID */}
+            {/* THE INNOVA EDGE */}
             <section id="edge" className="py-32 bg-[#020617] text-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center max-w-3xl mx-auto mb-20 space-y-6">
@@ -225,23 +250,24 @@ export default function IndustryDetailPage() {
                     </div>
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
-                        {industry.edge.map((item, idx) => (
-                            <div key={idx} className="text-center space-y-6 group">
-                                <div className="mx-auto w-24 h-24 rounded-full border-2 border-white/10 flex items-center justify-center group-hover:border-[#008C78] group-hover:scale-110 transition-all duration-500">
-                                    <item.icon className="w-10 h-10 text-white group-hover:text-[#008C78] transition-colors" />
+                        {industry.edge.map((item, idx) => {
+                            const Icon = ICON_MAP[item.icon as string] || Target;
+                            return (
+                                <div key={idx} className="text-center space-y-6 group">
+                                    <div className="mx-auto w-24 h-24 rounded-full border-2 border-white/10 flex items-center justify-center group-hover:border-[#008C78] group-hover:scale-110 transition-all duration-500">
+                                        <Icon className="w-10 h-10 text-white group-hover:text-[#008C78] transition-colors" />
+                                    </div>
+                                    <h4 className="text-xl font-bold uppercase tracking-widest">{item.title}</h4>
+                                    <p className="text-slate-400 leading-relaxed font-medium px-4">
+                                        {item.description}
+                                    </p>
                                 </div>
-                                <h4 className="text-xl font-bold uppercase tracking-widest">{item.title}</h4>
-                                <p className="text-slate-400 leading-relaxed font-medium px-4">
-                                    {item.description}
-                                </p>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 </div>
             </section>
 
-
-            {/* FINAL CTA - LET'S TALK STYLE */}
             <section className="py-24 bg-slate-50">
                 <div className="max-w-4xl mx-auto px-4 text-center space-y-10">
                     <div className="mx-auto w-20 h-20 bg-[#008C78] rounded-3xl flex items-center justify-center mb-8 rotate-12 shadow-2xl">

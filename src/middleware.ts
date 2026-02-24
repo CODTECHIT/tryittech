@@ -9,20 +9,35 @@ const PUBLIC_PATCHES = [
     '/api/auth/logout',
 ];
 
-export async function proxy(request: NextRequest) {
+export default async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
+    const method = request.method;
 
-    // 1. Whitelist public routes
+    // 1. Whitelist public UI routes
     if (PUBLIC_PATCHES.some(path => pathname === path)) {
         return NextResponse.next();
     }
 
-    // 2. Allow public inquiry submission (but only POST)
-    if (pathname === '/api/inquiries' && request.method === 'POST') {
+    // 2. Allow ALL GET requests for public data APIs
+    // This fixes the 401 errors for services, industries, trainings, etc.
+    const isPublicGet = method === 'GET' && (
+        pathname.startsWith('/api/services') ||
+        pathname.startsWith('/api/industries') ||
+        pathname.startsWith('/api/trainings') ||
+        pathname.startsWith('/api/trainers') ||
+        pathname.startsWith('/api/licenses')
+    );
+
+    if (isPublicGet) {
         return NextResponse.next();
     }
 
-    // 3. Protect Admin UI and API Routes
+    // 3. Allow public inquiry submission (only POST)
+    if (pathname === '/api/inquiries' && method === 'POST') {
+        return NextResponse.next();
+    }
+
+    // 4. Protect Admin UI and all other API Routes (POST/PUT/DELETE)
     const isAdminPath = pathname.startsWith('/ADMINTRYITTECH-LLP');
     const isApiPath = pathname.startsWith('/api/') && !pathname.startsWith('/api/auth');
 

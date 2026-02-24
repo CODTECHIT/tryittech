@@ -231,7 +231,7 @@ export default function Industries() {
     fetch('/api/industries')
       .then(res => res.json())
       .then(data => {
-        setItems(data);
+        setItems(Array.isArray(data) ? data : []);
         setLoading(false);
       })
       .catch(err => {

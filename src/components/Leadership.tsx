@@ -26,14 +26,14 @@ export default function Leadership() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header Section */}
                 <div className="text-center max-w-3xl mx-auto mb-20">
-                    <h2 className="text-[#0d9488] font-black uppercase tracking-[0.3em] text-xs mb-4">Our Leadership</h2>
-                    <h3 className="text-4xl font-bold text-[#0a192f] mb-8">Executive Visionaries</h3>
-                    <div className="w-16 h-1 bg-[#0d9488] mx-auto mb-10" />
+                    <h2 className="text-[#008C78] font-black uppercase tracking-[0.3em] text-xs mb-4">Our Leadership</h2>
+                    <h3 className="text-4xl font-bold text-[#020617] mb-8">Executive Visionaries</h3>
+                    <div className="w-16 h-1 bg-[#008C78] mx-auto mb-10" />
 
                     {/* Quotation */}
-                    <div className="relative p-8 bg-slate-50 rounded-2xl border-l-4 border-[#0d9488] group">
-                        <Quote className="absolute top-4 left-4 w-10 h-10 text-[#0d9488]/10 group-hover:text-[#0d9488]/20 transition-colors" />
-                        <p className="text-2xl font-medium text-[#0a192f] italic relative z-10">
+                    <div className="relative p-8 bg-slate-50 rounded-2xl border-l-4 border-[#008C78] group">
+                        <Quote className="absolute top-4 left-4 w-10 h-10 text-[#008C78]/10 group-hover:text-[#008C78]/20 transition-colors" />
+                        <p className="text-2xl font-medium text-[#020617] italic relative z-10">
                             &ldquo;Converting real-world experience into future-ready solutions.&rdquo;
                         </p>
                     </div>
@@ -45,7 +45,7 @@ export default function Leadership() {
                         <div key={index} className="flex flex-col md:flex-row gap-8 items-start group">
                             {/* Image Placeholder with Frame */}
                             <div className="relative w-full md:w-72 h-80 flex-shrink-0">
-                                <div className="absolute inset-0 border-2 border-[#0d9488] translate-x-3 translate-y-3 rounded-xl -z-10 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform duration-500" />
+                                <div className={`absolute inset-0 border-2 ${index === 0 ? 'border-[#008C78]' : 'border-[#F0960A]'} translate-x-3 translate-y-3 rounded-xl -z-10 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform duration-500`} />
                                 <div className="relative h-full w-full rounded-xl overflow-hidden shadow-xl">
                                     <Image
                                         src={leader.image}
@@ -59,17 +59,17 @@ export default function Leadership() {
                             {/* Bio Content */}
                             <div className="flex-grow space-y-4">
                                 <div>
-                                    <span className="text-[#0d9488] font-bold text-sm uppercase tracking-widest">{leader.role}</span>
-                                    <h4 className="text-3xl font-bold text-[#0a192f] mt-1">{leader.name}</h4>
+                                    <span className={`font-bold text-sm uppercase tracking-widest ${index === 0 ? 'text-[#008C78]' : 'text-[#F0960A]'}`}>{leader.role}</span>
+                                    <h4 className="text-3xl font-bold text-[#020617] mt-1">{leader.name}</h4>
                                 </div>
                                 <p className="text-slate-600 leading-relaxed text-[15px]">
                                     {leader.bio}
                                 </p>
                                 <div className="flex gap-4 pt-4">
-                                    <a href={leader.linkedin} className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center text-[#0a192f] hover:bg-[#0d9488] hover:text-white transition-all">
+                                    <a href={leader.linkedin} className={`w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center text-[#020617] hover:text-white transition-all ${index === 0 ? 'hover:bg-[#008C78]' : 'hover:bg-[#F0960A]'}`}>
                                         <Linkedin className="w-5 h-5" />
                                     </a>
-                                    <a href="#" className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center text-[#0a192f] hover:bg-[#0d9488] hover:text-white transition-all">
+                                    <a href="#" className={`w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center text-[#020617] hover:text-white transition-all ${index === 0 ? 'hover:bg-[#008C78]' : 'hover:bg-[#F0960A]'}`}>
                                         <Mail className="w-5 h-5" />
                                     </a>
                                 </div>

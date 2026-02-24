@@ -2,199 +2,250 @@
 
 import styled from 'styled-components';
 import Image from 'next/image';
+import Link from 'next/link';
+import { industriesData, Industry } from '../constants/industries';
 
-const industries = [
-    {
-        name: 'IT',
-        image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&q=80',
-        info: 'Innovative tech leadership search.'
-    },
-    {
-        name: 'Non-IT',
-        image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80',
-        info: 'Diverse professional staffing solutions.'
-    },
-    {
-        name: 'Healthcare',
-        image: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?w=800&q=80',
-        info: 'Specialized medical talent acquisition.'
-    },
-    {
-        name: 'BFSI',
-        image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80',
-        info: 'Secure banking and finance staffing.'
-    },
-    {
-        name: 'Automotive',
-        image: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&q=80',
-        info: 'Driving automotive excellence.'
-    },
-    {
-        name: 'Logistics',
-        image: 'https://images.unsplash.com/photo-1566650554919-44ec6bbe2518?w=800&q=80',
-        info: 'Optimizing supply chain talent.'
-    },
-    {
-        name: 'Retail',
-        image: 'https://images.unsplash.com/photo-1534452203293-494d7ddbf7e0?w=800&q=80',
-        info: 'Customer-centric retail staffing.'
-    },
-    {
-        name: 'Telecom',
-        image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&q=80',
-        info: 'Next-gen network solutions.'
-    },
-    {
-        name: 'Manufacturing',
-        image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80',
-        info: 'Industrial growth through talent.'
-    },
-    {
-        name: 'BPO Services',
-        image: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=800&q=80',
-        info: 'Efficiency-driven outsourcing talent.'
-    },
-];
-
-const IndustryCard = ({ name, image, info }: { name: string, image: string, info: string }) => {
-    return (
-        <StyledWrapper>
-            <div className="card">
-                <div className="card-inner">
-                    <div className="card-front">
-                        <div className="img-container">
-                            <Image src={image} alt={name} fill className="object-cover" />
-                            <div className="overlay" />
-                        </div>
-                        <span className="card-title">{name}</span>
-                    </div>
-                    <div className="card-back">
-                        <span className="info-text">{info}</span>
-                    </div>
-                </div>
+const IndustryCard = ({ industry }: { industry: Industry }) => {
+  return (
+    <StyledWrapper>
+      <div className="card-container">
+        <div className="card-flipper">
+          {/* FRONT: Visual Identity */}
+          <div className="face front">
+            <div className="image-wrapper">
+              <Image src={industry.image} alt={industry.name} fill className="card-img" priority />
+              <div className="image-overlay" />
             </div>
-        </StyledWrapper>
-    );
+            <div className="front-content">
+              <div className="title-container">
+                <span className="label-tiny">Division</span>
+                <h4 className="industry-title">{industry.name}</h4>
+              </div>
+            </div>
+          </div>
+
+          {/* BACK: Strategic Value */}
+          <div className="face back">
+            <div className="back-content">
+              <div className="back-header">
+                <span className="label">Expertise</span>
+                <h5 className="back-title">{industry.name}</h5>
+              </div>
+              <p className="description">{industry.info}</p>
+              <div className="learn-more-btn">
+                <span>Learn More</span>
+                <div className="btn-line" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </StyledWrapper>
+  );
 }
 
 const StyledWrapper = styled.div`
-  .card {
-    background-color: transparent;
+  .card-container {
     width: 100%;
-    height: 254px;
-    perspective: 1000px;
-    border-radius: 12px;
+    height: 340px;
+    perspective: 1500px;
+    cursor: pointer;
   }
 
-  .card-inner {
+  .card-flipper {
     position: relative;
     width: 100%;
     height: 100%;
-    text-align: center;
-    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
     transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
   }
 
-  .card:hover .card-inner {
-    transform: rotateY(180deg);
+  .card-container:hover .card-flipper {
+    transform: rotateY(-180deg);
   }
 
-  .card-front, .card-back {
+  .face {
     position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
-    -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    border-radius: 12px;
+    border-radius: 4px;
     overflow: hidden;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   }
 
-  .card-front {
-    background-color: #0a192f;
+  .front {
+    transform: rotateY(0deg);
+    background: #020617;
+  }
+
+  .image-wrapper {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .card-img {
+    object-fit: cover;
+    transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+
+  .card-container:hover .card-img {
+    transform: scale(1.1);
+  }
+
+  .image-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top, 
+      rgba(2, 6, 23, 0.95) 0%, 
+      rgba(2, 6, 23, 0.4) 50%, 
+      transparent 100%
+    );
+    z-index: 1;
+  }
+
+  .front-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    align-items: center;
-    z-index: 2;
+    padding: 24px;
   }
 
-  .img-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
+  .title-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
   }
 
-  .overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 75%;
-    background: linear-gradient(to top, rgba(10, 25, 47, 0.98), transparent);
-    z-index: 2;
+  .label-tiny {
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #008C78;
+    opacity: 0.9;
   }
 
-  .card-title {
-    position: relative;
-    z-index: 3;
-    padding-bottom: 25px;
-    font-size: 18px;
+  .industry-title {
+    font-size: 1.15rem;
     font-weight: 800;
     color: white;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    margin: 0;
+    text-transform: capitalize;
+    transition: transform 0.4s ease;
   }
 
-  .card-back {
-    background-color: #0d9488;
-    color: white;
+  .card-container:hover .industry-title {
+    transform: translateX(5px);
+  }
+
+  .back {
     transform: rotateY(180deg);
+    background: #008C78;
+    padding: 35px;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: center;
-    padding: 24px;
-    z-index: 1;
   }
 
-  .info-text {
-    font-size: 1.15rem;
-    font-weight: 700;
+  .back-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
     color: white;
-    line-height: 1.5;
   }
 
-  .card:hover {
-    cursor: pointer;
+  .back-header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .label {
+    font-size: 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #020617;
+  }
+
+  .back-title {
+    font-size: 22px;
+    font-weight: 800;
+  }
+
+  .description {
+    font-size: 14px;
+    line-height: 1.6;
+    font-weight: 500;
+    opacity: 0.95;
+  }
+
+  .learn-more-btn {
+    margin-top: 10px;
+    display: inline-flex;
+    flex-direction: column;
+    gap: 6px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .learn-more-btn span {
+    font-size: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #020617;
+  }
+
+  .btn-line {
+    width: 40px;
+    height: 2px;
+    background: #020617;
+    transition: width 0.3s ease;
+  }
+
+  .learn-more-btn:hover .btn-line {
+    width: 100%;
+  }
+
+  .card-container:hover .face {
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
   }
 `;
 
 export default function Industries() {
-    return (
-        <section id="industries" className="section-padding bg-slate-50 border-y border-slate-100">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center max-w-3xl mx-auto mb-20">
-                    <h2 className="text-[#0d9488] font-black uppercase tracking-[0.3em] text-xs mb-4">Market Verticals</h2>
-                    <h3 className="text-4xl font-bold text-[#0a192f]">Industries We Support</h3>
-                    <div className="w-16 h-1 bg-[#0d9488] mx-auto mt-8" />
-                </div>
+  return (
+    <section id="industries" className="py-24 bg-white border-y border-slate-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+          <div className="max-w-2xl">
+            <h2 className="text-[#008C78] font-black uppercase tracking-[0.3em] text-xs mb-4">Global Reach</h2>
+            <h3 className="text-5xl font-bold text-[#020617] tracking-tighter font-poppins">Market Verticals <span className="text-[#008C78]">We Support</span></h3>
+          </div>
+          <div className="hidden md:block">
+            <p className="text-slate-500 font-medium max-w-xs text-right italic font-poppins">
+              Empowering innovation through specialized talent across major global industries.
+            </p>
+          </div>
+        </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 md:gap-10">
-                    {industries.map((item, index) => (
-                        <IndustryCard
-                            key={index}
-                            name={item.name}
-                            image={item.image}
-                            info={item.info}
-                        />
-                    ))}
-                </div>
-            </div>
-        </section>
-    );
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+          {industriesData.map((item, index) => (
+            <Link key={index} href={`/industries/${item.slug}`} className="block">
+              <IndustryCard industry={item} />
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 }
-

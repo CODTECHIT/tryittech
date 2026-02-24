@@ -46,16 +46,16 @@ export default function Policies() {
     return (
         <section id="policies" className="py-24 bg-slate-50 relative overflow-hidden">
             {/* Background Decor */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-[#0d9488]/5 rounded-full -mr-48 -mt-48 blur-3xl" />
+            <div className="absolute top-0 right-0 w-96 h-96 bg-[#008C78]/5 rounded-full -mr-48 -mt-48 blur-3xl" />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
                     <div className="max-w-2xl">
-                        <h2 className="text-[#0d9488] font-black uppercase tracking-[0.3em] text-xs mb-4 flex items-center gap-3">
-                            <span className="w-10 h-[2px] bg-[#0d9488]" /> Governance
+                        <h2 className="text-[#008C78] font-black uppercase tracking-[0.3em] text-xs mb-4 flex items-center gap-3">
+                            <span className="w-10 h-[2px] bg-[#008C78]" /> Governance
                         </h2>
-                        <h3 className="text-4xl font-bold text-[#0a192f] leading-tight">
-                            Our Corporate <span className="text-[#0d9488]">Policies</span>
+                        <h3 className="text-4xl font-bold text-[#020617] leading-tight">
+                            Our Corporate <span className="text-[#008C78]">Policies</span>
                         </h3>
                     </div>
                     <p className="text-slate-500 max-w-sm mb-2 italic">
@@ -68,18 +68,18 @@ export default function Policies() {
                         <Link
                             key={index}
                             href={`/policies/${policy.slug}`}
-                            className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl hover:border-[#0d9488]/30 transition-all duration-300 group flex flex-col items-start"
+                            className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl hover:border-[#008C78]/30 transition-all duration-300 group flex flex-col items-start"
                         >
-                            <div className="w-14 h-14 bg-slate-50 flex items-center justify-center rounded-xl text-[#0d9488] mb-6 group-hover:bg-[#0d9488] group-hover:text-white transition-all duration-300 transform group-hover:-translate-y-1">
+                            <div className="w-14 h-14 bg-slate-50 flex items-center justify-center rounded-xl text-[#008C78] mb-6 group-hover:bg-[#008C78] group-hover:text-white transition-all duration-300 transform group-hover:-translate-y-1">
                                 <policy.icon className="w-7 h-7" />
                             </div>
-                            <h4 className="text-xl font-bold text-[#0a192f] mb-3 group-hover:text-[#0d9488] transition-colors">
+                            <h4 className="text-xl font-bold text-[#020617] mb-3 group-hover:text-[#008C78] transition-colors">
                                 {policy.title}
                             </h4>
                             <p className="text-slate-500 text-sm leading-relaxed mb-8 flex-grow">
                                 {policy.summary}
                             </p>
-                            <div className="flex items-center gap-2 text-[#0d9488] font-bold text-xs uppercase tracking-widest mt-auto">
+                            <div className="flex items-center gap-2 text-[#008C78] font-bold text-xs uppercase tracking-widest mt-auto">
                                 Read Policy <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                             </div>
                         </Link>

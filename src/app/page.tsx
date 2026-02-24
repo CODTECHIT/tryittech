@@ -1,6 +1,5 @@
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
-import About from '@/components/About';
 import Industries from '@/components/Industries';
 import Services from '@/components/Services';
 import TrainingSection from '@/components/TrainingSection';
@@ -10,10 +9,9 @@ import Footer from '@/components/Footer';
 
 export default function Home() {
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen bg-white">
       <Navbar />
       <Hero />
-      <About />
       <Industries />
       <Services />
       <TrainingSection />

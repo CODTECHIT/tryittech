@@ -32,15 +32,15 @@ export default async function PolicyDetailPage({ params }: { params: Promise<{ s
                     {/* Metadata Bar */}
                     <div className="flex flex-wrap gap-6 mb-16 p-6 bg-slate-50 rounded-2xl border border-slate-100">
                         <div className="flex items-center gap-2 text-slate-600">
-                            <Shield className="w-5 h-5 text-[#0d9488]" />
+                            <Shield className="w-5 h-5 text-[#008C78]" />
                             <span className="text-sm font-semibold tracking-wide">Corporate Policy</span>
                         </div>
                         <div className="flex items-center gap-2 text-slate-600">
-                            <Clock className="w-5 h-5 text-[#0d9488]" />
+                            <Clock className="w-5 h-5 text-[#008C78]" />
                             <span className="text-sm font-semibold tracking-wide">Updated {policy.updatedDate}</span>
                         </div>
                         <div className="flex items-center gap-2 text-slate-600">
-                            <FileText className="w-5 h-5 text-[#0d9488]" />
+                            <FileText className="w-5 h-5 text-[#008C78]" />
                             <span className="text-sm font-semibold tracking-wide">Revision {policy.version}</span>
                         </div>
                     </div>
@@ -49,7 +49,7 @@ export default async function PolicyDetailPage({ params }: { params: Promise<{ s
                     <div className="prose prose-slate prose-lg max-w-none">
                         {policy.sections.map((section) => (
                             <div key={section.id} className="mb-16">
-                                <h2 className="text-3xl font-bold text-[#0a192f] mb-8 border-b border-slate-100 pb-4">
+                                <h2 className="text-3xl font-bold text-[#020617] mb-8 border-b border-slate-100 pb-4">
                                     {section.title}
                                 </h2>
                                 <div className="space-y-6">
@@ -64,17 +64,17 @@ export default async function PolicyDetailPage({ params }: { params: Promise<{ s
 
                         {/* User Compliance Section */}
                         {policy.userCompliance && (
-                            <div className="mt-24 p-10 bg-[#0a192f] rounded-3xl text-white relative overflow-hidden">
-                                <div className="absolute top-0 right-0 w-64 h-64 bg-[#0d9488]/10 rounded-full -mr-32 -mt-32 blur-3xl" />
+                            <div className="mt-24 p-10 bg-[#020617] rounded-3xl text-white relative overflow-hidden">
+                                <div className="absolute top-0 right-0 w-64 h-64 bg-[#008C78]/10 rounded-full -mr-32 -mt-32 blur-3xl" />
                                 <div className="relative z-10">
                                     <h3 className="text-2xl font-bold mb-8 flex items-center gap-3">
-                                        <CheckCircle className="w-8 h-8 text-[#0d9488]" />
+                                        <CheckCircle className="w-8 h-8 text-[#008C78]" />
                                         User Compliance
                                     </h3>
                                     <ul className="space-y-4 mb-12">
                                         {policy.userCompliance.map((point, idx) => (
                                             <li key={idx} className="flex items-start gap-4 text-slate-300">
-                                                <span className="w-1.5 h-1.5 bg-[#0d9488] rounded-full mt-2 flex-shrink-0" />
+                                                <span className="w-1.5 h-1.5 bg-[#008C78] rounded-full mt-2 flex-shrink-0" />
                                                 <span>{point}</span>
                                             </li>
                                         ))}

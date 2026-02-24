@@ -5,10 +5,10 @@ interface PageHeaderProps {
 
 export default function PageHeader({ title, subtitle }: PageHeaderProps) {
     return (
-        <div className="relative pt-32 pb-20 bg-[#0a192f] overflow-hidden">
+        <div className="relative pt-32 pb-20 bg-[#020617] overflow-hidden">
             {/* Background Decor */}
             <div className="absolute inset-0 opacity-10">
-                <div className="absolute top-0 left-0 w-full h-full grayscale opacity-20 bg-[url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2000')] bg-cover bg-center" />
+                <div className="absolute top-0 left-0 w-full h-full opacity-20 bg-[url('https://innovasolutions.com/wp-content/uploads/2025/03/SOL_TAL_L2_B1_Desktop-2.jpg')] bg-cover bg-center" />
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
@@ -20,7 +20,7 @@ export default function PageHeader({ title, subtitle }: PageHeaderProps) {
                         {subtitle}
                     </p>
                 )}
-                <div className="w-20 h-1 bg-[#0d9488] mx-auto mt-10" />
+                <div className="w-20 h-1 bg-[#008C78] mx-auto mt-10" />
             </div>
         </div>
     );

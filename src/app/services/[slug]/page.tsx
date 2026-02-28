@@ -1,41 +1,65 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { notFound } from 'next/navigation';
+import { useParams, notFound } from 'next/navigation';
 import { CheckCircle2, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import PageHeader from '@/components/PageHeader';
 import Footer from '@/components/Footer';
 import Contact from '@/components/Contact';
-import { getServices } from '@/lib/services';
 import SolarSystemProcess from '@/components/SolarSystemProcess';
 
-export async function generateStaticParams() {
-    const services = await getServices();
-    return services.map((service) => ({
-        slug: service.slug,
-    }));
+interface Service {
+    id: string;
+    slug: string;
+    title: string;
+    icon: string;
+    image: string;
+    secondaryImage: string;
+    shortDescription: string;
+    fullDescription: string;
+    benefits: string[];
+    process: string[];
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
-    const { slug } = await params;
-    const services = await getServices();
-    const service = services.find((s) => s.slug === slug);
-    if (!service) return { title: 'Service Not Found' };
+export default function ServiceDetailPage() {
+    const params = useParams();
+    const slug = params?.slug as string;
+    const [service, setService] = useState<Service | null>(null);
+    const [loading, setLoading] = useState(true);
 
-    return {
-        title: `${service.title} | TRYITTECH LLP`,
-        description: service.shortDescription,
-    };
-}
+    useEffect(() => {
+        if (!slug) return;
 
-export default async function ServiceDetailPage({ params }: { params: Promise<{ slug: string }> }) {
-    const { slug } = await params;
-    const services = await getServices();
-    const service = services.find((s) => s.slug === slug);
+        fetch('/api/services')
+            .then(res => res.json())
+            .then(data => {
+                const arr = Array.isArray(data) ? data : [];
+                const found = arr.find((s: Service) => s.slug === slug);
+                setService(found || null);
+                setLoading(false);
+            })
+            .catch(err => {
+                console.error('Error fetching service:', err);
+                setLoading(false);
+            });
+    }, [slug]);
+
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-white flex items-center justify-center text-slate-400 font-bold uppercase tracking-widest animate-pulse">
+                Synchronizing Service Core...
+            </div>
+        );
+    }
 
     if (!service) {
         notFound();
     }
+
+    const defaultImage = 'https://img.freepik.com/free-photo/businesspeople-working-finance-accounting-office_23-2148908915.jpg?w=740';
 
     return (
         <main className="bg-white">
@@ -49,11 +73,12 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
             <section className="relative h-[500px] w-full mt-[-2rem]">
                 <div className="absolute inset-0">
                     <Image
-                        src={service.image || 'https://img.freepik.com/free-photo/businesspeople-working-finance-accounting-office_23-2148908915.jpg?w=740'}
+                        src={service.image || defaultImage}
                         alt={service.title}
                         fill
                         className="object-cover"
                         priority
+                        quality={100}
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#020617]/40 to-[#020617]/80" />
                 </div>
@@ -97,7 +122,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
                             </div>
                             <div className="relative h-[550px] w-full rounded-[2.5rem] overflow-hidden shadow-[0_32px_64px_-12px_rgba(0,140,120,0.15)] group border border-slate-100">
                                 <Image
-                                    src={service.secondaryImage}
+                                    src={service.secondaryImage || defaultImage}
                                     alt="Service Strategy"
                                     fill
                                     className="object-cover transition-transform duration-1000 group-hover:scale-105"

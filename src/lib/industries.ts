@@ -49,10 +49,19 @@ export async function getIndustries(): Promise<Industry[]> {
     try {
         await connectDB();
         const docs = await IndustryModel.find({}).lean();
-        if (!docs || docs.length === 0) return getFallbackIndustries();
-        return docs.map(d => toIndustry(d as Record<string, unknown>));
-    } catch {
-        console.warn('DB unavailable for industries — using static fallback');
+        const dbIndustries = (docs || []).map(d => toIndustry(d as Record<string, unknown>));
+        const fallback = getFallbackIndustries();
+
+        const merged = [...dbIndustries];
+        fallback.forEach(fi => {
+            if (!merged.some(m => m.id === fi.id || m.slug === fi.slug)) {
+                merged.push(fi);
+            }
+        });
+
+        return merged;
+    } catch (err) {
+        console.warn('DB error for industries — using static fallback', err);
         return getFallbackIndustries();
     }
 }

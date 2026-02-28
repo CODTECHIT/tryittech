@@ -41,10 +41,20 @@ export async function getTrainings(): Promise<Training[]> {
     try {
         await connectDB();
         const docs = await TrainingModel.find({}).lean();
-        if (!docs || docs.length === 0) return getFallbackTrainings();
-        return docs.map(d => toTraining(d as Record<string, unknown>));
-    } catch {
-        console.warn('DB unavailable for trainings — using static fallback');
+        const dbTrainings = (docs || []).map(d => toTraining(d as Record<string, unknown>));
+        const fallback = getFallbackTrainings();
+
+        // Combine them: DB records override fallback records with the same slug
+        const merged = [...dbTrainings];
+        fallback.forEach(ft => {
+            if (!merged.some(m => m.id === ft.id || m.slug === ft.slug)) {
+                merged.push(ft);
+            }
+        });
+
+        return merged;
+    } catch (err) {
+        console.warn('DB error for trainings — using static fallback', err);
         return getFallbackTrainings();
     }
 }

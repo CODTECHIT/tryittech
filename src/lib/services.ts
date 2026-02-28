@@ -55,10 +55,19 @@ export async function getServices(): Promise<Service[]> {
     try {
         await connectDB();
         const docs = await ServiceModel.find({}).lean();
-        if (!docs || docs.length === 0) return getFallbackServices();
-        return docs.map(d => toService(d as Record<string, unknown>));
-    } catch {
-        console.warn('DB unavailable for services — using static fallback');
+        const dbServices = (docs || []).map(d => toService(d as Record<string, unknown>));
+        const fallback = getFallbackServices();
+
+        const merged = [...dbServices];
+        fallback.forEach(fs => {
+            if (!merged.some(m => m.id === fs.id || m.slug === fs.slug)) {
+                merged.push(fs);
+            }
+        });
+
+        return merged;
+    } catch (err) {
+        console.warn('DB error for services — using static fallback', err);
         return getFallbackServices();
     }
 }

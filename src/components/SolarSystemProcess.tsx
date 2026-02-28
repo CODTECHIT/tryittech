@@ -13,12 +13,13 @@ export default function SolarSystemProcess({ title, steps }: SolarSystemProcessP
     const orbitRadius = 220;
 
     useEffect(() => {
+        if (!steps || steps.length === 0) return;
         const interval = setInterval(() => {
             setCurrentStepIndex((prev) => (prev + 1) % steps.length);
         }, 3000); // Next step every 3 seconds
 
         return () => clearInterval(interval);
-    }, [steps.length]);
+    }, [steps]);
 
     const colors = useMemo(() => [
         '#3b82f6', // Blue
@@ -28,6 +29,14 @@ export default function SolarSystemProcess({ title, steps }: SolarSystemProcessP
         '#10b981', // Teal
         '#008C78', // Branch Brand Teal
     ], []);
+
+    if (!steps || steps.length === 0) {
+        return (
+            <div className="py-12 text-center text-slate-400 font-bold uppercase tracking-widest bg-slate-50 rounded-3xl border border-dashed border-slate-200">
+                Methodology framework coming soon for {title}
+            </div>
+        );
+    }
 
     // Convert angle to position (0deg = 3 o'clock, 90deg = 6 o'clock/bottom)
     const getPosition = (angle: number) => {

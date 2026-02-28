@@ -97,6 +97,7 @@ export default function IndustryDetailPage() {
                         fill
                         className="object-cover scale-105"
                         priority
+                        quality={100}
                     />
                     <div className="absolute inset-0 bg-[#020617]/40" />
                     <div className="absolute inset-0 bg-gradient-to-r from-[#020617] via-transparent to-transparent opacity-80" />

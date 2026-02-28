@@ -199,6 +199,11 @@ export default function AdminPanel() {
 
         setImageUrlErrors({});
 
+        // ─── Sanitize Slug ───────────────────────────────────────
+        if (editingItem.slug) {
+            editingItem.slug = editingItem.slug.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+        }
+
         const api = TABS.find(t => t.id === activeTab)!.api;
         const method = editingItem.id ? 'PUT' : 'POST';
         const url = editingItem.id ? `${api}/${editingItem.id}` : api;
@@ -729,7 +734,10 @@ export default function AdminPanel() {
                                                             <input
                                                                 required
                                                                 value={editingItem?.slug || ''}
-                                                                onChange={e => setEditingItem({ ...editingItem, slug: e.target.value })}
+                                                                onChange={e => {
+                                                                    const val = e.target.value.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+                                                                    setEditingItem({ ...editingItem, slug: val });
+                                                                }}
                                                                 className="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-12 pr-4 py-4 font-bold text-[#020617] outline-none border-transparent focus:border-[#008C78] transition-all"
                                                                 placeholder="e.g. ai-training"
                                                             />
@@ -882,6 +890,107 @@ export default function AdminPanel() {
                                                                     <div key={idx} className="flex gap-3">
                                                                         <input value={p} onChange={e => handleArrayAction('process', 'update', idx, e.target.value)} className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 font-bold text-[#020617] outline-none" />
                                                                         <button type="button" onClick={() => handleArrayAction('process', 'remove', idx)} className="text-slate-300 hover:text-red-500"><X className="w-4 h-4" /></button>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                )}
+
+                                                {activeTab === 'industries' && (
+                                                    <div className="space-y-12">
+                                                        {/* Segments Section */}
+                                                        <div className="space-y-6">
+                                                            <div className="flex justify-between items-center">
+                                                                <label className="text-xs font-black uppercase tracking-widest text-[#008C78]">Market Segments Served</label>
+                                                                <button type="button" onClick={() => handleArrayAction('segments', 'add', undefined, { title: '', description: '' })} className="text-[#008C78] text-xs font-black uppercase tracking-widest flex items-center gap-2">
+                                                                    <Plus className="w-4 h-4" /> Add Segment
+                                                                </button>
+                                                            </div>
+                                                            <div className="space-y-4">
+                                                                {editingItem?.segments?.map((s: any, idx: number) => (
+                                                                    <div key={idx} className="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex gap-4">
+                                                                        <div className="flex-1 space-y-4">
+                                                                            <input placeholder="Segment Title" value={s.title} onChange={e => handleArrayAction('segments', 'update', idx, { ...s, title: e.target.value })} className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 font-bold text-sm" />
+                                                                            <textarea placeholder="Segment Description" value={s.description} onChange={e => handleArrayAction('segments', 'update', idx, { ...s, description: e.target.value })} className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 font-bold text-sm min-h-[80px]" />
+                                                                        </div>
+                                                                        <button type="button" onClick={() => handleArrayAction('segments', 'remove', idx)} className="text-slate-300 hover:text-red-500"><Trash2 className="w-5 h-5" /></button>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Solutions Section */}
+                                                        <div className="space-y-6 pt-6 border-t border-slate-100">
+                                                            <div className="flex justify-between items-center">
+                                                                <label className="text-xs font-black uppercase tracking-widest text-[#008C78]">Strategic Solutions</label>
+                                                                <button type="button" onClick={() => handleArrayAction('solutions', 'add', undefined, { title: '', description: '' })} className="text-[#008C78] text-xs font-black uppercase tracking-widest flex items-center gap-2">
+                                                                    <Plus className="w-4 h-4" /> Add Solution
+                                                                </button>
+                                                            </div>
+                                                            <div className="space-y-4">
+                                                                {editingItem?.solutions?.map((s: any, idx: number) => (
+                                                                    <div key={idx} className="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex gap-4">
+                                                                        <div className="flex-1 space-y-4">
+                                                                            <input placeholder="Solution Title" value={s.title} onChange={e => handleArrayAction('solutions', 'update', idx, { ...s, title: e.target.value })} className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 font-bold text-sm" />
+                                                                            <textarea placeholder="Solution Description" value={s.description} onChange={e => handleArrayAction('solutions', 'update', idx, { ...s, description: e.target.value })} className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 font-bold text-sm min-h-[80px]" />
+                                                                        </div>
+                                                                        <button type="button" onClick={() => handleArrayAction('solutions', 'remove', idx)} className="text-slate-300 hover:text-red-500"><Trash2 className="w-5 h-5" /></button>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Insights Section */}
+                                                        <div className="space-y-6 pt-6 border-t border-slate-100">
+                                                            <div className="flex justify-between items-center">
+                                                                <label className="text-xs font-black uppercase tracking-widest text-[#008C78]">Domain Insights</label>
+                                                                <button type="button" onClick={() => handleArrayAction('insights', 'add', undefined, { title: '', category: '', image: '' })} className="text-[#008C78] text-xs font-black uppercase tracking-widest flex items-center gap-2">
+                                                                    <Plus className="w-4 h-4" /> Add Insight
+                                                                </button>
+                                                            </div>
+                                                            <div className="space-y-4">
+                                                                {editingItem?.insights?.map((s: any, idx: number) => (
+                                                                    <div key={idx} className="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex gap-4">
+                                                                        <div className="flex-1 space-y-4">
+                                                                            <div className="grid grid-cols-2 gap-4">
+                                                                                <input placeholder="Insight Title" value={s.title} onChange={e => handleArrayAction('insights', 'update', idx, { ...s, title: e.target.value })} className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 font-bold text-sm" />
+                                                                                <input placeholder="Category (e.g. AI, Cloud)" value={s.category} onChange={e => handleArrayAction('insights', 'update', idx, { ...s, category: e.target.value })} className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 font-bold text-sm" />
+                                                                            </div>
+                                                                            <input placeholder="Image URL (Unsplash or similar)" value={s.image} onChange={e => handleArrayAction('insights', 'update', idx, { ...s, image: e.target.value })} className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 font-bold text-sm" />
+                                                                        </div>
+                                                                        <button type="button" onClick={() => handleArrayAction('insights', 'remove', idx)} className="text-slate-300 hover:text-red-500"><Trash2 className="w-5 h-5" /></button>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Industry Edge Section */}
+                                                        <div className="space-y-6 pt-6 border-t border-slate-100">
+                                                            <div className="flex justify-between items-center">
+                                                                <label className="text-xs font-black uppercase tracking-widest text-[#008C78]">Edge Advantages (The Innova Edge)</label>
+                                                                <button type="button" onClick={() => handleArrayAction('edge', 'add', undefined, { title: '', description: '', icon: 'Shield' })} className="text-[#008C78] text-xs font-black uppercase tracking-widest flex items-center gap-2">
+                                                                    <Plus className="w-4 h-4" /> Add Edge
+                                                                </button>
+                                                            </div>
+                                                            <div className="space-y-4">
+                                                                {editingItem?.edge?.map((s: any, idx: number) => (
+                                                                    <div key={idx} className="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex gap-4">
+                                                                        <div className="flex-1 space-y-4">
+                                                                            <div className="grid grid-cols-2 gap-4">
+                                                                                <input placeholder="Edge Title" value={s.title} onChange={e => handleArrayAction('edge', 'update', idx, { ...s, title: e.target.value })} className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 font-bold text-sm" />
+                                                                                <select value={s.icon} onChange={e => handleArrayAction('edge', 'update', idx, { ...s, icon: e.target.value })} className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 font-bold text-sm">
+                                                                                    <option value="Shield">Shield (Security)</option>
+                                                                                    <option value="Zap">Zap (Speed)</option>
+                                                                                    <option value="Target">Target (Strategy)</option>
+                                                                                    <option value="Globe">Globe (Global)</option>
+                                                                                    <option value="BarChart3">BarChart3 (Growth)</option>
+                                                                                    <option value="Cpu">Cpu (Tech)</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <textarea placeholder="Edge Description" value={s.description} onChange={e => handleArrayAction('edge', 'update', idx, { ...s, description: e.target.value })} className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 font-bold text-sm min-h-[80px]" />
+                                                                        </div>
+                                                                        <button type="button" onClick={() => handleArrayAction('edge', 'remove', idx)} className="text-slate-300 hover:text-red-500"><Trash2 className="w-5 h-5" /></button>
                                                                     </div>
                                                                 ))}
                                                             </div>

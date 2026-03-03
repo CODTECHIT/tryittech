@@ -20,9 +20,11 @@ function getSafeImageUrl(url: string | undefined | null): string {
 }
 
 const ServiceCard = ({ service }: { service: Service }) => {
+  const [isFlipped, setIsFlipped] = useState(false);
+
   return (
-    <CardWrapper>
-      <div className="card">
+    <CardWrapper $isFlipped={isFlipped}>
+      <div className="card" onClick={() => setIsFlipped(!isFlipped)}>
         <div className="card-inner">
           {/* FRONTSIDE */}
           <div className="card-front">
@@ -40,7 +42,7 @@ const ServiceCard = ({ service }: { service: Service }) => {
               <div className="icon-badge">
                 <Briefcase className="w-6 h-6" />
               </div>
-              <h3 className="card-title">{service.title}</h3>
+              <h3 className="card-title text-xl md:text-2xl">{service.title}</h3>
             </div>
           </div>
 
@@ -48,7 +50,7 @@ const ServiceCard = ({ service }: { service: Service }) => {
           <div className="card-back">
             <div className="back-content">
               <span className="back-label">Global Service</span>
-              <h4 className="back-title">{service.title}</h4>
+              <h4 className="back-title text-2xl md:text-3xl">{service.title}</h4>
               <p className="back-desc">{service.shortDescription}</p>
               <div className="arrow-btn">
                 View Details <ArrowRight className="w-4 h-4 ml-2" />
@@ -61,11 +63,15 @@ const ServiceCard = ({ service }: { service: Service }) => {
   );
 };
 
-const CardWrapper = styled.div`
+const CardWrapper = styled.div<{ $isFlipped: boolean }>`
   .card {
     width: 100%;
-    height: 380px;
+    height: 320px;
+    @media (min-width: 768px) {
+      height: 380px;
+    }
     perspective: 1000px;
+    cursor: pointer;
   }
 
   .card-inner {
@@ -74,10 +80,13 @@ const CardWrapper = styled.div`
     position: relative;
     transform-style: preserve-3d;
     transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: ${props => props.$isFlipped ? 'rotateY(180deg)' : 'none'};
   }
 
-  .card:hover .card-inner {
-    transform: rotateY(180deg);
+  @media (min-width: 1024px) {
+    .card:hover .card-inner {
+      transform: rotateY(180deg);
+    }
   }
 
   .card-front, .card-back {
@@ -115,13 +124,13 @@ const CardWrapper = styled.div`
   .icon-badge {
     width: 50px;
     height: 50px;
-    background: #008C78;
+    background: #008CC8;
     color: white;
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 10px 20px rgba(0, 140, 120, 0.3);
+    box-shadow: 0 10px 20px rgba(0, 140, 200, 0.3);
   }
 
   .card-title {
@@ -140,11 +149,11 @@ const CardWrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border: 1px solid rgba(0, 140, 120, 0.2);
+    border: 1px solid rgba(0, 140, 200, 0.2);
   }
 
   .back-label {
-    color: #008C78;
+    color: #008CC8;
     font-size: 10px;
     font-weight: 900;
     text-transform: uppercase;
@@ -178,7 +187,7 @@ const CardWrapper = styled.div`
   }
 
   .arrow-btn:hover {
-    color: #008C78;
+    color: #008CC8;
     gap: 10px;
   }
 `;
@@ -201,11 +210,11 @@ export default function Services() {
   }, []);
 
   return (
-    <section id="services" className="py-32 bg-slate-50 relative overflow-hidden">
+    <section id="services" className="py-32 bg-[#f4f9ff] relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-20">
-          <h2 className="text-[#008C78] font-black uppercase tracking-[0.4em] text-xs mb-4">Core Capabilities</h2>
-          <h3 className="text-5xl md:text-7xl font-black text-[#020617] tracking-tighter leading-none font-poppins">Our Talent <span className="text-[#008C78]">Solutions</span></h3>
+          <h2 className="text-[#008CC8] font-black uppercase tracking-[0.4em] text-xs mb-4">Core Capabilities</h2>
+          <h3 className="text-4xl md:text-5xl lg:text-7xl font-black text-[#020617] tracking-tighter leading-none font-poppins">Our Talent <span className="text-[#008CC8]">Solutions</span></h3>
         </div>
 
         {loading ? (
@@ -223,4 +232,5 @@ export default function Services() {
     </section>
   );
 }
+
 

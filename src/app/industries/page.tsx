@@ -5,8 +5,9 @@ import ClientTrust from '@/components/ClientTrust';
 import Footer from '@/components/Footer';
 
 export const metadata = {
-    title: 'Industries We Serve | TRYITTECH LLP',
-    description: 'Specialized recruitment and staffing services across Telecom, BFSI, IT, Pharma, and more.',
+    title: 'Industries We Serve | TRYITTECH LLP - Market Vertices We Support',
+    description: 'TRYITTECH LLP provides specialized staffing solutions across IT, Healthcare, BFSI, Telecom, Retail, Manufacturing, and more industries in India.',
+    keywords: ['Industries We Serve', 'IT Staffing', 'Healthcare Recruitment', 'BFSI Staffing', 'Telecom Recruitment', 'Manufacturing Staffing', 'Retail Hiring', 'Market Verticals India'],
 };
 
 export default function IndustriesPage() {
@@ -23,3 +24,4 @@ export default function IndustriesPage() {
         </main>
     );
 }
+

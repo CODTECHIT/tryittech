@@ -4,8 +4,9 @@ import Footer from '@/components/Footer';
 import TrainingGrid from '@/components/TrainingGrid';
 
 export const metadata = {
-    title: 'Training Programs | TRYITTECH LLP',
-    description: 'Explore our comprehensive training programs including General Trainings, EHS, and Kids Skill Development.',
+    title: 'Training Programs | TRYITTECH LLP - IT & Skills Training India',
+    description: 'Explore TRYITTECH LLP comprehensive training programs including IT training, general trainings, EHS, and kids skill development courses in India.',
+    keywords: ['Training Programs', 'IT Training', 'Skills Training', 'EHS Training', 'Kids Development', 'Corporate Training', 'Online Training India', 'Professional Development'],
 };
 
 export default function TrainingPage() {
@@ -20,7 +21,7 @@ export default function TrainingPage() {
             <section className="section-padding py-20 bg-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center max-w-3xl mx-auto mb-16">
-                        <h2 className="text-[#008C78] font-bold uppercase tracking-widest text-sm mb-3">Skill Development</h2>
+                        <h2 className="text-[#008CC8] font-bold uppercase tracking-widest text-sm mb-3">Skill Development</h2>
                         <h3 className="text-3xl md:text-4xl font-extrabold text-[#020617] mb-6">Explore Our Courses</h3>
                         <p className="text-slate-600 text-lg">
                             From professional certifications to early childhood development, we offer distinct training modules designed for success.
@@ -35,5 +36,6 @@ export default function TrainingPage() {
         </main>
     );
 }
+
 
 

@@ -45,42 +45,42 @@ export default function Contact() {
     };
 
     return (
-        <section id="contact" className="section-padding bg-slate-50 relative overflow-hidden">
+        <section id="contact" className="section-padding bg-light relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="bg-white shadow-[0_40px_100px_-20px_rgba(10,25,47,0.1)] rounded-sm overflow-hidden grid lg:grid-cols-5 border border-slate-100">
+                <div className="bg-white shadow-[0_40px_100px_-20px_rgba(31,41,55,0.1)] rounded-sm overflow-hidden grid lg:grid-cols-5 border border-slate-100">
 
                     {/* Info Side */}
-                    <div className="lg:col-span-2 bg-[#020617] p-12 lg:p-16 text-white flex flex-col justify-between relative overflow-hidden">
+                    <div className="lg:col-span-2 bg-[#020617] p-8 md:p-12 lg:p-16 text-white flex flex-col justify-between relative overflow-hidden">
                         <div className="relative z-10">
-                            <h3 className="text-4xl font-bold mb-10 leading-tight">Get in Touch with our Experts</h3>
-                            <p className="text-slate-400 mb-16 text-lg leading-relaxed">
+                            <h3 className="text-3xl md:text-4xl font-bold mb-6 md:mb-10 leading-tight text-white">Get in Touch with our Experts</h3>
+                            <p className="text-base md:text-lg text-slate-300 mb-10 md:mb-16 leading-relaxed">
                                 Connect with our specialists today to discuss your talent requirements or strategic workforce goals.
                             </p>
 
                             <div className="space-y-10">
                                 <div className="flex items-center gap-6 group">
-                                    <div className="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-[#008C78] group-hover:border-[#008C78] transition-all duration-300">
-                                        <Phone className="text-[#008C78] w-6 h-6 group-hover:text-white" />
+                                    <div className="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-[#008CC8] group-hover:border-[#008CC8] transition-all duration-300">
+                                        <Phone className="text-[#008CC8] w-6 h-6 group-hover:text-white" />
                                     </div>
                                     <div className="space-y-1">
-                                        <span className="block text-[10px] font-black text-slate-500 uppercase tracking-widest">Phone Support</span>
-                                        <span className="text-sm text-slate-300 font-medium">+91 9642717172</span>
+                                        <span className="block text-[10px] font-black text-[#008CC8] uppercase tracking-widest">Phone Support</span>
+                                        <span className="text-sm text-white font-medium">+91 9642717172</span>
                                     </div>
                                 </div>
 
                                 <div className="flex items-center gap-6 group">
-                                    <div className="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-[#008C78] group-hover:border-[#008C78] transition-all duration-300">
-                                        <Mail className="text-[#008C78] w-6 h-6 group-hover:text-white" />
+                                    <div className="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-[#008CC8] group-hover:border-[#008CC8] transition-all duration-300">
+                                        <Mail className="text-[#008CC8] w-6 h-6 group-hover:text-white" />
                                     </div>
                                     <div className="space-y-1">
-                                        <span className="block text-[10px] font-black text-slate-500 uppercase tracking-widest">Email Inquiry</span>
-                                        <span className="text-sm text-slate-300 font-medium">info@tryittech.in</span>
+                                        <span className="block text-[10px] font-black text-[#008CC8] uppercase tracking-widest">Email Inquiry</span>
+                                        <span className="text-sm text-white font-medium">info@tryittech.in</span>
                                     </div>
                                 </div>
 
                                 <div className="flex items-center gap-6 group">
-                                    <div className="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-[#008C78] group-hover:border-[#008C78] transition-all duration-300">
-                                        <Globe className="text-[#008C78] w-6 h-6 group-hover:text-white" />
+                                    <div className="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-[#008CC8] group-hover:border-[#008CC8] transition-all duration-300">
+                                        <Globe className="text-[#008CC8] w-6 h-6 group-hover:text-white" />
                                     </div>
                                     <div className="space-y-1">
                                         <span className="block text-[10px] font-black text-slate-500 uppercase tracking-widest">Global Portal</span>
@@ -91,58 +91,58 @@ export default function Contact() {
                         </div>
 
                         <div className="relative z-10 pt-16 flex gap-4">
-                            <a href="#" className="w-12 h-12 border border-white/10 flex items-center justify-center hover:bg-[#008C78] hover:border-[#008C78] transition-all group">
+                            <a href="#" className="w-12 h-12 border border-white/10 flex items-center justify-center hover:bg-[#008CC8] hover:border-[#008CC8] transition-all group">
                                 <Linkedin className="w-5 h-5 text-slate-400 group-hover:text-white" />
                             </a>
                         </div>
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-[#008C78]/5 rounded-full blur-3xl -mr-32 -mt-32" />
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-[#008CC8]/5 rounded-full blur-3xl -mr-32 -mt-32" />
                     </div>
 
                     {/* Form Side */}
-                    <div className="lg:col-span-3 p-12 lg:p-20 bg-white">
+                    <div className="lg:col-span-3 p-8 md:p-12 lg:p-20 bg-white">
                         <form onSubmit={handleSubmit} className="space-y-10">
-                            <div className="grid md:grid-cols-2 gap-10">
+                            <div className="grid md:grid-cols-2 gap-6 md:gap-10">
                                 <div className="relative group">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest absolute -top-2.5 left-5 bg-white px-2 group-focus-within:text-[#008C78] transition-colors">Your Full Name</label>
+                                    <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest absolute -top-2.5 left-5 bg-white px-2 group-focus-within:text-[#008CC8] transition-colors">Your Full Name</label>
                                     <input
                                         required
                                         type="text"
                                         value={formData.name}
                                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                        className="w-full border-2 border-slate-100 p-5 focus:outline-none focus:border-[#008C78] transition-all outline-none rounded-sm font-medium placeholder:text-slate-300"
+                                        className="w-full border-2 border-slate-200 p-5 focus:outline-none focus:border-[#008CC8] transition-all outline-none rounded-sm font-semibold text-[#020617] placeholder:text-slate-400"
                                         placeholder="e.g. Johnathan Doe"
                                     />
                                 </div>
                                 <div className="relative group">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest absolute -top-2.5 left-5 bg-white px-2 group-focus-within:text-[#008C78] transition-colors">Email Address</label>
+                                    <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest absolute -top-2.5 left-5 bg-white px-2 group-focus-within:text-[#008CC8] transition-colors">Email Address</label>
                                     <input
                                         type="email"
                                         value={formData.email}
                                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                        className="w-full border-2 border-slate-100 p-5 focus:outline-none focus:border-[#008C78] transition-all outline-none rounded-sm font-medium placeholder:text-slate-300"
+                                        className="w-full border-2 border-slate-200 p-5 focus:outline-none focus:border-[#008CC8] transition-all outline-none rounded-sm font-semibold text-[#020617] placeholder:text-slate-400"
                                         placeholder="email@company.com"
                                     />
                                 </div>
                             </div>
 
-                            <div className="grid md:grid-cols-2 gap-10">
+                            <div className="grid md:grid-cols-2 gap-6 md:gap-10">
                                 <div className="relative group">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest absolute -top-2.5 left-5 bg-white px-2 group-focus-within:text-[#008C78] transition-colors">Mobile Number</label>
+                                    <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest absolute -top-2.5 left-5 bg-white px-2 group-focus-within:text-[#008CC8] transition-colors">Mobile Number</label>
                                     <input
                                         required
                                         type="tel"
                                         value={formData.mobile}
                                         onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
-                                        className="w-full border-2 border-slate-100 p-5 focus:outline-none focus:border-[#008C78] transition-all outline-none rounded-sm font-medium placeholder:text-slate-300"
+                                        className="w-full border-2 border-slate-200 p-5 focus:outline-none focus:border-[#008CC8] transition-all outline-none rounded-sm font-semibold text-[#020617] placeholder:text-slate-400"
                                         placeholder="+91 00000 00000"
                                     />
                                 </div>
                                 <div className="relative group">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest absolute -top-2.5 left-5 bg-white px-2 group-focus-within:text-[#008C78] transition-colors">Service Interest</label>
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest absolute -top-2.5 left-5 bg-white px-2 group-focus-within:text-[#008CC8] transition-colors">Service Interest</label>
                                     <select
                                         value={formData.service}
                                         onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                                        className="w-full border-2 border-slate-100 p-5 focus:outline-none focus:border-[#008C78] transition-all outline-none rounded-sm appearance-none bg-transparent font-medium text-slate-700"
+                                        className="w-full border-2 border-slate-100 p-5 focus:outline-none focus:border-[#008CC8] transition-all outline-none rounded-sm appearance-none bg-transparent font-medium text-slate-700"
                                     >
                                         <option>Permanent Hiring</option>
                                         <option>Contract Staffing</option>
@@ -157,12 +157,12 @@ export default function Contact() {
                             </div>
 
                             <div className="relative group">
-                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest absolute -top-2.5 left-5 bg-white px-2 group-focus-within:text-[#008C78] transition-colors">Your Message</label>
+                                <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest absolute -top-2.5 left-5 bg-white px-2 group-focus-within:text-[#008CC8] transition-colors">Your Message</label>
                                 <textarea
                                     rows={5}
                                     value={formData.message}
                                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                    className="w-full border-2 border-slate-100 p-5 focus:outline-none focus:border-[#008C78] transition-all outline-none rounded-sm font-medium placeholder:text-slate-300 resize-none"
+                                    className="w-full border-2 border-slate-200 p-5 focus:outline-none focus:border-[#008CC8] transition-all outline-none rounded-sm font-semibold text-[#020617] placeholder:text-slate-400 resize-none"
                                     placeholder="How can we help your organization scale?"
                                 />
                             </div>
@@ -170,7 +170,7 @@ export default function Contact() {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full bg-[#020617] text-white font-black py-6 hover:bg-[#008C78] transition-all shadow-[0_20px_40px_-10px_rgba(10,25,47,0.3)] text-xs uppercase tracking-[0.3em] flex items-center justify-center gap-4 group rounded-sm disabled:opacity-50"
+                                className="w-full bg-[#020617] text-white font-black py-6 hover:bg-[#008CC8] transition-all shadow-[0_20px_40px_-10px_rgba(10,25,47,0.3)] text-xs uppercase tracking-[0.3em] flex items-center justify-center gap-4 group rounded-sm disabled:opacity-50"
                             >
                                 {loading ? 'Processing...' : 'Initialize Consultation'}
                                 <Send className="w-4 h-4 group-hover:translate-x-2 group-hover:-translate-y-1 transition-transform" />
@@ -182,3 +182,4 @@ export default function Contact() {
         </section>
     );
 }
+

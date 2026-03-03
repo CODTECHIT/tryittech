@@ -8,7 +8,7 @@ const coreValues = [
         title: 'Integrity & Trust',
         image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800&q=80',
         info: 'We operate with the highest standards of ethics, transparency, and accountability. Trust is our foundation.',
-        color: '#008C78' // Teal
+        color: '#008CC8' // Teal
     },
     {
         title: 'Client Success',
@@ -38,7 +38,7 @@ const coreValues = [
         title: 'Continuous Learning',
         image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80',
         info: 'We invest in upskilling and reskilling to ensure our workforce remains relevant and future-ready.',
-        color: '#008C78' // Teal
+        color: '#008CC8' // Teal
     },
     {
         title: 'Social Resp.',
@@ -178,9 +178,9 @@ export default function CoreValues() {
         <section id="values" className="py-24 bg-slate-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center max-w-3xl mx-auto mb-20">
-                    <h2 className="text-[#008C78] font-black uppercase tracking-[0.3em] text-xs mb-4">Our Foundation</h2>
+                    <h2 className="text-[#008CC8] font-black uppercase tracking-[0.3em] text-xs mb-4">Our Foundation</h2>
                     <h3 className="text-4xl font-bold text-[#020617]">Our Core Values</h3>
-                    <div className="w-16 h-1 bg-[#008C78] mx-auto mt-8" />
+                    <div className="w-16 h-1 bg-[#008CC8] mx-auto mt-8" />
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -198,3 +198,4 @@ export default function CoreValues() {
         </section>
     );
 }
+

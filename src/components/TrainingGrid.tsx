@@ -132,7 +132,7 @@ const StyledWrapper = styled.div`
 
   /* BACK FACE */
   .face-back {
-    background: #008C78;
+    background: #008CC8;
     z-index: 1;
     transform: translateY(100%);
     display: flex;
@@ -244,3 +244,4 @@ export default function TrainingGrid() {
     </div>
   );
 }
+

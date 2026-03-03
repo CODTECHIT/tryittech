@@ -23,11 +23,11 @@ export default function SuccessStats() {
                         className="text-center group"
                     >
                         <div className="space-y-3">
-                            <span className="text-5xl md:text-6xl font-black text-[#020617] tracking-tighter group-hover:text-[#008C78] transition-colors duration-500 block">
+                            <span className="text-5xl md:text-6xl font-black text-[#020617] tracking-tighter group-hover:text-[#008CC8] transition-colors duration-500 block">
                                 {stat.val}
                             </span>
                             <div className="space-y-1">
-                                <span className="text-xs font-black text-[#008C78] uppercase tracking-[0.2em] block">
+                                <span className="text-xs font-black text-[#008CC8] uppercase tracking-[0.2em] block">
                                     {stat.label}
                                 </span>
                                 <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest leading-none">
@@ -41,3 +41,4 @@ export default function SuccessStats() {
         </section>
     );
 }
+

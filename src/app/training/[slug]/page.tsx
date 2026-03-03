@@ -93,7 +93,7 @@ export default function TrainingDetailPage() {
                         transition={{ duration: 0.8 }}
                         className="max-w-4xl"
                     >
-                        <div className="flex items-center gap-3 text-[#008C78] mb-6">
+                        <div className="flex items-center gap-3 text-[#008CC8] mb-6">
                             <IconComponent className="w-8 h-8" />
                             <span className="text-sm font-bold uppercase tracking-[0.3em]">Specialized Training</span>
                         </div>
@@ -102,7 +102,7 @@ export default function TrainingDetailPage() {
                             {training.title}
                         </h1>
 
-                        <p className="text-xl text-white/90 leading-relaxed font-medium max-w-2xl mb-10 border-l-4 border-[#008C78] pl-8">
+                        <p className="text-xl text-white/90 leading-relaxed font-medium max-w-2xl mb-10 border-l-4 border-[#008CC8] pl-8">
                             {training.description}
                         </p>
                     </motion.div>
@@ -115,7 +115,7 @@ export default function TrainingDetailPage() {
                     <div className="grid lg:grid-cols-2 gap-20">
                         <div className="space-y-8">
                             <h2 className="text-3xl md:text-4xl font-bold text-[#020617] tracking-tight">
-                                Program <span className="text-[#008C78]">Overview</span>
+                                Program <span className="text-[#008CC8]">Overview</span>
                             </h2>
                             <p className="text-lg text-slate-600 leading-relaxed">
                                 {training.longDescription}
@@ -123,7 +123,7 @@ export default function TrainingDetailPage() {
 
                             <div className="grid grid-cols-2 gap-8 pt-8 border-t border-slate-100">
                                 <div className="flex items-start gap-4">
-                                    <div className="w-10 h-10 bg-slate-50 rounded-lg flex items-center justify-center text-[#008C78]">
+                                    <div className="w-10 h-10 bg-slate-50 rounded-lg flex items-center justify-center text-[#008CC8]">
                                         <Target className="w-5 h-5" />
                                     </div>
                                     <div>
@@ -132,7 +132,7 @@ export default function TrainingDetailPage() {
                                     </div>
                                 </div>
                                 <div className="flex items-start gap-4">
-                                    <div className="w-10 h-10 bg-slate-50 rounded-lg flex items-center justify-center text-[#008C78]">
+                                    <div className="w-10 h-10 bg-slate-50 rounded-lg flex items-center justify-center text-[#008CC8]">
                                         <Globe className="w-5 h-5" />
                                     </div>
                                     <div>
@@ -145,13 +145,13 @@ export default function TrainingDetailPage() {
 
                         <div className="bg-slate-50 p-10 rounded-[40px] border border-slate-100">
                             <h3 className="text-2xl font-bold text-[#020617] mb-8 flex items-center gap-3">
-                                <Zap className="w-6 h-6 text-[#008C78]" />
+                                <Zap className="w-6 h-6 text-[#008CC8]" />
                                 Curriculum Modules
                             </h3>
                             <div className="space-y-4">
                                 {training.modules.map((module, idx) => (
-                                    <div key={idx} className="flex items-center gap-4 p-4 bg-white rounded-2xl shadow-sm border border-slate-100 group hover:border-[#008C78] transition-colors">
-                                        <div className="w-8 h-8 bg-[#008C78]/10 rounded-full flex items-center justify-center text-[#008C78] font-bold text-xs group-hover:bg-[#008C78] group-hover:text-white transition-all">
+                                    <div key={idx} className="flex items-center gap-4 p-4 bg-white rounded-2xl shadow-sm border border-slate-100 group hover:border-[#008CC8] transition-colors">
+                                        <div className="w-8 h-8 bg-[#008CC8]/10 rounded-full flex items-center justify-center text-[#008CC8] font-bold text-xs group-hover:bg-[#008CC8] group-hover:text-white transition-all">
                                             {idx + 1}
                                         </div>
                                         <span className="font-bold text-slate-700">{module}</span>
@@ -166,14 +166,14 @@ export default function TrainingDetailPage() {
             {/* CTA */}
             <section className="py-24 bg-slate-50">
                 <div className="max-w-4xl mx-auto px-4 text-center space-y-10">
-                    <div className="mx-auto w-20 h-20 bg-[#008C78] rounded-3xl flex items-center justify-center mb-8 rotate-12 shadow-2xl">
+                    <div className="mx-auto w-20 h-20 bg-[#008CC8] rounded-3xl flex items-center justify-center mb-8 rotate-12 shadow-2xl">
                         <MessageSquare className="w-10 h-10 text-white -rotate-12" />
                     </div>
                     <h2 className="text-5xl font-black text-[#020617] tracking-tighter">Ready to enroll?</h2>
                     <p className="text-xl text-slate-500 font-medium">
                         Start your journey with us today and gain the skills that matter.
                     </p>
-                    <button className="px-12 py-5 bg-[#008C78] text-white font-black rounded-full hover:bg-[#020617] transition-all shadow-xl shadow-[#008C78]/20 text-lg">
+                    <button className="px-12 py-5 bg-[#008CC8] text-white font-black rounded-full hover:bg-[#020617] transition-all shadow-xl shadow-[#008CC8]/20 text-lg">
                         Inquire Now
                     </button>
                 </div>

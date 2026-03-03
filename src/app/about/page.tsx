@@ -7,8 +7,9 @@ import Policies from '@/components/Policies';
 import Footer from '@/components/Footer';
 
 export const metadata = {
-    title: 'About Us | TRYITTECH LLP',
-    description: 'Meet the visionaries behind TRYITTECH LLP, and review our corporate policies including Human Rights, Ethics, and Data Protection.',
+    title: 'About Us | TRYITTECH LLP - Leading Staffing Company India',
+    description: 'Learn about TRYITTECH LLP, a premier staffing and HR solutions company in India with 10+ years of expertise in IT recruitment, staff augmentation, and workforce solutions.',
+    keywords: ['About TRYITTECH', 'Staffing Company India', 'HR Solutions Hyderabad', 'Company History', 'Leadership Team', 'Core Values', 'Staffing Expertise'],
 };
 
 export default function AboutPage() {
@@ -27,6 +28,7 @@ export default function AboutPage() {
         </main>
     );
 }
+
 
 
 

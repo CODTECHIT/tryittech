@@ -17,8 +17,8 @@ export default function About() {
                             <div className="absolute inset-0 bg-gradient-to-t from-[#020617]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                         </div>
 
-                        <div className="absolute -bottom-10 -right-6 lg:-right-10 bg-[#020617] text-white p-12 shadow-2xl hidden md:block border-l-8 border-[#008C78] z-20 rounded-2xl">
-                            <div className="text-6xl font-black text-[#008C78] mb-2 font-poppins tracking-tighter">10+</div>
+                        <div className="absolute -bottom-10 -right-6 lg:-right-10 bg-[#020617] text-white p-12 shadow-2xl hidden md:block border-l-8 border-[#008CC8] z-20 rounded-2xl">
+                            <div className="text-6xl font-black text-[#008CC8] mb-2 font-poppins tracking-tighter">10+</div>
                             <div className="text-xs uppercase tracking-[0.2em] font-black text-slate-400 leading-tight">
                                 Years of Global<br />Staffing Expertise
                             </div>
@@ -31,8 +31,8 @@ export default function About() {
                     </div>
 
                     <div className="relative z-10">
-                        <h2 className="text-[#008C78] font-black uppercase tracking-[0.3em] text-xs mb-8 flex items-center gap-4">
-                            <span className="w-10 h-[2px] bg-[#008C78]" /> Who We Are
+                        <h2 className="text-[#008CC8] font-black uppercase tracking-[0.3em] text-xs mb-8 flex items-center gap-4">
+                            <span className="w-10 h-[2px] bg-[#008CC8]" /> Who We Are
                         </h2>
                         <h3 className="text-5xl md:text-7xl font-black text-[#020617] mb-10 leading-none tracking-tighter font-poppins">
                             A Global Extension of <br />
@@ -43,14 +43,14 @@ export default function About() {
                             <p>
                                 Established in 2025, <strong className="text-[#020617]">TryITTech LLP</strong> is a dynamic HR service provider based in Hyderabad, India. We are a strategic extension of a USA-based parent company with over 10 years of proven staffing experience across the United States.
                             </p>
-                            <div className="p-8 bg-slate-50 rounded-3xl border-l-4 border-[#008C78] italic shadow-sm relative font-medium group text-[#020617]">
-                                &quot;Led by our directors <strong className="text-[#008C78]">Mrs. Messe Rachuri</strong> and <strong className="text-[#008C78]">Mrs. Shobharani Bulla</strong>, we are committed to delivering reliable, scalable, and future-ready human capital solutions for the modern enterprise.&quot;
+                            <div className="p-8 bg-slate-50 rounded-3xl border-l-4 border-[#008CC8] italic shadow-sm relative font-medium group text-[#020617]">
+                                &quot;Led by our directors <strong className="text-[#008CC8]">Mrs. Messe Rachuri</strong> and <strong className="text-[#008CC8]">Mrs. Shobharani Bulla</strong>, we are committed to delivering reliable, scalable, and future-ready human capital solutions for the modern enterprise.&quot;
                             </div>
                         </div>
 
                         <div className="grid md:grid-cols-2 gap-12 mt-16">
                             <div className="group">
-                                <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-6 text-[#008C78] border border-slate-100 group-hover:bg-[#008C78] group-hover:text-white transition-all duration-300 shadow-sm">
+                                <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-6 text-[#008CC8] border border-slate-100 group-hover:bg-[#008CC8] group-hover:text-white transition-all duration-300 shadow-sm">
                                     <Target className="w-8 h-8" />
                                 </div>
                                 <h4 className="text-2xl font-black text-[#020617] mb-4 uppercase tracking-tighter">Our Vision</h4>
@@ -59,7 +59,7 @@ export default function About() {
                                 </p>
                             </div>
                             <div className="group">
-                                <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-6 text-[#008C78] border border-slate-100 group-hover:bg-[#008C78] group-hover:text-white transition-all duration-300 shadow-sm">
+                                <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-6 text-[#008CC8] border border-slate-100 group-hover:bg-[#008CC8] group-hover:text-white transition-all duration-300 shadow-sm">
                                     <ShieldCheck className="w-8 h-8" />
                                 </div>
                                 <h4 className="text-2xl font-black text-[#020617] mb-4 uppercase tracking-tighter">Our Mission</h4>
@@ -74,3 +74,4 @@ export default function About() {
         </section>
     );
 }
+

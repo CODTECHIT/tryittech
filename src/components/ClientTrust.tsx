@@ -14,12 +14,12 @@ export default function ClientTrust() {
     const marqueeItems = [...clients, ...clients];
 
     return (
-        <section className="py-24 bg-[#020617] border-t border-white/5 overflow-hidden relative">
+        <section className="py-16 md:py-24 bg-[#020617] border-t border-white/5 overflow-hidden relative">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 mb-16">
                 <h3 className="text-2xl md:text-3xl font-bold text-white italic opacity-90 max-w-4xl mx-auto leading-relaxed">
                     &quot;Trusted by growing enterprises and established organizations across India&quot;
                 </h3>
-                <div className="w-24 h-1 bg-gradient-to-r from-[#008C78] to-[#008CC8] mx-auto mt-8" />
+                <div className="w-24 h-1 bg-gradient-to-r from-[#008CC8] to-[#008CC8] mx-auto mt-8" />
             </div>
 
             <div className="relative flex overflow-hidden">
@@ -47,8 +47,9 @@ export default function ClientTrust() {
             <div className="absolute top-0 bottom-0 right-0 w-40 bg-gradient-to-l from-[#020617] via-[#020617]/80 to-transparent z-20 pointer-events-none" />
 
             {/* Floating gradient lights */}
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#008C78]/10 rounded-full blur-[120px] pointer-events-none -z-0" />
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#008CC8]/10 rounded-full blur-[120px] pointer-events-none -z-0" />
             <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#008CC8]/5 rounded-full blur-[120px] pointer-events-none -z-0" />
         </section>
     );
 }
+

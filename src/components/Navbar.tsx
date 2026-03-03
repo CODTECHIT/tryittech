@@ -6,9 +6,12 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Menu, X, ChevronDown } from 'lucide-react';
 
-import { industriesData } from '../constants/industries';
 
-const navItems = [
+const staticNavItems = [
+  {
+    name: 'Home',
+    href: '/',
+  },
   {
     name: 'Services',
     href: '/services',
@@ -24,10 +27,11 @@ const navItems = [
   {
     name: 'Industries',
     href: '/industries',
-    dropdown: industriesData.map(ind => ({
-      name: ind.name,
-      href: `/industries/${ind.slug}`
-    }))
+    dropdown: [
+      { name: 'Information Technology', href: '/industries/it' },
+      { name: 'Healthcare', href: '/industries/healthcare' },
+      { name: 'BFSI', href: '/industries/bfsi' },
+    ]
   },
   {
     name: 'Training',
@@ -35,8 +39,6 @@ const navItems = [
     dropdown: [
       { name: 'IT Training', href: '/training/it-training' },
       { name: 'General Training', href: '/training/general-training' },
-      { name: 'EHS Training', href: '/training/ehs-training' },
-      { name: 'Kids & Language', href: '/training/kids-language' },
     ]
   },
   {
@@ -54,7 +56,6 @@ const navItems = [
     href: '/contact',
     dropdown: [
       { name: 'Chat on WhatsApp', href: 'https://wa.me/919642717172?text=Hello%20TRYITTECH%20LLP%2C%20I%20am%20interested%20in%20your%20services.%20Can%20we%20discuss%20further%3F' },
-      { name: 'Call: +91 96427 17172', href: 'tel:+919642717172' },
     ]
   },
 ];
@@ -63,6 +64,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeMobileMenu, setActiveMobileMenu] = useState<string | null>(null);
+  const [navItems, setNavItems] = useState(staticNavItems);
   const pathname = usePathname();
   const isHome = pathname === '/';
 
@@ -72,6 +74,46 @@ export default function Navbar() {
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const fetchDropdownData = async () => {
+      try {
+        const [servicesRes, industriesRes, trainingsRes] = await Promise.all([
+          fetch('/api/services').then(res => res.json()),
+          fetch('/api/industries').then(res => res.json()),
+          fetch('/api/trainings').then(res => res.json())
+        ]);
+
+        const updatedItems = staticNavItems.map(item => {
+          if (item.name === 'Services' && Array.isArray(servicesRes)) {
+            return {
+              ...item,
+              dropdown: servicesRes.map((s: { title: string; slug: string }) => ({ name: s.title, href: `/services/${s.slug}` }))
+            };
+          }
+          if (item.name === 'Industries' && Array.isArray(industriesRes)) {
+            return {
+              ...item,
+              dropdown: industriesRes.map((i: { name?: string; title?: string; slug: string }) => ({ name: i.name || i.title || 'Industry', href: `/industries/${i.slug}` }))
+            };
+          }
+          if (item.name === 'Training' && Array.isArray(trainingsRes)) {
+            return {
+              ...item,
+              dropdown: trainingsRes.map((t: { title: string; slug: string }) => ({ name: t.title, href: `/training/${t.slug}` }))
+            };
+          }
+          return item;
+        });
+
+        setNavItems(updatedItems);
+      } catch (error) {
+        console.error('Failed to sync navbar dropdowns:', error);
+      }
+    };
+
+    fetchDropdownData();
   }, []);
 
   // Determine navbar background based on scroll and page
@@ -92,16 +134,16 @@ export default function Navbar() {
             <Image
               src="/images/clients/logoo.png"
               alt="TRYITTECH LLP Logo"
-              width={120}
-              height={40}
-              className="h-10 w-auto transition-transform group-hover:scale-105"
+              width={250}
+              height={80}
+              className="h-12 md:h-20 w-auto transition-transform group-hover:scale-105"
               priority
             />
             <div className="flex flex-col">
-              <span className={`text-lg md:text-xl font-black tracking-tight leading-none ${isHome && !isScrolled ? 'text-white' : (isHome ? 'text-[#020617]' : 'text-white')}`}>
-                TRYITTECH <span className="text-[#008C78]">LLP</span>
+              <span className={`text-xl md:text-2xl font-black tracking-tight leading-none ${isHome && !isScrolled ? 'text-white' : (isHome ? 'text-[#020617]' : 'text-white')}`}>
+                TRYITTECH <span className="text-[#008CC8]">LLP</span>
               </span>
-              <span className={`text-[8px] font-bold tracking-[0.2em] uppercase mt-1 ${isHome && !isScrolled ? 'text-white/70' : (isHome ? 'text-slate-500' : 'text-slate-400')}`}>
+              <span className={`text-[10px] font-bold tracking-[0.2em] uppercase mt-1 ${isHome && !isScrolled ? 'text-slate-400' : (isHome ? 'text-slate-500' : 'text-slate-400')}`}>
                 Staffing for What&apos;s Next
               </span>
             </div>
@@ -130,13 +172,13 @@ export default function Navbar() {
                   {/* Triangle Indicator */}
                   <div className="absolute top-4 left-1/2 -translate-x-1/2 w-4 h-4 bg-white rotate-45 border-t border-l border-slate-100 shadow-[-5px_-5px_10px_-5px_rgba(0,0,0,0.05)]" />
 
-                  <div className={`${item.name === 'Contact' ? 'w-[450px]' : 'w-[900px]'} rounded-2xl overflow-hidden p-10 ${dropdownBg} relative border border-slate-100/50 shadow-[0_20px_50px_rgba(0,0,0,0.1)]`}>
-                    <div className={`grid ${item.name === 'Contact' ? 'grid-cols-2' : 'grid-cols-4'} gap-y-7 gap-x-10`}>
+                  <div className={`${item.name === 'Contact' ? 'w-[280px]' : 'w-[900px]'} rounded-2xl overflow-hidden p-10 ${dropdownBg} relative border border-slate-100/50 shadow-[0_20px_50px_rgba(0,0,0,0.1)]`}>
+                    <div className={`grid ${item.name === 'Contact' ? 'grid-cols-1' : 'grid-cols-4'} gap-y-7 gap-x-10`}>
                       {item.dropdown.map((subItem) => (
                         <Link
                           key={subItem.name}
                           href={subItem.href}
-                          className={`group/item text-[13.5px] font-medium transition-all ${dropdownTextColor} hover:text-[#008C78]`}
+                          className={`group/item text-[13.5px] font-medium transition-all ${dropdownTextColor} hover:text-[#008CC8]`}
                         >
                           {subItem.name}
                         </Link>
@@ -144,7 +186,7 @@ export default function Navbar() {
                     </div>
 
                     {/* Footer decorative bar in dropdown */}
-                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#008C78]/20 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#008CC8]/20 to-transparent" />
                   </div>
                 </div>
               )}
@@ -163,12 +205,12 @@ export default function Navbar() {
       <div className={`fixed top-0 right-0 h-full w-80 bg-white z-[70] shadow-2xl md:hidden transition-transform duration-300 transform ${isOpen ? 'translate-x-0' : 'translate-x-full'} flex flex-col p-8`}>
         <div className="flex justify-between items-center mb-12">
           <div className="flex items-center gap-3">
-            <Image src="/images/clients/logoo.png" alt="TRYITTECH LLP Logo" width={100} height={35} className="h-10 w-auto" />
+            <Image src="/images/clients/logoo.png" alt="TRYITTECH LLP Logo" width={180} height={60} className="h-16 w-auto" />
             <div className="flex flex-col">
-              <span className="text-lg font-black tracking-tight leading-none text-[#020617]">
-                TRYITTECH <span className="text-[#008C78]">LLP</span>
+              <span className="text-xl font-black tracking-tight leading-none text-[#020617]">
+                TRYITTECH <span className="text-[#008CC8]">LLP</span>
               </span>
-              <span className="text-[8px] font-bold tracking-[0.1em] uppercase mt-1 text-slate-500">
+              <span className="text-[10px] font-bold tracking-[0.1em] uppercase mt-1 text-slate-500">
                 Staffing for What&apos;s Next
               </span>
             </div>
@@ -204,7 +246,7 @@ export default function Navbar() {
                       key={subItem.name}
                       href={subItem.href}
                       onClick={() => setIsOpen(false)}
-                      className="py-2 text-slate-500 font-medium hover:text-[#008C78]"
+                      className="py-2 text-slate-500 font-medium hover:text-[#008CC8]"
                     >
                       {subItem.name}
                     </Link>
@@ -215,6 +257,7 @@ export default function Navbar() {
           ))}
         </div>
       </div>
-    </nav>
+    </nav >
   );
 }
+

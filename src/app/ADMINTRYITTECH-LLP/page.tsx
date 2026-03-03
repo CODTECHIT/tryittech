@@ -320,7 +320,7 @@ export default function AdminPanel() {
                     </div>
                     <div>
                         <h3 className="text-lg font-black text-slate-900">{item.name}</h3>
-                        <p className="text-[#008C78] font-bold text-sm tracking-tight">{item.service}</p>
+                        <p className="text-[#008CC8] font-bold text-sm tracking-tight">{item.service}</p>
                     </div>
                     <div className="space-y-2 pt-2 border-t border-slate-50">
                         <div className="flex items-center gap-2 text-slate-500 text-sm">
@@ -343,8 +343,8 @@ export default function AdminPanel() {
             return (
                 <div key={item.id} className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex flex-col justify-between">
                     <div>
-                        <div className="w-12 h-12 bg-[#008C78]/10 rounded-2xl flex items-center justify-center mb-4">
-                            <User className="text-[#008C78] w-6 h-6" />
+                        <div className="w-12 h-12 bg-[#008CC8]/10 rounded-2xl flex items-center justify-center mb-4">
+                            <User className="text-[#008CC8] w-6 h-6" />
                         </div>
                         <h3 className="text-xl font-black text-slate-900">{item.name}</h3>
                         <p className="text-slate-500 font-bold text-xs uppercase tracking-widest mt-1">{item.expertise || 'General Expert'}</p>
@@ -356,7 +356,7 @@ export default function AdminPanel() {
                             <div className="mt-4 pt-4 border-t border-slate-50 flex flex-wrap gap-2">
                                 {Object.entries(item.details).slice(0, 3).map(([k, v], i) => (
                                     <div key={i} className="bg-slate-50/50 px-2.5 py-1 rounded-lg text-[10px] font-bold text-slate-500 border border-slate-100">
-                                        <span className="text-[#008C78] opacity-70 mr-1">{k}:</span> {v as string}
+                                        <span className="text-[#008CC8] opacity-70 mr-1">{k}:</span> {v as string}
                                     </div>
                                 ))}
                                 {Object.keys(item.details).length > 3 && (
@@ -368,7 +368,7 @@ export default function AdminPanel() {
                         )}
                     </div>
                     <div className="flex gap-2 mt-6 pt-6 border-t border-slate-50">
-                        <button onClick={() => startEdit(item)} className="w-10 h-10 rounded-xl bg-slate-50 text-slate-400 hover:text-[#008C78] hover:bg-[#008C78]/10 transition-all flex items-center justify-center">
+                        <button onClick={() => startEdit(item)} className="w-10 h-10 rounded-xl bg-slate-50 text-slate-400 hover:text-[#008CC8] hover:bg-[#008CC8]/10 transition-all flex items-center justify-center">
                             <Edit className="w-5 h-5" />
                         </button>
                         <button onClick={() => handleDelete(item.id)} className="w-10 h-10 rounded-xl bg-slate-50 text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all flex items-center justify-center">
@@ -403,14 +403,14 @@ export default function AdminPanel() {
                             <div className="mt-4 pt-4 border-t border-slate-50 flex flex-wrap gap-2">
                                 {Object.entries(item.details).slice(0, 3).map(([k, v], i) => (
                                     <div key={i} className="bg-slate-50/50 px-2.5 py-1 rounded-lg text-[10px] font-bold text-slate-500 border border-slate-100">
-                                        <span className="text-[#008C78] opacity-70 mr-1">{k}:</span> {v as string}
+                                        <span className="text-[#008CC8] opacity-70 mr-1">{k}:</span> {v as string}
                                     </div>
                                 ))}
                             </div>
                         )}
                     </div>
                     <div className="flex gap-2 mt-6 pt-6 border-t border-slate-50">
-                        <button onClick={() => startEdit(item)} className="w-10 h-10 rounded-xl bg-slate-50 text-slate-400 hover:text-[#008C78] hover:bg-[#008C78]/10 transition-all flex items-center justify-center">
+                        <button onClick={() => startEdit(item)} className="w-10 h-10 rounded-xl bg-slate-50 text-slate-400 hover:text-[#008CC8] hover:bg-[#008CC8]/10 transition-all flex items-center justify-center">
                             <Edit className="w-5 h-5" />
                         </button>
                         <button onClick={() => handleDelete(item.id)} className="w-10 h-10 rounded-xl bg-slate-50 text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all flex items-center justify-center">
@@ -440,7 +440,7 @@ export default function AdminPanel() {
                 </div>
                 <div className="flex justify-between items-center">
                     <div className="flex gap-2">
-                        <button onClick={() => startEdit(item)} className="w-10 h-10 rounded-xl bg-slate-50 text-slate-400 hover:text-[#008C78] hover:bg-[#008C78]/10 transition-all flex items-center justify-center">
+                        <button onClick={() => startEdit(item)} className="w-10 h-10 rounded-xl bg-slate-50 text-slate-400 hover:text-[#008CC8] hover:bg-[#008CC8]/10 transition-all flex items-center justify-center">
                             <Edit className="w-5 h-5" />
                         </button>
                         <button onClick={() => handleDelete(item.id)} className="w-10 h-10 rounded-xl bg-slate-50 text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all flex items-center justify-center">
@@ -473,7 +473,7 @@ export default function AdminPanel() {
                         {['inquiries', 'trainers', 'licenses'].includes(activeTab) && (
                             <button
                                 onClick={handleExportExcel}
-                                className="bg-white text-[#008C78] border border-[#008C78] px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-[#008C78] hover:text-white transition-all shadow-lg shadow-[#008C78]/10"
+                                className="bg-white text-[#008CC8] border border-[#008CC8] px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-[#008CC8] hover:text-white transition-all shadow-lg shadow-[#008CC8]/10"
                             >
                                 <Download className="w-5 h-5" />
                                 Export Excel
@@ -482,7 +482,7 @@ export default function AdminPanel() {
                         {activeTab !== 'inquiries' && (
                             <button
                                 onClick={startNew}
-                                className="bg-[#008C78] text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-[#020617] transition-all shadow-lg shadow-[#008C78]/20"
+                                className="bg-[#008CC8] text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-[#020617] transition-all shadow-lg shadow-[#008CC8]/20"
                             >
                                 <Plus className="w-5 h-5" />
                                 Add {activeTab.slice(0, -1)}
@@ -497,7 +497,7 @@ export default function AdminPanel() {
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id)}
                             className={`flex-1 flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-bold transition-all whitespace-nowrap ${activeTab === tab.id
-                                ? 'bg-white text-[#008C78] shadow-sm'
+                                ? 'bg-white text-[#008CC8] shadow-sm'
                                 : 'text-slate-500 hover:text-slate-700'
                                 }`}
                         >
@@ -561,21 +561,21 @@ export default function AdminPanel() {
                                         <div className="space-y-8">
                                             <div className="grid grid-cols-2 gap-8">
                                                 <div className="space-y-2">
-                                                    <label className="text-xs font-black uppercase tracking-widest text-[#008C78]">Full Name</label>
+                                                    <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Full Name</label>
                                                     <input value={editingItem.name} onChange={e => setEditingItem({ ...editingItem, name: e.target.value })} className="w-full bg-slate-50 p-4 border rounded-2xl font-bold" />
                                                 </div>
                                                 <div className="space-y-2">
-                                                    <label className="text-xs font-black uppercase tracking-widest text-[#008C78]">Expertise</label>
+                                                    <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Expertise</label>
                                                     <input value={editingItem.expertise} onChange={e => setEditingItem({ ...editingItem, expertise: e.target.value })} className="w-full bg-slate-50 p-4 border rounded-2xl font-bold" />
                                                 </div>
                                             </div>
                                             <div className="grid grid-cols-2 gap-8">
                                                 <div className="space-y-2">
-                                                    <label className="text-xs font-black uppercase tracking-widest text-[#008C78]">Mobile</label>
+                                                    <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Mobile</label>
                                                     <input value={editingItem.mobile} onChange={e => setEditingItem({ ...editingItem, mobile: e.target.value })} className="w-full bg-slate-50 p-4 border rounded-2xl font-bold" />
                                                 </div>
                                                 <div className="space-y-2">
-                                                    <label className="text-xs font-black uppercase tracking-widest text-[#008C78]">Email</label>
+                                                    <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Email</label>
                                                     <input value={editingItem.email} onChange={e => setEditingItem({ ...editingItem, email: e.target.value })} className="w-full bg-slate-50 p-4 border rounded-2xl font-bold" />
                                                 </div>
                                             </div>
@@ -587,7 +587,7 @@ export default function AdminPanel() {
                                                     <button
                                                         type="button"
                                                         onClick={() => handleDetailAction('add', `Field_${Object.keys(editingItem.details || {}).length + 1}`, '')}
-                                                        className="text-[#008C78] text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 hover:opacity-70 transition-opacity p-2 bg-emerald-50 rounded-lg"
+                                                        className="text-[#008CC8] text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 hover:opacity-70 transition-opacity p-2 bg-emerald-50 rounded-lg"
                                                     >
                                                         <Plus className="w-3.5 h-3.5" /> Add More Fields
                                                     </button>
@@ -600,7 +600,7 @@ export default function AdminPanel() {
                                                                 <input
                                                                     value={key}
                                                                     onChange={e => handleDetailAction('update', key, val, e.target.value)}
-                                                                    className="w-full bg-white border border-slate-100 rounded-xl px-4 py-3 font-bold text-xs outline-none focus:border-[#008C78] transition-all"
+                                                                    className="w-full bg-white border border-slate-100 rounded-xl px-4 py-3 font-bold text-xs outline-none focus:border-[#008CC8] transition-all"
                                                                     placeholder="e.g. Experience"
                                                                 />
                                                             </div>
@@ -609,7 +609,7 @@ export default function AdminPanel() {
                                                                 <input
                                                                     value={val as string}
                                                                     onChange={e => handleDetailAction('update', key, e.target.value)}
-                                                                    className="w-full bg-white border border-slate-100 rounded-xl px-4 py-3 font-bold text-xs outline-none focus:border-[#008C78] transition-all"
+                                                                    className="w-full bg-white border border-slate-100 rounded-xl px-4 py-3 font-bold text-xs outline-none focus:border-[#008CC8] transition-all"
                                                                     placeholder="e.g. 10+ Years in Tech"
                                                                 />
                                                             </div>
@@ -637,21 +637,21 @@ export default function AdminPanel() {
                                         <div className="space-y-8">
                                             <div className="grid grid-cols-2 gap-8">
                                                 <div className="space-y-2">
-                                                    <label className="text-xs font-black uppercase tracking-widest text-[#008C78]">License Name</label>
+                                                    <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">License Name</label>
                                                     <input value={editingItem.name} onChange={e => setEditingItem({ ...editingItem, name: e.target.value })} className="w-full bg-slate-50 p-4 border rounded-2xl font-bold" />
                                                 </div>
                                                 <div className="space-y-2">
-                                                    <label className="text-xs font-black uppercase tracking-widest text-[#008C78]">License Number</label>
+                                                    <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">License Number</label>
                                                     <input value={editingItem.license_number} onChange={e => setEditingItem({ ...editingItem, license_number: e.target.value })} className="w-full bg-slate-50 p-4 border rounded-2xl font-bold" />
                                                 </div>
                                             </div>
                                             <div className="grid grid-cols-2 gap-8">
                                                 <div className="space-y-2">
-                                                    <label className="text-xs font-black uppercase tracking-widest text-[#008C78]">Start Date</label>
+                                                    <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Start Date</label>
                                                     <input type="date" value={editingItem.start_date?.split('T')[0]} onChange={e => setEditingItem({ ...editingItem, start_date: e.target.value })} className="w-full bg-slate-50 p-4 border rounded-2xl font-bold" />
                                                 </div>
                                                 <div className="space-y-2">
-                                                    <label className="text-xs font-black uppercase tracking-widest text-[#008C78]">End Date</label>
+                                                    <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">End Date</label>
                                                     <input type="date" value={editingItem.end_date?.split('T')[0]} onChange={e => setEditingItem({ ...editingItem, end_date: e.target.value })} className="w-full bg-slate-50 p-4 border rounded-2xl font-bold" />
                                                 </div>
                                             </div>
@@ -663,7 +663,7 @@ export default function AdminPanel() {
                                                     <button
                                                         type="button"
                                                         onClick={() => handleDetailAction('add', `Info_${Object.keys(editingItem.details || {}).length + 1}`, '')}
-                                                        className="text-[#008C78] text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 hover:opacity-70 transition-opacity p-2 bg-emerald-50 rounded-lg"
+                                                        className="text-[#008CC8] text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 hover:opacity-70 transition-opacity p-2 bg-emerald-50 rounded-lg"
                                                     >
                                                         <Plus className="w-3.5 h-3.5" /> Add More Fields
                                                     </button>
@@ -676,7 +676,7 @@ export default function AdminPanel() {
                                                                 <input
                                                                     value={key}
                                                                     onChange={e => handleDetailAction('update', key, val, e.target.value)}
-                                                                    className="w-full bg-white border border-slate-100 rounded-xl px-4 py-3 font-bold text-xs outline-none focus:border-[#008C78] transition-all"
+                                                                    className="w-full bg-white border border-slate-100 rounded-xl px-4 py-3 font-bold text-xs outline-none focus:border-[#008CC8] transition-all"
                                                                     placeholder="e.g. Issuing Body"
                                                                 />
                                                             </div>
@@ -685,7 +685,7 @@ export default function AdminPanel() {
                                                                 <input
                                                                     value={val as string}
                                                                     onChange={e => handleDetailAction('update', key, e.target.value)}
-                                                                    className="w-full bg-white border border-slate-100 rounded-xl px-4 py-3 font-bold text-xs outline-none focus:border-[#008C78] transition-all"
+                                                                    className="w-full bg-white border border-slate-100 rounded-xl px-4 py-3 font-bold text-xs outline-none focus:border-[#008CC8] transition-all"
                                                                     placeholder="e.g. Microsoft Azure"
                                                                 />
                                                             </div>
@@ -715,20 +715,20 @@ export default function AdminPanel() {
                                                 <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-300 border-b border-slate-100 pb-2">Identification & Visuals</h4>
                                                 <div className="grid grid-cols-2 gap-8">
                                                     <div className="space-y-2">
-                                                        <label className="text-xs font-black uppercase tracking-widest text-[#008C78]">Title / Name</label>
+                                                        <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Title / Name</label>
                                                         <div className="relative">
                                                             <Type className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                                                             <input
                                                                 required
                                                                 value={editingItem?.title || editingItem?.name || ''}
                                                                 onChange={e => setEditingItem({ ...editingItem, [activeTab === 'industries' ? 'name' : 'title']: e.target.value })}
-                                                                className="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-12 pr-4 py-4 font-bold text-[#020617] outline-none border-transparent focus:border-[#008C78] transition-all"
+                                                                className="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-12 pr-4 py-4 font-bold text-[#020617] outline-none border-transparent focus:border-[#008CC8] transition-all"
                                                                 placeholder="e.g. Advanced AI Training"
                                                             />
                                                         </div>
                                                     </div>
                                                     <div className="space-y-2">
-                                                        <label className="text-xs font-black uppercase tracking-widest text-[#008C78]">Slug</label>
+                                                        <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Slug</label>
                                                         <div className="relative">
                                                             <Layout className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                                                             <input
@@ -738,7 +738,7 @@ export default function AdminPanel() {
                                                                     const val = e.target.value.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
                                                                     setEditingItem({ ...editingItem, slug: val });
                                                                 }}
-                                                                className="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-12 pr-4 py-4 font-bold text-[#020617] outline-none border-transparent focus:border-[#008C78] transition-all"
+                                                                className="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-12 pr-4 py-4 font-bold text-[#020617] outline-none border-transparent focus:border-[#008CC8] transition-all"
                                                                 placeholder="e.g. ai-training"
                                                             />
                                                         </div>
@@ -747,7 +747,7 @@ export default function AdminPanel() {
 
                                                 <div className="grid grid-cols-2 gap-8">
                                                     <div className="space-y-2">
-                                                        <label className="text-xs font-black uppercase tracking-widest text-[#008C78]">Hero Image URL</label>
+                                                        <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Hero Image URL</label>
                                                         <div className="relative">
                                                             <ImageIcon className={`absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 ${imageUrlErrors.image ? 'text-red-400' : 'text-slate-400'}`} />
                                                             <input
@@ -767,7 +767,7 @@ export default function AdminPanel() {
                                                                 }}
                                                                 className={`w-full bg-slate-50 border rounded-2xl pl-12 pr-4 py-4 font-bold text-[#020617] outline-none transition-all ${imageUrlErrors.image
                                                                     ? 'border-red-400 bg-red-50/50 focus:border-red-500'
-                                                                    : 'border-slate-200 focus:border-[#008C78]'
+                                                                    : 'border-slate-200 focus:border-[#008CC8]'
                                                                     }`}
                                                                 placeholder="https://example.com/image.jpg"
                                                             />
@@ -781,7 +781,7 @@ export default function AdminPanel() {
                                                     </div>
                                                     {activeTab !== 'trainings' && (
                                                         <div className="space-y-2">
-                                                            <label className="text-xs font-black uppercase tracking-widest text-[#008C78]">Secondary Image URL</label>
+                                                            <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Secondary Image URL</label>
                                                             <div className="relative">
                                                                 <ImageIcon className={`absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 ${imageUrlErrors.secondaryImage ? 'text-red-400' : 'text-slate-400'}`} />
                                                                 <input
@@ -801,7 +801,7 @@ export default function AdminPanel() {
                                                                     }}
                                                                     className={`w-full bg-slate-50 border rounded-2xl pl-12 pr-4 py-4 font-bold text-[#020617] outline-none transition-all ${imageUrlErrors.secondaryImage
                                                                         ? 'border-red-400 bg-red-50/50 focus:border-red-500'
-                                                                        : 'border-slate-200 focus:border-[#008C78]'
+                                                                        : 'border-slate-200 focus:border-[#008CC8]'
                                                                         }`}
                                                                     placeholder="https://example.com/secondary.jpg"
                                                                 />
@@ -820,23 +820,23 @@ export default function AdminPanel() {
                                             <section className="space-y-6">
                                                 <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-300 border-b border-slate-100 pb-2">Strategic Content</h4>
                                                 <div className="space-y-2">
-                                                    <label className="text-xs font-black uppercase tracking-widest text-[#008C78]">Short Description / Overview</label>
+                                                    <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Short Description / Overview</label>
                                                     <textarea
                                                         required
                                                         value={editingItem?.description || editingItem?.shortDescription || editingItem?.info || ''}
                                                         onChange={e => setEditingItem({ ...editingItem, [activeTab === 'trainings' ? 'description' : activeTab === 'services' ? 'shortDescription' : 'info']: e.target.value })}
-                                                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 font-bold text-[#020617] min-h-[100px] outline-none border-transparent focus:border-[#008C78] transition-all"
+                                                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 font-bold text-[#020617] min-h-[100px] outline-none border-transparent focus:border-[#008CC8] transition-all"
                                                         placeholder="A concise summary..."
                                                     />
                                                 </div>
 
                                                 <div className="space-y-2">
-                                                    <label className="text-xs font-black uppercase tracking-widest text-[#008C78]">Long Description / Full Overview</label>
+                                                    <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Long Description / Full Overview</label>
                                                     <textarea
                                                         required
                                                         value={editingItem?.longDescription || editingItem?.fullDescription || editingItem?.overview || ''}
                                                         onChange={e => setEditingItem({ ...editingItem, [activeTab === 'trainings' ? 'longDescription' : activeTab === 'services' ? 'fullDescription' : 'overview']: e.target.value })}
-                                                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 font-bold text-[#020617] min-h-[200px] outline-none border-transparent focus:border-[#008C78] transition-all"
+                                                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 font-bold text-[#020617] min-h-[200px] outline-none border-transparent focus:border-[#008CC8] transition-all"
                                                         placeholder="Detailed story and strategy..."
                                                     />
                                                 </div>
@@ -848,15 +848,15 @@ export default function AdminPanel() {
                                                 {activeTab === 'trainings' && (
                                                     <div className="space-y-4">
                                                         <div className="flex justify-between items-center">
-                                                            <label className="text-xs font-black uppercase tracking-widest text-[#008C78]">Curriculum Modules</label>
-                                                            <button type="button" onClick={() => handleArrayAction('modules', 'add')} className="text-[#008C78] text-xs font-black uppercase tracking-widest flex items-center gap-2 hover:bg-[#008C78]/5 px-4 py-2 rounded-lg transition-all">
+                                                            <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Curriculum Modules</label>
+                                                            <button type="button" onClick={() => handleArrayAction('modules', 'add')} className="text-[#008CC8] text-xs font-black uppercase tracking-widest flex items-center gap-2 hover:bg-[#008CC8]/5 px-4 py-2 rounded-lg transition-all">
                                                                 <Plus className="w-4 h-4" /> Add Module
                                                             </button>
                                                         </div>
                                                         <div className="grid gap-3">
                                                             {editingItem?.modules?.map((m: string, idx: number) => (
                                                                 <div key={idx} className="flex gap-4 items-center">
-                                                                    <input value={m} onChange={e => handleArrayAction('modules', 'update', idx, e.target.value)} className="flex-1 bg-slate-50 border border-transparent focus:border-[#008C78] rounded-xl px-4 py-3 font-bold text-[#020617] outline-none transition-all" />
+                                                                    <input value={m} onChange={e => handleArrayAction('modules', 'update', idx, e.target.value)} className="flex-1 bg-slate-50 border border-transparent focus:border-[#008CC8] rounded-xl px-4 py-3 font-bold text-[#020617] outline-none transition-all" />
                                                                     <button type="button" onClick={() => handleArrayAction('modules', 'remove', idx)} className="text-slate-300 hover:text-red-500 transition-colors"><Trash2 className="w-4 h-4" /></button>
                                                                 </div>
                                                             ))}
@@ -868,8 +868,8 @@ export default function AdminPanel() {
                                                     <div className="grid grid-cols-2 gap-12">
                                                         <div className="space-y-6">
                                                             <div className="flex justify-between items-center">
-                                                                <label className="text-xs font-black uppercase tracking-widest text-[#008C78]">Key Benefits</label>
-                                                                <button type="button" onClick={() => handleArrayAction('benefits', 'add')} className="text-[#008C78] text-[10px] font-black uppercase tracking-widest"><Plus className="w-3 h-3 inline mr-1" /> Add</button>
+                                                                <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Key Benefits</label>
+                                                                <button type="button" onClick={() => handleArrayAction('benefits', 'add')} className="text-[#008CC8] text-[10px] font-black uppercase tracking-widest"><Plus className="w-3 h-3 inline mr-1" /> Add</button>
                                                             </div>
                                                             <div className="space-y-3">
                                                                 {editingItem?.benefits?.map((b: string, idx: number) => (
@@ -882,8 +882,8 @@ export default function AdminPanel() {
                                                         </div>
                                                         <div className="space-y-6">
                                                             <div className="flex justify-between items-center">
-                                                                <label className="text-xs font-black uppercase tracking-widest text-[#008C78]">Methodology Steps</label>
-                                                                <button type="button" onClick={() => handleArrayAction('process', 'add')} className="text-[#008C78] text-[10px] font-black uppercase tracking-widest"><Plus className="w-3 h-3 inline mr-1" /> Add</button>
+                                                                <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Methodology Steps</label>
+                                                                <button type="button" onClick={() => handleArrayAction('process', 'add')} className="text-[#008CC8] text-[10px] font-black uppercase tracking-widest"><Plus className="w-3 h-3 inline mr-1" /> Add</button>
                                                             </div>
                                                             <div className="space-y-3">
                                                                 {editingItem?.process?.map((p: string, idx: number) => (
@@ -902,8 +902,8 @@ export default function AdminPanel() {
                                                         {/* Segments Section */}
                                                         <div className="space-y-6">
                                                             <div className="flex justify-between items-center">
-                                                                <label className="text-xs font-black uppercase tracking-widest text-[#008C78]">Market Segments Served</label>
-                                                                <button type="button" onClick={() => handleArrayAction('segments', 'add', undefined, { title: '', description: '' })} className="text-[#008C78] text-xs font-black uppercase tracking-widest flex items-center gap-2">
+                                                                <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Market Segments Served</label>
+                                                                <button type="button" onClick={() => handleArrayAction('segments', 'add', undefined, { title: '', description: '' })} className="text-[#008CC8] text-xs font-black uppercase tracking-widest flex items-center gap-2">
                                                                     <Plus className="w-4 h-4" /> Add Segment
                                                                 </button>
                                                             </div>
@@ -923,8 +923,8 @@ export default function AdminPanel() {
                                                         {/* Solutions Section */}
                                                         <div className="space-y-6 pt-6 border-t border-slate-100">
                                                             <div className="flex justify-between items-center">
-                                                                <label className="text-xs font-black uppercase tracking-widest text-[#008C78]">Strategic Solutions</label>
-                                                                <button type="button" onClick={() => handleArrayAction('solutions', 'add', undefined, { title: '', description: '' })} className="text-[#008C78] text-xs font-black uppercase tracking-widest flex items-center gap-2">
+                                                                <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Strategic Solutions</label>
+                                                                <button type="button" onClick={() => handleArrayAction('solutions', 'add', undefined, { title: '', description: '' })} className="text-[#008CC8] text-xs font-black uppercase tracking-widest flex items-center gap-2">
                                                                     <Plus className="w-4 h-4" /> Add Solution
                                                                 </button>
                                                             </div>
@@ -944,8 +944,8 @@ export default function AdminPanel() {
                                                         {/* Insights Section */}
                                                         <div className="space-y-6 pt-6 border-t border-slate-100">
                                                             <div className="flex justify-between items-center">
-                                                                <label className="text-xs font-black uppercase tracking-widest text-[#008C78]">Domain Insights</label>
-                                                                <button type="button" onClick={() => handleArrayAction('insights', 'add', undefined, { title: '', category: '', image: '' })} className="text-[#008C78] text-xs font-black uppercase tracking-widest flex items-center gap-2">
+                                                                <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Domain Insights</label>
+                                                                <button type="button" onClick={() => handleArrayAction('insights', 'add', undefined, { title: '', category: '', image: '' })} className="text-[#008CC8] text-xs font-black uppercase tracking-widest flex items-center gap-2">
                                                                     <Plus className="w-4 h-4" /> Add Insight
                                                                 </button>
                                                             </div>
@@ -968,8 +968,8 @@ export default function AdminPanel() {
                                                         {/* Industry Edge Section */}
                                                         <div className="space-y-6 pt-6 border-t border-slate-100">
                                                             <div className="flex justify-between items-center">
-                                                                <label className="text-xs font-black uppercase tracking-widest text-[#008C78]">Edge Advantages (The Innova Edge)</label>
-                                                                <button type="button" onClick={() => handleArrayAction('edge', 'add', undefined, { title: '', description: '', icon: 'Shield' })} className="text-[#008C78] text-xs font-black uppercase tracking-widest flex items-center gap-2">
+                                                                <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Edge Advantages (The TRYITTECH Edge)</label>
+                                                                <button type="button" onClick={() => handleArrayAction('edge', 'add', undefined, { title: '', description: '', icon: 'Shield' })} className="text-[#008CC8] text-xs font-black uppercase tracking-widest flex items-center gap-2">
                                                                     <Plus className="w-4 h-4" /> Add Edge
                                                                 </button>
                                                             </div>
@@ -1012,7 +1012,7 @@ export default function AdminPanel() {
                                     </button>
                                     <button
                                         onClick={handleSave}
-                                        className="flex-[2] px-8 py-5 bg-[#008C78] text-white font-black rounded-2xl hover:bg-[#020617] transition-all flex items-center justify-center gap-3 shadow-2xl shadow-[#008C78]/30 text-lg"
+                                        className="flex-[2] px-8 py-5 bg-[#008CC8] text-white font-black rounded-2xl hover:bg-[#020617] transition-all flex items-center justify-center gap-3 shadow-2xl shadow-[#008CC8]/30 text-lg"
                                     >
                                         <Save className="w-6 h-6" />
                                         Save Changes
@@ -1030,3 +1030,4 @@ export default function AdminPanel() {
         </main>
     );
 }
+

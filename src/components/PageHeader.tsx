@@ -20,8 +20,9 @@ export default function PageHeader({ title, subtitle }: PageHeaderProps) {
                         {subtitle}
                     </p>
                 )}
-                <div className="w-20 h-1 bg-[#008C78] mx-auto mt-10" />
+                <div className="w-20 h-1 bg-[#008CC8] mx-auto mt-10" />
             </div>
         </div>
     );
 }
+

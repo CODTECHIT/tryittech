@@ -227,7 +227,8 @@ export default function AdminPanel() {
     };
 
     const handleDelete = async (id: string) => {
-        if (!confirm(`Are you sure you want to delete this ${activeTab.slice(0, -1)}?`)) return;
+        const itemName = activeTab === 'inquiries' ? 'inquiry' : activeTab.slice(0, -1);
+        if (!confirm(`Are you sure you want to delete this ${itemName}?`)) return;
 
         const api = TABS.find(t => t.id === activeTab)!.api;
         try {
@@ -332,9 +333,18 @@ export default function AdminPanel() {
                             </div>
                         )}
                     </div>
-                    <p className="text-slate-600 text-sm line-clamp-3 bg-slate-50 p-3 rounded-xl italic">
-                        &quot;{item.message}&quot;
-                    </p>
+                    <div className="flex justify-between items-center gap-4 pt-4 border-t border-slate-50">
+                        <p className="text-slate-600 text-sm line-clamp-2 italic flex-1">
+                            &quot;{item.message}&quot;
+                        </p>
+                        <button
+                            onClick={() => handleDelete(item.id)}
+                            className="w-10 h-10 rounded-xl bg-slate-50 text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all flex items-center justify-center flex-shrink-0"
+                            title="Delete Inquiry"
+                        >
+                            <Trash2 className="w-5 h-5" />
+                        </button>
+                    </div>
                 </div>
             );
         }

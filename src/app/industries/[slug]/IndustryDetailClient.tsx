@@ -21,6 +21,12 @@ import Footer from '../../../components/Footer';
 import Contact from '../../../components/Contact';
 import { Industry } from '@/lib/industries';
 
+interface Highlight {
+    title: string;
+    desc: string;
+    icon: string;
+}
+
 const ICON_MAP: Record<string, LucideIcon> = {
     Shield, Zap, Target, Globe, BarChart3, Cpu
 };
@@ -31,7 +37,7 @@ export default function IndustryDetailClient() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState('overview');
     const [industry, setIndustry] = useState<Industry | null>(null);
-    const [highlights, setHighlights] = useState<any[]>([]);
+    const [highlights, setHighlights] = useState<Highlight[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {

@@ -9,6 +9,14 @@ import { Service } from '@/lib/services';
 
 const DEFAULT_SERVICE_IMAGE = 'https://img.freepik.com/free-photo/businesspeople-working-finance-accounting-office_23-2148908915.jpg?w=740';
 
+const BACK_COLORS = [
+  '#6A1B9A', // Purple
+  '#F39C12', // Orange
+  '#1E88E5', // Blue
+  '#7CB342', // Green
+  '#26A69A', // Teal
+];
+
 function getSafeImageUrl(url: string | undefined | null): string {
   if (!url || url.trim() === '') return DEFAULT_SERVICE_IMAGE;
   try {
@@ -19,11 +27,12 @@ function getSafeImageUrl(url: string | undefined | null): string {
   }
 }
 
-const ServiceCard = ({ service }: { service: Service }) => {
+const ServiceCard = ({ service, index = 0 }: { service: Service; index?: number }) => {
   const [isFlipped, setIsFlipped] = useState(false);
+  const backColor = BACK_COLORS[index % BACK_COLORS.length];
 
   return (
-    <CardWrapper $isFlipped={isFlipped}>
+    <CardWrapper $isFlipped={isFlipped} $backColor={backColor}>
       <div className="card" onClick={() => setIsFlipped(!isFlipped)}>
         <div className="card-inner">
           {/* FRONTSIDE */}
@@ -52,7 +61,7 @@ const ServiceCard = ({ service }: { service: Service }) => {
               <span className="back-label">Global Service</span>
               <h4 className="back-title text-2xl md:text-3xl">{service.title}</h4>
               <p className="back-desc">{service.shortDescription}</p>
-              <div className="arrow-btn">
+              <div className="arrow-btn font-black">
                 View Details <ArrowRight className="w-4 h-4 ml-2" />
               </div>
             </div>
@@ -63,7 +72,7 @@ const ServiceCard = ({ service }: { service: Service }) => {
   );
 };
 
-const CardWrapper = styled.div<{ $isFlipped: boolean }>`
+const CardWrapper = styled.div<{ $isFlipped: boolean; $backColor: string }>`
   .card {
     width: 100%;
     height: 320px;
@@ -143,17 +152,17 @@ const CardWrapper = styled.div<{ $isFlipped: boolean }>`
   }
 
   .card-back {
-    background: #020617;
+    background: ${props => props.$backColor};
     transform: rotateY(180deg);
     padding: 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border: 1px solid rgba(0, 140, 200, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .back-label {
-    color: #008CC8;
+    color: rgba(255, 255, 255, 0.5);
     font-size: 10px;
     font-weight: 900;
     text-transform: uppercase;
@@ -169,10 +178,11 @@ const CardWrapper = styled.div<{ $isFlipped: boolean }>`
   }
 
   .back-desc {
-    color: #94a3b8;
+    color: rgba(255, 255, 255, 0.9);
     font-size: 0.95rem;
     line-height: 1.6;
     margin-bottom: 30px;
+    font-weight: 500;
   }
 
   .arrow-btn {
@@ -187,8 +197,9 @@ const CardWrapper = styled.div<{ $isFlipped: boolean }>`
   }
 
   .arrow-btn:hover {
-    color: #008CC8;
+    color: white;
     gap: 10px;
+    transform: scale(1.05);
   }
 `;
 
@@ -221,9 +232,9 @@ export default function Services() {
           <div className="flex justify-center text-slate-400 font-bold uppercase tracking-widest animate-pulse">Loading Services...</div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {items.map((item) => (
+            {items.map((item, idx) => (
               <Link key={item.slug || item.id} href={`/services/${item.slug}`} className="block">
-                <ServiceCard service={item} />
+                <ServiceCard service={item} index={idx} />
               </Link>
             ))}
           </div>

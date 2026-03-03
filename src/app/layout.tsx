@@ -13,78 +13,199 @@ const poppins = Poppins({
   weight: ["300", "400", "500", "600", "700", "800", "900"],
 });
 
+const BASE_URL = 'https://www.tryittech.in';
+
 export const metadata: Metadata = {
   title: {
-    default: "TRYITTECH LLP | Premier Staffing & HR Solutions India",
+    default: "TRYITTECH LLP | #1 Staffing & IT Recruitment Company in Hyderabad, India",
     template: "%s | TRYITTECH LLP"
   },
-  description: "TRYITTECH LLP is a leading staffing and HR solutions company in India. We provide IT recruitment, staff augmentation, RPO, payroll services, and offshore IT talent solutions. Based in Hyderabad, serving Pan-India and global clients with 10+ years of expertise.",
+  description: "TRYITTECH LLP is India's premier staffing & HR solutions company based in Hyderabad. We specialize in IT recruitment, permanent hiring, contract staffing, staff augmentation, RPO frameworks, offshore IT hub, and payroll services. Trusted by 150+ global clients. Get expert talent solutions today!",
   keywords: [
-    "HR Staffing India",
-    "IT Recruitment Agency",
-    "Staff Augmentation Services",
-    "RPO Solutions India",
-    "Payroll Services",
-    "Offshore IT Staffing",
-    "Permanent Hiring",
-    "Contract Staffing",
-    "Tech Recruitment Hyderabad",
+    "staffing company India",
+    "IT recruitment agency Hyderabad",
+    "HR solutions India",
+    "staff augmentation services",
+    "RPO solutions India",
+    "payroll services Hyderabad",
+    "offshore IT staffing India",
+    "permanent staffing India",
+    "contract staffing Hyderabad",
+    "tech recruitment Hyderabad",
     "TRYITTECH LLP",
-    "Staffing for What's Next",
-    "IT Staffing Company India",
-    "Talent Acquisition",
-    "HR Outsourcing India",
-    "Software Recruitment"
+    "IT staffing company India",
+    "talent acquisition India",
+    "HR outsourcing India",
+    "software recruitment agency",
+    "workforce solutions India",
+    "manpower solutions Hyderabad",
+    "executive search India",
+    "bulk hiring India",
+    "recruitment process outsourcing India",
+    "IT training Hyderabad",
+    "EHS training India",
+    "corporate training India",
+    "staffing for startups India",
+    "placement agency Hyderabad"
   ],
-  authors: [{ name: "TRYITTECH LLP" }],
+  authors: [{ name: "TRYITTECH LLP", url: BASE_URL }],
   creator: "TRYITTECH LLP",
   publisher: "TRYITTECH LLP",
+  category: "Staffing & HR Solutions",
+  classification: "Business Services",
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://www.tryittech.in'),
+  metadataBase: new URL(BASE_URL),
   alternates: {
-    canonical: 'https://www.tryittech.in',
+    canonical: BASE_URL,
     languages: {
-      'en': 'https://www.tryittech.in',
+      'en-IN': BASE_URL,
+      'en-US': BASE_URL,
     },
   },
   icons: {
-    icon: "/images/clients/logoo.png",
+    icon: [
+      { url: "/images/clients/logoo.png", type: "image/png" },
+    ],
     shortcut: "/images/clients/logoo.png",
     apple: "/images/clients/logoo.png",
   },
   openGraph: {
-    title: "TRYITTECH LLP | Premier Staffing & HR Solutions India",
-    description: "Leading staffing and HR solutions company in India. IT recruitment, staff augmentation, RPO, payroll services, and offshore IT talent solutions.",
-    url: "https://www.tryittech.in",
+    title: "TRYITTECH LLP | #1 Staffing & IT Recruitment Company in Hyderabad, India",
+    description: "India's leading staffing & HR company. IT recruitment, staff augmentation, RPO, payroll & offshore IT solutions. 150+ global clients. Based in Hyderabad.",
+    url: BASE_URL,
     siteName: "TRYITTECH LLP",
     type: "website",
     locale: "en_IN",
-    alternateLocale: "en_US",
+    alternateLocale: ["en_US", "en_GB"],
+    images: [
+      {
+        url: "/images/clients/logoo.png",
+        width: 1200,
+        height: 630,
+        alt: "TRYITTECH LLP - Premier Staffing & HR Solutions India",
+        type: "image/png",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "TRYITTECH LLP | Premier Staffing & HR Solutions India",
-    description: "Leading staffing and HR solutions company in India. IT recruitment, staff augmentation, RPO, payroll services.",
+    title: "TRYITTECH LLP | #1 Staffing & IT Recruitment Company in India",
+    description: "India's premier staffing company in Hyderabad. IT recruitment, staff augmentation, RPO, payroll & offshore IT solutions. 150+ global clients.",
     creator: "@tryittech",
+    site: "@tryittech",
+    images: ["/images/clients/logoo.png"],
   },
   robots: {
     index: true,
     follow: true,
+    nocache: false,
     googleBot: {
       index: true,
       follow: true,
+      noimageindex: false,
       'max-video-preview': -1,
       'max-image-preview': 'large',
       'max-snippet': -1,
     },
   },
+  verification: {
+    google: 'google-site-verification-token',
+  },
+  other: {
+    'msapplication-TileColor': '#008CC8',
+    'theme-color': '#008CC8',
+    'geo.region': 'IN-TG',
+    'geo.placename': 'Hyderabad, Telangana, India',
+    'geo.position': '17.3850;78.4867',
+    'ICBM': '17.3850, 78.4867',
+  },
 };
 
 import StyledComponentsRegistry from "@/lib/registry";
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://www.tryittech.in/#organization",
+  "name": "TRYITTECH LLP",
+  "legalName": "TRYITTECH LLP",
+  "url": "https://www.tryittech.in",
+  "logo": {
+    "@type": "ImageObject",
+    "url": "https://www.tryittech.in/images/clients/logoo.png",
+    "width": 200,
+    "height": 80
+  },
+  "image": "https://www.tryittech.in/images/clients/logoo.png",
+  "description": "TRYITTECH LLP is India's premier staffing & HR solutions company based in Hyderabad. We specialize in IT recruitment, permanent hiring, contract staffing, staff augmentation, RPO, offshore IT hub, and payroll services.",
+  "foundingDate": "2014",
+  "numberOfEmployees": {
+    "@type": "QuantitativeValue",
+    "value": 50
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Hyderabad",
+    "addressRegion": "Telangana",
+    "postalCode": "500001",
+    "addressCountry": "IN"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 17.385044,
+    "longitude": 78.486671
+  },
+  "contactPoint": [
+    {
+      "@type": "ContactPoint",
+      "contactType": "Customer Service",
+      "areaServed": ["IN", "US", "GB", "AU"],
+      "availableLanguage": ["English", "Hindi", "Telugu"]
+    }
+  ],
+  "sameAs": [
+    "https://www.linkedin.com/company/tryittech",
+    "https://twitter.com/tryittech"
+  ],
+  "knowsAbout": [
+    "IT Staffing", "HR Solutions", "Staff Augmentation", "RPO",
+    "Payroll Services", "Offshore IT Staffing", "Talent Acquisition",
+    "IT Training", "EHS Training", "Corporate Training"
+  ],
+  "areaServed": {
+    "@type": "Country",
+    "name": "India"
+  },
+  "serviceType": [
+    "Permanent Hiring", "Contract Staffing", "Offshore IT Hub",
+    "Staff Augmentation", "RPO Frameworks", "Payroll Services",
+    "IT Training", "EHS Training", "General Training", "Kids & Language"
+  ]
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://www.tryittech.in/#website",
+  "name": "TRYITTECH LLP",
+  "url": "https://www.tryittech.in",
+  "description": "India's premier staffing & HR solutions company — IT recruitment, staff augmentation, RPO, payroll & training services.",
+  "publisher": {
+    "@id": "https://www.tryittech.in/#organization"
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://www.tryittech.in/services?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+};
 
 export default function RootLayout({
   children,
@@ -93,10 +214,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+      </head>
       <body className={`${inter.variable} ${poppins.variable} antialiased font-inter`}>
         <StyledComponentsRegistry>
           {children}
         </StyledComponentsRegistry>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: `

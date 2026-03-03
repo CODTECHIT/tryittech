@@ -7,23 +7,27 @@ import Image from 'next/image';
 
 interface Slide {
     type: string;
+    badge?: string;
     title: string;
     highlight: string;
     subtitle: string;
     image: string;
     items?: string[];
+    color: string; // Dynamic accent color
 }
 
 const slides: Slide[] = [
     {
         type: "primary",
-        title: "Staffing for",
-        highlight: "What's Next",
+        title: "TRYITTECH LLP",
+        highlight: "Staffing for What's Next",
         subtitle: "Building the foundation of organizational success through specialized full-time talent acquisition and strategic headhunting.",
-        image: "https://innovasolutions.com/wp-content/uploads/2025/03/SOL_TAL_L2_B1_Desktop-2.jpg"
+        image: "https://innovasolutions.com/wp-content/uploads/2025/03/SOL_TAL_L2_B1_Desktop-2.jpg",
+        color: "#008CC8" // Original Blue
     },
     {
         type: "list",
+        badge: "TRYITTECH LLP",
         title: "Our Core",
         highlight: "Services",
         subtitle: "Comprehensive workforce solutions tailored for global scale.",
@@ -35,29 +39,12 @@ const slides: Slide[] = [
             "RPO Frameworks",
             "Payroll Services"
         ],
-        image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=2069&auto=format&fit=crop"
+        image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=2069&auto=format&fit=crop",
+        color: "#06B6D4" // Cyan
     },
     {
         type: "list",
-        title: "Specialized",
-        highlight: "Industries",
-        subtitle: "Deep domain expertise across diverse global sectors.",
-        items: [
-            "Information Technology",
-            "Healthcare",
-            "BFSI",
-            "Automotive",
-            "Logistics",
-            "Non-IT Professional",
-            "Retail & E-commerce",
-            "Telecom & Networking",
-            "Manufacturing",
-            "BPO Services"
-        ],
-        image: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop"
-    },
-    {
-        type: "list",
+        badge: "TRYITTECH LLP",
         title: "Excellence in",
         highlight: "Trainings",
         subtitle: "Empowering the next generation of professional talent.",
@@ -67,8 +54,32 @@ const slides: Slide[] = [
             "EHS Training",
             "Kids & Language"
         ],
-        image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=2011&auto=format&fit=crop"
+        image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=2011&auto=format&fit=crop",
+        color: "#A855F7" // Purple
+    },
+    {
+        type: "list",
+        badge: "TRYITTECH LLP",
+        title: "Specialized",
+        highlight: "Industries",
+        subtitle: "Deep domain expertise across various economic sectors.",
+        items: [
+            "Information Technology",
+            "Finance & Banking",
+            "Health & Pharma",
+            "Retail & E-commerce"
+        ],
+        image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop",
+        color: "#F97316" // Orange
     }
+];
+
+const ACCENT_COLORS = [
+    "#F97316", // Orange
+    "#10B981", // Emerald
+    "#EC4899", // Pink
+    "#F59E0B", // Amber
+    "#6366F1"  // Indigo
 ];
 
 export default function Hero() {
@@ -78,26 +89,68 @@ export default function Hero() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [servicesRes, industriesRes, trainingsRes] = await Promise.all([
+                const [servicesRes, trainingsRes, industriesRes] = await Promise.all([
                     fetch('/api/services').then(res => res.json()),
-                    fetch('/api/industries').then(res => res.json()),
-                    fetch('/api/trainings').then(res => res.json())
+                    fetch('/api/trainings').then(res => res.json()),
+                    fetch('/api/industries').then(res => res.json())
                 ]);
 
-                const updatedSlides = slides.map(slide => {
-                    if (slide.highlight === "Services" && Array.isArray(servicesRes)) {
-                        return { ...slide, items: servicesRes.map((s: { title: string }) => s.title) };
-                    }
-                    if (slide.highlight === "Industries" && Array.isArray(industriesRes)) {
-                        return { ...slide, items: industriesRes.map((i: { name?: string; title?: string }) => i.name || i.title || '') };
-                    }
-                    if (slide.highlight === "Trainings" && Array.isArray(trainingsRes)) {
-                        return { ...slide, items: trainingsRes.map((t: { title: string }) => t.title) };
-                    }
-                    return slide;
-                });
+                const services = servicesRes as { title: string }[];
+                const trainings = trainingsRes as { title: string }[];
+                const industries = industriesRes as { name: string, category: string, image?: string }[];
 
-                setDynamicSlides(updatedSlides);
+                // 1. Start with the constant primary slide
+                const newDynamicSlides: Slide[] = [slides[0]];
+
+                // 2. Add Services Slide if data exists
+                if (Array.isArray(services) && services.length > 0) {
+                    newDynamicSlides.push({
+                        type: "list",
+                        badge: "TRYITTECH LLP",
+                        title: "Our Core",
+                        highlight: "Services",
+                        subtitle: "Comprehensive workforce solutions tailored for global scale.",
+                        items: services.slice(0, 6).map(s => s.title),
+                        image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=2069&auto=format&fit=crop",
+                        color: "#06B6D4" // Cyan
+                    });
+                }
+
+                // 3. Add Trainings Slide if data exists
+                if (Array.isArray(trainings) && trainings.length > 0) {
+                    newDynamicSlides.push({
+                        type: "list",
+                        badge: "TRYITTECH LLP",
+                        title: "Excellence in",
+                        highlight: "Trainings",
+                        subtitle: "Empowering the next generation of professional talent.",
+                        items: trainings.slice(0, 6).map(t => t.title),
+                        image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=2011&auto=format&fit=crop",
+                        color: "#A855F7" // Purple
+                    });
+                }
+
+                // 4. Add Industry Slides grouped by Category
+                if (Array.isArray(industries) && industries.length > 0) {
+                    const categories = Array.from(new Set(industries.map(i => i.category || 'Professional')))
+                        .filter(Boolean);
+
+                    categories.forEach((cat, idx) => {
+                        const catIndustries = industries.filter(i => i.category === cat);
+                        newDynamicSlides.push({
+                            type: "list",
+                            badge: "TRYITTECH LLP",
+                            title: "Specialized",
+                            highlight: `${cat} Verticals`,
+                            subtitle: `Strategic talent acquisition for the ${cat} sector.`,
+                            items: catIndustries.slice(0, 6).map(i => i.name),
+                            image: catIndustries[0]?.image || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop",
+                            color: ACCENT_COLORS[idx % ACCENT_COLORS.length]
+                        });
+                    });
+                }
+
+                setDynamicSlides(newDynamicSlides);
             } catch (error) {
                 console.error('Failed to update Hero slides:', error);
             }
@@ -149,18 +202,22 @@ export default function Hero() {
                         transition={{ duration: 0.8, delay: 0.5 }}
                         className="space-y-8"
                     >
-                        <div className="flex items-center gap-4">
-                            <span className="w-12 h-[2px] bg-[#008CC8]" />
-                            <span className="text-[#008CC8] font-bold uppercase tracking-[0.4em] text-xs">Innovation in Motion</span>
-                        </div>
+                        {activeSlide.badge && (
+                            <div className="flex items-center gap-4">
+                                <span className="w-12 h-[2px]" style={{ backgroundColor: activeSlide.color }} />
+                                <span className="font-bold uppercase tracking-[0.4em] text-xs" style={{ color: activeSlide.color }}>
+                                    {activeSlide.badge}
+                                </span>
+                            </div>
+                        )}
 
                         <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-black text-white tracking-tighter leading-[0.95] font-poppins">
                             {activeSlide.title} <br />
-                            <span className="italic font-light text-[#008CC8]">{activeSlide.highlight}</span>
+                            <span className="italic font-light" style={{ color: activeSlide.color }}>{activeSlide.highlight}</span>
                         </h1>
 
                         <div className="space-y-6">
-                            <p className="text-base md:text-xl lg:text-2xl text-slate-300 max-w-2xl font-light leading-relaxed border-l-4 border-[#008CC8] pl-5 md:pl-8">
+                            <p className="text-base md:text-xl lg:text-2xl text-slate-300 max-w-2xl font-light leading-relaxed border-l-4 pl-5 md:pl-8" style={{ borderColor: activeSlide.color }}>
                                 {activeSlide.subtitle}
                             </p>
 
@@ -173,7 +230,7 @@ export default function Hero() {
                                 >
                                     {activeSlide.items.map((item: string, idx: number) => (
                                         <div key={idx} className="flex items-center gap-3 group/item">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-[#008CC8] group-hover/item:scale-150 transition-transform" />
+                                            <div className="w-1.5 h-1.5 rounded-full transition-transform group-hover/item:scale-150" style={{ backgroundColor: activeSlide.color }} />
                                             <span className="text-white font-bold uppercase tracking-widest text-[10px] md:text-xs opacity-70 group-hover/item:opacity-100 transition-opacity">
                                                 {item}
                                             </span>
@@ -190,13 +247,29 @@ export default function Hero() {
             <div className="absolute bottom-10 right-10 md:bottom-12 md:right-12 z-20 flex gap-3 md:gap-4">
                 <button
                     onClick={prevSlide}
-                    className="w-10 h-10 md:w-14 md:h-14 border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-[#008CC8] hover:border-[#008CC8] transition-all"
+                    className="w-10 h-10 md:w-14 md:h-14 border border-white/20 rounded-full flex items-center justify-center text-white transition-all"
+                    onMouseEnter={(e: any) => {
+                        e.currentTarget.style.backgroundColor = activeSlide.color;
+                        e.currentTarget.style.borderColor = activeSlide.color;
+                    }}
+                    onMouseLeave={(e: any) => {
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                    }}
                 >
                     <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
                 </button>
                 <button
                     onClick={nextSlide}
-                    className="w-10 h-10 md:w-14 md:h-14 border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-[#008CC8] hover:border-[#008CC8] transition-all"
+                    className="w-10 h-10 md:w-14 md:h-14 border border-white/20 rounded-full flex items-center justify-center text-white transition-all"
+                    onMouseEnter={(e: any) => {
+                        e.currentTarget.style.backgroundColor = activeSlide.color;
+                        e.currentTarget.style.borderColor = activeSlide.color;
+                    }}
+                    onMouseLeave={(e: any) => {
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                    }}
                 >
                     <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
                 </button>
@@ -208,7 +281,8 @@ export default function Hero() {
                     <button
                         key={i}
                         onClick={() => setCurrentSlide(i)}
-                        className={`transition-all duration-500 rounded-full ${currentSlide === i ? 'w-8 h-1 md:w-1 md:h-12 bg-[#008CC8]' : 'w-2 h-1 md:w-1 md:h-4 bg-white/20'}`}
+                        className={`transition-all duration-500 rounded-full ${currentSlide === i ? 'w-8 h-1 md:w-1 md:h-12' : 'w-2 h-1 md:w-1 md:h-4 bg-white/20'}`}
+                        style={{ backgroundColor: currentSlide === i ? activeSlide.color : undefined }}
                     />
                 ))}
             </div>

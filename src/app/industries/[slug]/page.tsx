@@ -31,27 +31,33 @@ export default function IndustryDetailPage() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState('overview');
     const [industry, setIndustry] = useState<Industry | null>(null);
+    const [highlights, setHighlights] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch('/api/industries')
-            .then(res => res.json())
-            .then(data => {
-                const found = data.find((ind: Industry) => ind.slug === slug);
+        const fetchData = async () => {
+            try {
+                const [indRes, highRes] = await Promise.all([
+                    fetch('/api/industries').then(res => res.json()),
+                    fetch('/api/highlights').then(res => res.json())
+                ]);
+                const found = indRes.find((ind: Industry) => ind.slug === slug);
                 setIndustry(found || null);
+                setHighlights(Array.isArray(highRes) ? highRes : []);
                 setLoading(false);
-            })
-            .catch(err => {
-                console.error('Failed to fetch industry:', err);
+            } catch (err) {
+                console.error('Failed to fetch industry data:', err);
                 setLoading(false);
-            });
+            }
+        };
+        fetchData();
     }, [slug]);
 
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 500);
 
-            const sections = ['overview', 'segments', 'edge'];
+            const sections = ['overview', 'edge'];
             for (const section of sections) {
                 const element = document.getElementById(section);
                 if (element) {
@@ -81,7 +87,6 @@ export default function IndustryDetailPage() {
 
     const navLinks = [
         { id: 'overview', label: 'Overview' },
-        { id: 'segments', label: 'Segments We Serve' },
         { id: 'edge', label: 'The TRYITTECH Edge' }
     ];
 
@@ -187,58 +192,24 @@ export default function IndustryDetailPage() {
                         </div>
 
                         <div className="grid sm:grid-cols-2 gap-6">
-                            {[
-                                { title: "Strategy First", icon: Target, desc: "Business-aligned talent strategy for Every project." },
-                                { title: "Digital Core", icon: Zap, desc: "Modernizing core systems with cloud-native experts." },
-                                { title: "Secure Scale", icon: Shield, desc: "Enterprise-grade security vetting for all placements." },
-                                { title: "Global Reach", icon: Globe, desc: "24/7 delivery across 12+ international hubs." }
-                            ].map((item, i) => (
-                                <div key={i} className="p-8 bg-slate-50 border border-slate-100 rounded-3xl hover:bg-white hover:shadow-2xl hover:-translate-y-2 transition-all group">
-                                    <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm group-hover:bg-[#008CC8] transition-colors">
-                                        <item.icon className="w-6 h-6 text-[#008CC8] group-hover:text-white transition-colors" />
+                            {highlights.map((item, i) => {
+                                const IconComp = ICON_MAP[item.icon] || Target;
+                                return (
+                                    <div key={i} className="p-8 bg-slate-50 border border-slate-100 rounded-3xl hover:bg-white hover:shadow-2xl hover:-translate-y-2 transition-all group">
+                                        <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm group-hover:bg-[#008CC8] transition-colors">
+                                            <IconComp className="w-6 h-6 text-[#008CC8] group-hover:text-white transition-colors" />
+                                        </div>
+                                        <h4 className="font-bold text-[#020617] mb-2">{item.title}</h4>
+                                        <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
                                     </div>
-                                    <h4 className="font-bold text-[#020617] mb-2">{item.title}</h4>
-                                    <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* SEGMENTS GRID SECTION */}
-            <section id="segments" className="py-32 bg-slate-50 relative">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
-                        <div className="max-w-2xl">
-                            <h2 className="text-[#008CC8] font-black uppercase tracking-[0.3em] text-xs mb-4">Vertical Footprint</h2>
-                            <h3 className="text-4xl md:text-5xl font-bold text-[#020617] tracking-tighter">Segments we <span className="text-[#008CC8]">Specialize In</span></h3>
-                        </div>
-                        <p className="text-slate-500 max-w-sm md:text-right font-medium italic">
-                            Deep domain expertise across the entire value chain of the {industry.name} sector.
-                        </p>
-                    </div>
 
-                    <div className="grid md:grid-cols-3 gap-8">
-                        {industry.segments.map((segment, idx) => (
-                            <motion.div
-                                key={idx}
-                                whileHover={{ y: -10 }}
-                                className="group relative bg-white p-10 rounded-[40px] shadow-sm hover:shadow-2xl transition-all h-[320px] overflow-hidden flex flex-col justify-between"
-                            >
-                                <div className="absolute top-0 right-0 w-32 h-32 bg-[#008CC8]/5 rounded-bl-[100px] -z-0 group-hover:bg-[#008CC8]/10 transition-colors" />
-                                <div>
-                                    <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center mb-8 border border-slate-100 group-hover:bg-[#008CC8] transition-colors">
-                                        <span className="text-xl font-black text-[#008CC8] group-hover:text-white">0{idx + 1}</span>
-                                    </div>
-                                    <h4 className="text-2xl font-bold text-[#020617] mb-4 group-hover:text-[#008CC8] transition-colors">{segment.title}</h4>
-                                    <p className="text-slate-500 leading-relaxed">{segment.description}</p>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-            </section>
 
             {/* THE INNOVA EDGE */}
             <section id="edge" className="py-32 bg-[#020617] text-white">

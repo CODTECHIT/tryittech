@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Mail, Phone, Linkedin, MessageSquare } from 'lucide-react';
+import { Mail, Linkedin, MessageSquare } from 'lucide-react';
 
 const staticSections = [
     {
@@ -113,9 +113,12 @@ export default function Footer() {
                         <p className="text-[15px] leading-relaxed mb-10 text-slate-400">
                             Empowering organizations through specialized talent and strategic workforce transformation.
                         </p>
-                        <div className="flex gap-4">
+                        <div className="flex flex-col gap-4">
                             <a href="https://www.linkedin.com/company/tryittech-llp/" target="_blank" rel="noopener noreferrer" className="w-12 h-12 border border-white/20 flex items-center justify-center hover:bg-[#008CC8] hover:border-[#008CC8] transition-all group rounded-lg">
                                 <Linkedin className="w-5 h-5 text-slate-400 group-hover:text-white" />
+                            </a>
+                            <a href="tel:+919642717172" className="text-[11px] font-bold text-slate-500 hover:text-[#008CC8] transition-colors tracking-widest uppercase">
+                                +91 96427 17172
                             </a>
                         </div>
                     </div>
@@ -139,16 +142,7 @@ export default function Footer() {
                 </div>
 
                 {/* Contacts Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-12 border-y border-white/10 mb-12">
-                    <div className="flex items-center gap-5 p-6 bg-white/5 rounded-2xl border border-white/5 hover:border-[#008CC8]/30 transition-colors group">
-                        <div className="w-12 h-12 bg-[#008CC8]/20 rounded-xl flex items-center justify-center text-[#008CC8] group-hover:bg-[#008CC8] group-hover:text-white transition-all">
-                            <Phone className="w-5 h-5" />
-                        </div>
-                        <div>
-                            <p className="text-[10px] uppercase tracking-widest font-black text-slate-500 mb-1">Call Support</p>
-                            <a href="tel:+919642717172" className="text-white font-bold hover:text-[#008CC8] transition-colors">+91 96427 17172</a>
-                        </div>
-                    </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-12 border-y border-white/10 mb-12">
                     <div className="flex items-center gap-5 p-6 bg-white/5 rounded-2xl border border-white/5 hover:border-[#008CC8]/30 transition-colors group">
                         <div className="w-12 h-12 bg-[#25D366]/10 rounded-xl flex items-center justify-center text-[#25D366] group-hover:bg-[#25D366] group-hover:text-white transition-all">
                             <MessageSquare className="w-5 h-5" />
@@ -178,10 +172,7 @@ export default function Footer() {
                             Developed by <a href="https://www.codtechitsolutions.com/" target="_blank" rel="noopener noreferrer" className="text-[#008CC8] hover:text-white transition-colors">CODTECH IT Solutions</a>
                         </p>
                     </div>
-                    <div className="flex gap-8 text-[10px] font-black uppercase tracking-[0.2em]">
-                        <Link href="#" className="hover:text-white transition-colors">Privacy Principles</Link>
-                        <Link href="#" className="hover:text-white transition-colors">Terms of Operations</Link>
-                    </div>
+
                 </div>
             </div>
         </footer>

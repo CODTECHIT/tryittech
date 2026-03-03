@@ -25,6 +25,12 @@ import {
     User,
     AlertTriangle,
     CheckCircle2,
+    Target,
+    Globe,
+    Shield,
+    Zap,
+    BarChart3,
+    Cpu
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
@@ -89,7 +95,7 @@ function ToastContainer({ toasts, onDismiss }: { toasts: ToastData[]; onDismiss:
     );
 }
 
-type ContentType = 'trainings' | 'services' | 'industries' | 'inquiries' | 'trainers' | 'licenses';
+type ContentType = 'trainings' | 'services' | 'industries' | 'inquiries' | 'trainers' | 'licenses' | 'highlights';
 
 interface TabConfig {
     id: ContentType;
@@ -103,6 +109,7 @@ const TABS: TabConfig[] = [
     { id: 'trainings', label: 'Trainings', icon: GraduationCap, api: '/api/trainings' },
     { id: 'services', label: 'Services', icon: Briefcase, api: '/api/services' },
     { id: 'industries', label: 'Industries', icon: Layers, api: '/api/industries' },
+    { id: 'highlights', label: 'Core Highlights', icon: Target, api: '/api/highlights' },
     { id: 'inquiries', label: 'Inquiries', icon: MessageSquare, api: '/api/inquiries', isPrivate: true },
     { id: 'trainers', label: 'Trainers', icon: Users, api: '/api/trainers', isPrivate: true },
     { id: 'licenses', label: 'Licenses', icon: FileCheck, api: '/api/licenses', isPrivate: true }
@@ -116,6 +123,7 @@ export default function AdminPanel() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [editingItem, setEditingItem] = useState<any | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const router = useRouter();
 
     // ─── Toast State ──────────────────────────────────────────────
@@ -138,7 +146,8 @@ export default function AdminPanel() {
     const fetchItems = React.useCallback(async () => {
         setIsLoading(true);
         try {
-            const res = await fetch(TABS.find(t => t.id === activeTab)!.api);
+            const api = TABS.find(t => t.id === activeTab)!.api;
+            const res = await fetch(api, { cache: 'no-store' });
             const data = await res.json();
             // Normalize MongoDB _id → id for all items
             const normalized = Array.isArray(data)
@@ -156,7 +165,17 @@ export default function AdminPanel() {
         }
     }, [activeTab]);
 
+    const categories = React.useMemo(() => {
+        if (activeTab !== 'industries') return ['IT', 'Non-IT'];
+        const cats = new Set<string>();
+        items.forEach(i => { if (i.category) cats.add(i.category); });
+        cats.add('IT');
+        cats.add('Non-IT');
+        return Array.from(cats).sort();
+    }, [items, activeTab]);
+
     useEffect(() => {
+        setSelectedIds([]);
         fetchItems();
     }, [fetchItems]);
 
@@ -208,21 +227,28 @@ export default function AdminPanel() {
         const method = editingItem.id ? 'PUT' : 'POST';
         const url = editingItem.id ? `${api}/${editingItem.id}` : api;
 
+        // Create a clean copy for the database by omitting metadata ones
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { id, _id, source, ...saveData } = editingItem;
+
         try {
             const res = await fetch(url, {
                 method,
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(editingItem),
+                body: JSON.stringify(saveData),
             });
             if (res.ok) {
                 fetchItems();
                 setIsEditing(false);
                 setEditingItem(null);
                 showToast(`✅ ${activeTab.slice(0, -1)} saved successfully!`, 'success');
+            } else {
+                const errData = await res.json();
+                showToast(`❌ Save failed: ${errData.error || 'Server error'}`, 'error');
             }
         } catch (error) {
             console.error(`Failed to save ${activeTab}:`, error);
-            showToast('❌ Failed to save. Please try again.', 'error');
+            showToast('❌ Failed to save. Please connection error.', 'error');
         }
     };
 
@@ -233,9 +259,33 @@ export default function AdminPanel() {
         const api = TABS.find(t => t.id === activeTab)!.api;
         try {
             const res = await fetch(`${api}/${id}`, { method: 'DELETE' });
-            if (res.ok) fetchItems();
+            if (res.ok) {
+                setSelectedIds(prev => prev.filter(sid => sid !== id));
+                fetchItems();
+            }
         } catch (error) {
             console.error(`Failed to delete ${activeTab}:`, error);
+        }
+    };
+
+    const handleBulkDelete = async () => {
+        const itemName = activeTab === 'inquiries' ? 'inquiries' : activeTab;
+        if (!confirm(`Are you sure you want to delete ${selectedIds.length} ${itemName}?`)) return;
+
+        setIsLoading(true);
+        const api = TABS.find(t => t.id === activeTab)!.api;
+
+        try {
+            await Promise.all(selectedIds.map(id => fetch(`${api}/${id}`, { method: 'DELETE' })));
+            showToast(`✅ ${selectedIds.length} ${itemName} deleted successfully!`, 'success');
+            setSelectedIds([]);
+            fetchItems();
+        } catch (error) {
+            console.error(`Failed to bulk delete ${activeTab}:`, error);
+            showToast('❌ Bulk delete failed. Some items might not have been deleted.', 'error');
+            fetchItems();
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -265,11 +315,13 @@ export default function AdminPanel() {
         } else if (activeTab === 'services') {
             base = { slug: '', title: '', icon: 'Briefcase', image: '', secondaryImage: '', shortDescription: '', fullDescription: '', benefits: [], process: [] };
         } else if (activeTab === 'industries') {
-            base = { slug: '', name: '', image: '', secondaryImage: '', icon: 'Cpu', info: '', overview: '', segments: [], solutions: [], insights: [], edge: [] };
+            base = { slug: '', name: '', category: 'IT', image: '', secondaryImage: '', icon: 'Cpu', info: '', overview: '', segments: [], solutions: [], insights: [], edge: [] };
         } else if (activeTab === 'trainers') {
             base = { name: '', mobile: '', email: '', expertise: '', details: {} };
         } else if (activeTab === 'licenses') {
             base = { name: '', license_number: '', start_date: '', end_date: '', status: 'Active', details: {} };
+        } else if (activeTab === 'highlights') {
+            base = { title: '', icon: 'Target', desc: '' };
         }
         setEditingItem(base);
         setIsEditing(true);
@@ -308,14 +360,44 @@ export default function AdminPanel() {
         setEditingItem({ ...editingItem, details: currentDetails });
     };
 
+    const ICON_MAP: Record<string, any> = { Target, Globe, Shield, Zap, Layers, Briefcase, GraduationCap, BarChart3, Cpu };
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const renderItemCard = (item: any) => {
+        if (activeTab === 'highlights') {
+            const IconComp = ICON_MAP[item.icon] || Target;
+            return (
+                <div key={item.id} className={`bg-white p-6 rounded-3xl shadow-sm border transition-all flex flex-col justify-between ${selectedIds.includes(item.id) ? 'border-[#008CC8] ring-1 ring-[#008CC8]' : 'border-slate-100'}`}>
+                    <div>
+                        <div className="flex justify-between items-start mb-4">
+                            <div className="w-12 h-12 bg-[#008CC8]/10 rounded-2xl flex items-center justify-center">
+                                <IconComp className="text-[#008CC8] w-6 h-6" />
+                            </div>
+                        </div>
+                        <h3 className="text-xl font-black text-slate-900">{item.title}</h3>
+                        <p className="text-slate-500 font-bold text-xs uppercase tracking-widest mt-1">{item.icon}</p>
+                        <p className="mt-4 text-sm text-slate-600 font-medium leading-relaxed italic">&quot;{item.desc}&quot;</p>
+                    </div>
+                    <div className="flex gap-2 mt-6 pt-6 border-t border-slate-50">
+                        <button onClick={() => startEdit(item)} className="w-10 h-10 rounded-xl bg-slate-50 text-slate-400 hover:text-[#008CC8] hover:bg-[#008CC8]/10 transition-all flex items-center justify-center">
+                            <Edit className="w-5 h-5" />
+                        </button>
+                        <button onClick={() => handleDelete(item.id)} className="w-10 h-10 rounded-xl bg-slate-50 text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all flex items-center justify-center">
+                            <Trash2 className="w-5 h-5" />
+                        </button>
+                    </div>
+                </div>
+            );
+        }
+
         if (activeTab === 'inquiries') {
             return (
-                <div key={item.id} className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 space-y-4">
+                <div key={item.id} className={`bg-white p-6 rounded-3xl shadow-sm border transition-all space-y-4 ${selectedIds.includes(item.id) ? 'border-[#008CC8] ring-1 ring-[#008CC8]' : 'border-slate-100'}`}>
                     <div className="flex justify-between items-start">
-                        <div className="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">
-                            {item.source}
+                        <div className="flex items-center gap-3">
+                            <div className="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">
+                                {item.source}
+                            </div>
                         </div>
                         <span className="text-slate-400 text-[10px] font-mono">{item.createdAt ? new Date(item.createdAt).toLocaleDateString() : '—'}</span>
                     </div>
@@ -351,10 +433,12 @@ export default function AdminPanel() {
 
         if (activeTab === 'trainers') {
             return (
-                <div key={item.id} className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex flex-col justify-between">
+                <div key={item.id} className={`bg-white p-6 rounded-3xl shadow-sm border transition-all flex flex-col justify-between ${selectedIds.includes(item.id) ? 'border-[#008CC8] ring-1 ring-[#008CC8]' : 'border-slate-100'}`}>
                     <div>
-                        <div className="w-12 h-12 bg-[#008CC8]/10 rounded-2xl flex items-center justify-center mb-4">
-                            <User className="text-[#008CC8] w-6 h-6" />
+                        <div className="flex justify-between items-start mb-4">
+                            <div className="w-12 h-12 bg-[#008CC8]/10 rounded-2xl flex items-center justify-center">
+                                <User className="text-[#008CC8] w-6 h-6" />
+                            </div>
                         </div>
                         <h3 className="text-xl font-black text-slate-900">{item.name}</h3>
                         <p className="text-slate-500 font-bold text-xs uppercase tracking-widest mt-1">{item.expertise || 'General Expert'}</p>
@@ -392,10 +476,12 @@ export default function AdminPanel() {
         if (activeTab === 'licenses') {
             const isExpired = item.end_date ? new Date(item.end_date) < new Date() : false;
             return (
-                <div key={item.id} className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex flex-col justify-between">
+                <div key={item.id} className={`bg-white p-6 rounded-3xl shadow-sm border transition-all flex flex-col justify-between ${selectedIds.includes(item.id) ? 'border-[#008CC8] ring-1 ring-[#008CC8]' : 'border-slate-100'}`}>
                     <div>
-                        <div className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest inline-block mb-4 ${isExpired ? 'bg-red-50 text-red-500' : 'bg-blue-50 text-blue-500'}`}>
-                            {isExpired ? 'Expired' : item.status}
+                        <div className="flex justify-between items-start mb-4">
+                            <div className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest inline-block ${isExpired ? 'bg-red-50 text-red-500' : 'bg-blue-50 text-blue-500'}`}>
+                                {isExpired ? 'Expired' : item.status}
+                            </div>
                         </div>
                         <h3 className="text-xl font-black text-slate-900">{item.name}</h3>
                         <p className="text-slate-400 font-mono text-xs mt-1">Ref: {item.license_number}</p>
@@ -432,7 +518,7 @@ export default function AdminPanel() {
         }
 
         return (
-            <div key={item.id} className="bg-white p-6 rounded-[32px] shadow-sm border border-slate-100 group hover:shadow-xl hover:shadow-slate-200/50 transition-all">
+            <div key={item.id} className={`bg-white p-6 rounded-[32px] shadow-sm border group hover:shadow-xl hover:shadow-slate-200/50 transition-all ${selectedIds.includes(item.id) ? 'border-[#008CC8] ring-1 ring-[#008CC8]' : 'border-slate-100'}`}>
                 <div className="relative h-48 mb-6 rounded-2xl overflow-hidden">
                     <Image
                         src={getSafeImageUrl(item.image)}
@@ -441,6 +527,18 @@ export default function AdminPanel() {
                         className="object-cover group-hover:scale-105 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                    <div className="absolute top-4 left-4 z-10 flex gap-2">
+                        {item.category && (
+                            <div className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${item.category === 'IT' ? 'bg-[#008CC8] text-white' : 'bg-[#e11d48] text-white'}`}>
+                                {item.category}
+                            </div>
+                        )}
+                        {item.source && (
+                            <div className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${item.source === 'db' ? 'bg-green-500 text-white' : 'bg-amber-500 text-white'}`}>
+                                {item.source === 'db' ? 'LIVE DB' : 'JSON FILE'}
+                            </div>
+                        )}
+                    </div>
                     <div className="absolute bottom-4 left-4 right-4">
                         <h3 className="text-white font-black text-xl tracking-tight leading-tight">
                             {item.title || item.name}
@@ -501,7 +599,7 @@ export default function AdminPanel() {
                     </div>
                 </header>
 
-                <div className="flex p-1 bg-slate-200/50 rounded-2xl w-full overflow-x-auto mb-12">
+                <div className="flex p-1 bg-slate-200/50 rounded-2xl w-full overflow-x-auto mb-8">
                     {TABS.map((tab) => (
                         <button
                             key={tab.id}
@@ -517,6 +615,55 @@ export default function AdminPanel() {
                         </button>
                     ))}
                 </div>
+
+                {/* Bulk Actions Bar */}
+                {items.length > 0 && (
+                    <div className="mb-12 flex flex-col md:flex-row items-center justify-between bg-white p-5 rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/20 gap-4">
+                        <div className="flex items-center gap-6">
+                            <div className="flex items-center gap-3">
+                                <input
+                                    type="checkbox"
+                                    id="selectAll"
+                                    checked={items.length > 0 && selectedIds.length === items.length}
+                                    onChange={(e) => {
+                                        if (e.target.checked) setSelectedIds(items.map(i => i.id));
+                                        else setSelectedIds([]);
+                                    }}
+                                    className="w-5 h-5 rounded-lg border-slate-300 text-[#008CC8] focus:ring-[#008CC8] cursor-pointer transition-all"
+                                />
+                                <label htmlFor="selectAll" className="text-[11px] font-black text-slate-500 cursor-pointer uppercase tracking-[0.1em]">
+                                    Select All {activeTab} ({items.length})
+                                </label>
+                            </div>
+                            {selectedIds.length > 0 && (
+                                <div className="h-4 w-px bg-slate-200 hidden md:block" />
+                            )}
+                            {selectedIds.length > 0 && (
+                                <motion.div
+                                    initial={{ opacity: 0, x: -10 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    className="text-[10px] font-black text-[#008CC8] bg-[#008CC8]/5 px-3 py-1.5 rounded-full uppercase tracking-widest border border-[#008CC8]/10"
+                                >
+                                    {selectedIds.length} items flagged
+                                </motion.div>
+                            )}
+                        </div>
+
+                        {selectedIds.length > 0 && (
+                            <motion.button
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                                onClick={handleBulkDelete}
+                                className="w-full md:w-auto flex items-center justify-center gap-2 bg-red-50 text-red-600 px-8 py-3 rounded-2xl font-black hover:bg-red-500 hover:text-white transition-all text-[11px] uppercase tracking-[0.15em] border border-red-100 shadow-sm"
+                            >
+                                <Trash2 className="w-4 h-4" />
+                                Wipe Records
+                            </motion.button>
+                        )}
+                    </div>
+                )}
 
                 {isLoading ? (
                     <div className="flex justify-center items-center h-64 text-slate-400 font-bold uppercase tracking-widest animate-pulse">
@@ -718,12 +865,39 @@ export default function AdminPanel() {
                                         </div>
                                     )}
 
+                                    {/* Highlights Form */}
+                                    {activeTab === 'highlights' && (
+                                        <div className="space-y-8">
+                                            <div className="grid grid-cols-2 gap-8">
+                                                <div className="space-y-2">
+                                                    <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Highlight Title</label>
+                                                    <input value={editingItem.title} onChange={e => setEditingItem({ ...editingItem, title: e.target.value })} className="w-full bg-slate-50 p-4 border rounded-2xl font-bold" />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Icon (Lucide Name)</label>
+                                                    <select value={editingItem.icon} onChange={e => setEditingItem({ ...editingItem, icon: e.target.value })} className="w-full bg-slate-50 p-4 border rounded-2xl font-bold">
+                                                        <option value="Target">Target Icon</option>
+                                                        <option value="Zap">Zap / Digital</option>
+                                                        <option value="Shield">Shield / Secure</option>
+                                                        <option value="Globe">Globe / Reach</option>
+                                                        <option value="BarChart3">Bar Chart / Growth</option>
+                                                        <option value="Cpu">CPU / Tech</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div className="space-y-2">
+                                                <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Description</label>
+                                                <textarea value={editingItem.desc} onChange={e => setEditingItem({ ...editingItem, desc: e.target.value })} className="w-full bg-slate-50 p-4 border rounded-2xl font-bold min-h-[100px]" />
+                                            </div>
+                                        </div>
+                                    )}
+
                                     {/* Standard Website Content Form */}
                                     {['trainings', 'services', 'industries'].includes(activeTab) && (
                                         <div className="space-y-10">
                                             <section className="space-y-6">
                                                 <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-300 border-b border-slate-100 pb-2">Identification & Visuals</h4>
-                                                <div className="grid grid-cols-2 gap-8">
+                                                <div className="grid grid-cols-3 gap-8">
                                                     <div className="space-y-2">
                                                         <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Title / Name</label>
                                                         <div className="relative">
@@ -753,6 +927,47 @@ export default function AdminPanel() {
                                                             />
                                                         </div>
                                                     </div>
+                                                    {activeTab === 'industries' && (
+                                                        <div className="space-y-2">
+                                                            <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Sector Category</label>
+                                                            <div className="flex flex-col gap-3">
+                                                                <select
+                                                                    value={categories.includes(editingItem?.category) ? editingItem?.category : 'OTHER'}
+                                                                    onChange={e => {
+                                                                        const val = e.target.value;
+                                                                        if (val === 'OTHER') {
+                                                                            setEditingItem({ ...editingItem, category: '' });
+                                                                        } else {
+                                                                            setEditingItem({ ...editingItem, category: val });
+                                                                        }
+                                                                    }}
+                                                                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 font-bold text-[#020617] outline-none focus:border-[#008CC8] transition-all appearance-none cursor-pointer"
+                                                                >
+                                                                    {categories.map(cat => (
+                                                                        <option key={cat} value={cat}>{cat} Vertical</option>
+                                                                    ))}
+                                                                    <option value="OTHER">Other / Create New...</option>
+                                                                </select>
+
+                                                                {(!categories.includes(editingItem?.category) || editingItem?.category === '') && (
+                                                                    <motion.div
+                                                                        initial={{ opacity: 0, y: -10 }}
+                                                                        animate={{ opacity: 1, y: 0 }}
+                                                                        className="relative"
+                                                                    >
+                                                                        <input
+                                                                            required
+                                                                            value={editingItem?.category || ''}
+                                                                            onChange={e => setEditingItem({ ...editingItem, category: e.target.value })}
+                                                                            className="w-full bg-blue-50/50 border border-blue-200 rounded-2xl px-6 py-4 font-bold text-[#020617] outline-none focus:border-[#008CC8] transition-all"
+                                                                            placeholder="Enter new category name..."
+                                                                        />
+                                                                        <div className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-black text-blue-500 uppercase tracking-widest">New Category</div>
+                                                                    </motion.div>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    )}
                                                 </div>
 
                                                 <div className="grid grid-cols-2 gap-8">
@@ -856,20 +1071,151 @@ export default function AdminPanel() {
                                                 <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-300 border-b border-slate-100 pb-2">Dynamic Components & Frameworks</h4>
 
                                                 {activeTab === 'trainings' && (
-                                                    <div className="space-y-4">
-                                                        <div className="flex justify-between items-center">
-                                                            <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Curriculum Modules</label>
-                                                            <button type="button" onClick={() => handleArrayAction('modules', 'add')} className="text-[#008CC8] text-xs font-black uppercase tracking-widest flex items-center gap-2 hover:bg-[#008CC8]/5 px-4 py-2 rounded-lg transition-all">
-                                                                <Plus className="w-4 h-4" /> Add Module
-                                                            </button>
+                                                    <div className="space-y-10">
+                                                        {/* Start Date */}
+                                                        <div className="space-y-2">
+                                                            <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Batch Start Date</label>
+                                                            <input
+                                                                type="date"
+                                                                value={editingItem?.startDate?.split('T')[0] || ''}
+                                                                onChange={e => setEditingItem({ ...editingItem, startDate: e.target.value })}
+                                                                className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 font-bold text-[#020617] outline-none focus:border-[#008CC8] transition-all"
+                                                            />
                                                         </div>
-                                                        <div className="grid gap-3">
-                                                            {editingItem?.modules?.map((m: string, idx: number) => (
-                                                                <div key={idx} className="flex gap-4 items-center">
-                                                                    <input value={m} onChange={e => handleArrayAction('modules', 'update', idx, e.target.value)} className="flex-1 bg-slate-50 border border-transparent focus:border-[#008CC8] rounded-xl px-4 py-3 font-bold text-[#020617] outline-none transition-all" />
-                                                                    <button type="button" onClick={() => handleArrayAction('modules', 'remove', idx)} className="text-slate-300 hover:text-red-500 transition-colors"><Trash2 className="w-4 h-4" /></button>
-                                                                </div>
-                                                            ))}
+
+                                                        {/* Curriculum Modules */}
+                                                        <div className="space-y-4">
+                                                            <div className="flex justify-between items-center">
+                                                                <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Curriculum Modules</label>
+                                                                <button type="button" onClick={() => handleArrayAction('modules', 'add')} className="text-[#008CC8] text-xs font-black uppercase tracking-widest flex items-center gap-2 hover:bg-[#008CC8]/5 px-4 py-2 rounded-lg transition-all">
+                                                                    <Plus className="w-4 h-4" /> Add Module
+                                                                </button>
+                                                            </div>
+                                                            <div className="grid gap-3">
+                                                                {editingItem?.modules?.map((m: string, idx: number) => (
+                                                                    <div key={idx} className="flex gap-4 items-center">
+                                                                        <input value={m} onChange={e => handleArrayAction('modules', 'update', idx, e.target.value)} className="flex-1 bg-slate-50 border border-transparent focus:border-[#008CC8] rounded-xl px-4 py-3 font-bold text-[#020617] outline-none transition-all" />
+                                                                        <button type="button" onClick={() => handleArrayAction('modules', 'remove', idx)} className="text-slate-300 hover:text-red-500 transition-colors"><Trash2 className="w-4 h-4" /></button>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Key Highlights */}
+                                                        <div className="space-y-4">
+                                                            <div className="flex justify-between items-center">
+                                                                <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Key Highlights</label>
+                                                                <button type="button" onClick={() => handleArrayAction('keyHighlights', 'add')} className="text-[#008CC8] text-xs font-black uppercase tracking-widest flex items-center gap-2 hover:bg-[#008CC8]/5 px-4 py-2 rounded-lg transition-all">
+                                                                    <Plus className="w-4 h-4" /> Add Highlight
+                                                                </button>
+                                                            </div>
+                                                            <div className="grid gap-3">
+                                                                {(editingItem?.keyHighlights || []).map((h: string, idx: number) => (
+                                                                    <div key={idx} className="flex gap-4 items-center">
+                                                                        <input value={h} onChange={e => handleArrayAction('keyHighlights', 'update', idx, e.target.value)} className="flex-1 bg-slate-50 border border-transparent focus:border-[#008CC8] rounded-xl px-4 py-3 font-bold text-[#020617] outline-none transition-all" placeholder="e.g. Industry-recognised certificate" />
+                                                                        <button type="button" onClick={() => handleArrayAction('keyHighlights', 'remove', idx)} className="text-slate-300 hover:text-red-500 transition-colors"><Trash2 className="w-4 h-4" /></button>
+                                                                    </div>
+                                                                ))}
+                                                                {(!editingItem?.keyHighlights || editingItem.keyHighlights.length === 0) && (
+                                                                    <p className="text-slate-300 text-xs italic">No highlights added yet.</p>
+                                                                )}
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Curriculum PDF Upload */}
+                                                        <div className="space-y-4">
+                                                            <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Curriculum PDF (Max 2 MB)</label>
+                                                            <div className="flex gap-4 items-center">
+                                                                <input
+                                                                    type="file"
+                                                                    accept="application/pdf"
+                                                                    id="pdf-upload"
+                                                                    className="hidden"
+                                                                    onChange={async (e) => {
+                                                                        const file = e.target.files?.[0];
+                                                                        if (!file) return;
+                                                                        if (file.size > 2 * 1024 * 1024) {
+                                                                            alert('PDF file must not exceed 2 MB.');
+                                                                            e.target.value = '';
+                                                                            return;
+                                                                        }
+                                                                        const fd = new FormData();
+                                                                        fd.append('file', file);
+                                                                        const res = await fetch('/api/upload-pdf', { method: 'POST', body: fd });
+                                                                        const json = await res.json();
+                                                                        if (json.dataUri) {
+                                                                            setEditingItem({ ...editingItem, curriculumPdf: json.dataUri, curriculumPdfName: file.name });
+                                                                        } else {
+                                                                            alert(json.error || 'Upload failed');
+                                                                        }
+                                                                        e.target.value = '';
+                                                                    }}
+                                                                />
+                                                                <label htmlFor="pdf-upload" className="flex items-center gap-2 px-6 py-3 bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl cursor-pointer hover:border-[#008CC8] transition-all font-bold text-slate-500 text-sm">
+                                                                    <Download className="w-5 h-5 text-[#008CC8]" />
+                                                                    {editingItem?.curriculumPdfName || (editingItem?.curriculumPdf ? 'PDF Uploaded ✓' : 'Upload PDF')}
+                                                                </label>
+                                                                {editingItem?.curriculumPdf && (
+                                                                    <button type="button" onClick={() => setEditingItem({ ...editingItem, curriculumPdf: '', curriculumPdfName: '' })} className="text-red-400 hover:text-red-600 transition-colors font-bold text-xs uppercase tracking-widest">Remove</button>
+                                                                )}
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Placed Learners */}
+                                                        <div className="space-y-4">
+                                                            <div className="flex justify-between items-center">
+                                                                <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Placed Learners</label>
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={() => setEditingItem({ ...editingItem, placedLearners: [...(editingItem?.placedLearners || []), { name: '', photo: '' }] })}
+                                                                    className="text-[#008CC8] text-xs font-black uppercase tracking-widest flex items-center gap-2 hover:bg-[#008CC8]/5 px-4 py-2 rounded-lg transition-all"
+                                                                >
+                                                                    <Plus className="w-4 h-4" /> Add Learner
+                                                                </button>
+                                                            </div>
+                                                            <div className="grid gap-4">
+                                                                {(editingItem?.placedLearners || []).map((learner: { name: string; photo: string }, idx: number) => (
+                                                                    <div key={idx} className="grid grid-cols-2 gap-4 items-end bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                                                                        <div className="space-y-2">
+                                                                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Learner Name</label>
+                                                                            <input
+                                                                                value={learner.name}
+                                                                                onChange={e => {
+                                                                                    const updated = [...(editingItem?.placedLearners || [])];
+                                                                                    updated[idx] = { ...updated[idx], name: e.target.value };
+                                                                                    setEditingItem({ ...editingItem, placedLearners: updated });
+                                                                                }}
+                                                                                className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 font-bold text-[#020617] outline-none focus:border-[#008CC8] transition-all text-sm"
+                                                                                placeholder="e.g. Rahul Sharma"
+                                                                            />
+                                                                        </div>
+                                                                        <div className="space-y-2">
+                                                                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Photo URL</label>
+                                                                            <div className="flex gap-2">
+                                                                                <input
+                                                                                    value={learner.photo}
+                                                                                    onChange={e => {
+                                                                                        const updated = [...(editingItem?.placedLearners || [])];
+                                                                                        updated[idx] = { ...updated[idx], photo: e.target.value };
+                                                                                        setEditingItem({ ...editingItem, placedLearners: updated });
+                                                                                    }}
+                                                                                    className="flex-1 bg-white border border-slate-200 rounded-xl px-4 py-3 font-bold text-[#020617] outline-none focus:border-[#008CC8] transition-all text-sm"
+                                                                                    placeholder="https://..."
+                                                                                />
+                                                                                <button type="button" onClick={() => {
+                                                                                    const updated = (editingItem?.placedLearners || []).filter((_: unknown, i: number) => i !== idx);
+                                                                                    setEditingItem({ ...editingItem, placedLearners: updated });
+                                                                                }} className="text-red-400 hover:text-red-600 transition-colors">
+                                                                                    <Trash2 className="w-4 h-4" />
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                ))}
+                                                                {(!editingItem?.placedLearners || editingItem.placedLearners.length === 0) && (
+                                                                    <p className="text-slate-300 text-xs italic">No placed learners added yet.</p>
+                                                                )}
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 )}

@@ -7,7 +7,19 @@ import { usePathname } from 'next/navigation';
 import { Menu, X, ChevronDown } from 'lucide-react';
 
 
-const staticNavItems = [
+interface DropdownItem {
+  name: string;
+  href: string;
+  category?: string;
+}
+
+interface NavItem {
+  name: string;
+  href: string;
+  dropdown?: DropdownItem[];
+}
+
+const staticNavItems: NavItem[] = [
   {
     name: 'Home',
     href: '/',
@@ -28,9 +40,9 @@ const staticNavItems = [
     name: 'Industries',
     href: '/industries',
     dropdown: [
-      { name: 'Information Technology', href: '/industries/it' },
-      { name: 'Healthcare', href: '/industries/healthcare' },
-      { name: 'BFSI', href: '/industries/bfsi' },
+      { name: 'Information Technology', href: '/industries/it', category: 'IT' },
+      { name: 'Healthcare', href: '/industries/healthcare', category: 'Non-IT' },
+      { name: 'BFSI', href: '/industries/bfsi', category: 'Non-IT' },
     ]
   },
   {
@@ -64,7 +76,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeMobileMenu, setActiveMobileMenu] = useState<string | null>(null);
-  const [navItems, setNavItems] = useState(staticNavItems);
+  const [navItems, setNavItems] = useState<NavItem[]>(staticNavItems);
   const pathname = usePathname();
   const isHome = pathname === '/';
 
@@ -80,9 +92,9 @@ export default function Navbar() {
     const fetchDropdownData = async () => {
       try {
         const [servicesRes, industriesRes, trainingsRes] = await Promise.all([
-          fetch('/api/services').then(res => res.json()),
-          fetch('/api/industries').then(res => res.json()),
-          fetch('/api/trainings').then(res => res.json())
+          fetch('/api/services', { cache: 'no-store' }).then(res => res.json()),
+          fetch('/api/industries', { cache: 'no-store' }).then(res => res.json()),
+          fetch('/api/trainings', { cache: 'no-store' }).then(res => res.json())
         ]);
 
         const updatedItems = staticNavItems.map(item => {
@@ -95,8 +107,12 @@ export default function Navbar() {
           if (item.name === 'Industries' && Array.isArray(industriesRes)) {
             return {
               ...item,
-              dropdown: industriesRes.map((i: { name?: string; title?: string; slug: string }) => ({ name: i.name || i.title || 'Industry', href: `/industries/${i.slug}` }))
-            };
+              dropdown: industriesRes.map((i: { name?: string; title?: string; slug: string; category?: string }) => ({
+                name: i.name || i.title || 'Industry',
+                href: `/industries/${i.slug}`,
+                category: i.category || 'IT'
+              }))
+            } as NavItem;
           }
           if (item.name === 'Training' && Array.isArray(trainingsRes)) {
             return {
@@ -129,7 +145,7 @@ export default function Navbar() {
   return (
     <nav className={`fixed w-full z-50 transition-all duration-300 ${navBg}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-        <Link href="/" className="group flex flex-col items-start">
+        <Link href="/" className="group flex flex-col items-start" onClick={() => setIsOpen(false)}>
           <div className="flex items-center gap-3">
             <Image
               src="/images/clients/logoo.png"
@@ -173,17 +189,51 @@ export default function Navbar() {
                   <div className="absolute top-4 left-1/2 -translate-x-1/2 w-4 h-4 bg-white rotate-45 border-t border-l border-slate-100 shadow-[-5px_-5px_10px_-5px_rgba(0,0,0,0.05)]" />
 
                   <div className={`${item.name === 'Contact' ? 'w-[280px]' : 'w-[900px]'} rounded-2xl overflow-hidden p-10 ${dropdownBg} relative border border-slate-100/50 shadow-[0_20px_50px_rgba(0,0,0,0.1)]`}>
-                    <div className={`grid ${item.name === 'Contact' ? 'grid-cols-1' : 'grid-cols-4'} gap-y-7 gap-x-10`}>
-                      {item.dropdown.map((subItem) => (
-                        <Link
-                          key={subItem.name}
-                          href={subItem.href}
-                          className={`group/item text-[13.5px] font-medium transition-all ${dropdownTextColor} hover:text-[#008CC8]`}
-                        >
-                          {subItem.name}
-                        </Link>
-                      ))}
-                    </div>
+                    {item.name === 'Industries' ? (
+                      <div className={`grid ${Object.entries(item.dropdown.reduce((acc, ind) => {
+                        const cat = ind.category || 'IT';
+                        if (!acc[cat]) acc[cat] = [];
+                        acc[cat].push(ind);
+                        return acc;
+                      }, {} as Record<string, DropdownItem[]>)).length > 2 ? 'grid-cols-3' : 'grid-cols-2'} gap-x-12 gap-y-16`}>
+                        {Object.entries(item.dropdown.reduce((acc, ind) => {
+                          const cat = ind.category || 'IT';
+                          if (!acc[cat]) acc[cat] = [];
+                          acc[cat].push(ind);
+                          return acc;
+                        }, {} as Record<string, DropdownItem[]>)).map(([category, subs], idx) => (
+                          <div key={category}>
+                            <h3 className={`text-xs font-black uppercase tracking-[0.2em] mb-6 flex items-center gap-2 ${idx % 2 === 0 ? 'text-[#008CC8]' : 'text-[#e11d48]'}`}>
+                              <span className={`w-1.5 h-1.5 rounded-full ${idx % 2 === 0 ? 'bg-[#008CC8]' : 'bg-[#e11d48]'}`} />
+                              {category} Verticals
+                            </h3>
+                            <div className="grid grid-cols-1 gap-y-4">
+                              {subs.map((subItem) => (
+                                <Link
+                                  key={subItem.name}
+                                  href={subItem.href}
+                                  className={`group/link flex items-center gap-2 text-[14px] font-semibold transition-all ${dropdownTextColor} hover:text-[#008CC8]`}
+                                >
+                                  {subItem.name}
+                                </Link>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className={`grid ${item.name === 'Contact' ? 'grid-cols-1' : 'grid-cols-4'} gap-y-7 gap-x-10`}>
+                        {item.dropdown.map((subItem) => (
+                          <Link
+                            key={subItem.name}
+                            href={subItem.href}
+                            className={`group/item text-[13.5px] font-medium transition-all ${dropdownTextColor} hover:text-[#008CC8]`}
+                          >
+                            {subItem.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
 
                     {/* Footer decorative bar in dropdown */}
                     <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#008CC8]/20 to-transparent" />
@@ -240,17 +290,46 @@ export default function Navbar() {
                 )}
               </div>
               {item.dropdown && (
-                <div className={`flex flex-col space-y-2 pl-4 transition-all duration-300 ${activeMobileMenu === item.name ? 'max-h-[500px] mb-4 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
-                  {item.dropdown.map((subItem) => (
-                    <Link
-                      key={subItem.name}
-                      href={subItem.href}
-                      onClick={() => setIsOpen(false)}
-                      className="py-2 text-slate-500 font-medium hover:text-[#008CC8]"
-                    >
-                      {subItem.name}
-                    </Link>
-                  ))}
+                <div className={`flex flex-col space-y-2 pl-4 transition-all duration-300 ${activeMobileMenu === item.name ? 'max-h-[1000px] mb-4 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+                  {item.name === 'Industries' ? (
+                    <>
+                      {Object.entries(item.dropdown.reduce((acc, ind) => {
+                        const cat = ind.category || 'IT';
+                        if (!acc[cat]) acc[cat] = [];
+                        acc[cat].push(ind);
+                        return acc;
+                      }, {} as Record<string, DropdownItem[]>)).map(([category, subs], idx) => (
+                        <div key={category} className="mt-4 first:mt-2">
+                          <span className={`text-[10px] font-black uppercase tracking-widest ${idx % 2 === 0 ? 'text-[#008CC8]' : 'text-[#e11d48]'}`}>
+                            {category} Verticals
+                          </span>
+                          <div className="flex flex-col space-y-2 mt-2">
+                            {subs.map((subItem) => (
+                              <Link
+                                key={subItem.name}
+                                href={subItem.href}
+                                onClick={() => setIsOpen(false)}
+                                className="py-2 text-slate-500 font-medium hover:text-[#008CC8]"
+                              >
+                                {subItem.name}
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </>
+                  ) : (
+                    item.dropdown.map((subItem) => (
+                      <Link
+                        key={subItem.name}
+                        href={subItem.href}
+                        onClick={() => setIsOpen(false)}
+                        className="py-2 text-slate-500 font-medium hover:text-[#008CC8]"
+                      >
+                        {subItem.name}
+                      </Link>
+                    ))
+                  )}
                 </div>
               )}
             </div>

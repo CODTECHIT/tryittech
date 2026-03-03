@@ -1,0 +1,26 @@
+[
+    {
+        "id": "h1",
+        "title": "Strategy First",
+        "icon": "Target",
+        "desc": "Business-aligned talent strategy for Every project."
+    },
+    {
+        "id": "h2",
+        "title": "Digital Core",
+        "icon": "Zap",
+        "desc": "Modernizing core systems with cloud-native experts."
+    },
+    {
+        "id": "h3",
+        "title": "Secure Scale",
+        "icon": "Shield",
+        "desc": "Enterprise-grade security vetting for all placements."
+    },
+    {
+        "id": "h4",
+        "title": "Global Reach",
+        "icon": "Globe",
+        "desc": "24/7 delivery across 12+ international hubs."
+    }
+]

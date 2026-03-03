@@ -1,6 +1,6 @@
 'use client';
 
-import { Phone, Mail, Globe, Linkedin, Send } from 'lucide-react';
+import { Mail, Globe, Linkedin, Send } from 'lucide-react';
 import { useState } from 'react';
 
 export default function Contact() {
@@ -58,15 +58,6 @@ export default function Contact() {
                             </p>
 
                             <div className="space-y-10">
-                                <div className="flex items-center gap-6 group">
-                                    <div className="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-[#008CC8] group-hover:border-[#008CC8] transition-all duration-300">
-                                        <Phone className="text-[#008CC8] w-6 h-6 group-hover:text-white" />
-                                    </div>
-                                    <div className="space-y-1">
-                                        <span className="block text-[10px] font-black text-[#008CC8] uppercase tracking-widest">Phone Support</span>
-                                        <span className="text-sm text-white font-medium">+91 9642717172</span>
-                                    </div>
-                                </div>
 
                                 <div className="flex items-center gap-6 group">
                                     <div className="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-[#008CC8] group-hover:border-[#008CC8] transition-all duration-300">

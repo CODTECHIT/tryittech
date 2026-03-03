@@ -7,16 +7,16 @@ const leaders = [
     {
         name: 'Messe Rachuri',
         role: 'Founder',
-        image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=80',
-        bio: 'Messe Rachuri is a highly skilled recruitment professional with a competent educational background in Business Administration. She holds a Graduation from BR Ambedkar University and has over 10+ years of experience in staff augmentation, client relations, operations, and delivery. Her expertise has helped TRYITTECH LLP to establish long-term relationships with blue-chip clients. One of Messe’s greatest strengths is her ability to customise and provide high-quality and prompt client delivery models, which helps build strong, long-lasting partnerships.',
-        linkedin: '#'
+        image: '/images/1.jpeg',
+        bio: "Messe Rachuri is a highly skilled recruitment professional with a competent educational background in Business Administration. She holds a Graduation from BR Ambedkar University and has over 10+ years of experience in staff augmentation, client relations, operations, and delivery. Her expertise has helped TRYITTECH LLP to establish long-term relationships with blue-chip clients. One of Messe's greatest strengths is her ability to customise and provide high-quality and prompt client delivery models, which helps build strong, long-lasting partnerships.",
+        linkedin: 'https://www.linkedin.com/company/tryittech-llp/'
     },
     {
         name: 'Shobharani Bulla',
         role: 'Co-Founder',
-        image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=800&q=80',
-        bio: 'Shobharani Bulla is a talented and experienced professional with a Master’s Degree in Business Administration. She has over a decade of experience in the Talent & Staffing industry, making her a valuable asset to any team. In addition to her strong educational and professional background. Overall, Shobharani is a well-rounded individual with a passion for her work and a drive to succeed.',
-        linkedin: '#'
+        image: '/images/2.jpeg',
+        bio: "Shobharani Bulla is a talented and experienced professional with a Master's Degree in Business Administration. She has over a decade of experience in the Talent & Staffing industry, making her a valuable asset to any team. In addition to her strong educational and professional background. Overall, Shobharani is a well-rounded individual with a passion for her work and a drive to succeed.",
+        linkedin: 'https://www.linkedin.com/company/tryittech-llp/'
     }
 ];
 
@@ -81,4 +81,3 @@ export default function Leadership() {
         </section>
     );
 }
-

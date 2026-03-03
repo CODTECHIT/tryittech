@@ -2,6 +2,12 @@ import connectDB from './db';
 import { Training as TrainingModel } from './models';
 import fs from 'fs';
 import path from 'path';
+import mongoose from 'mongoose';
+
+export interface PlacedLearner {
+    name: string;
+    photo: string;
+}
 
 export interface Training {
     id: string;
@@ -12,6 +18,10 @@ export interface Training {
     icon: string;
     image: string;
     modules: string[];
+    startDate?: string;
+    keyHighlights?: string[];
+    curriculumPdf?: string;
+    placedLearners?: PlacedLearner[];
 }
 
 function toTraining(doc: Record<string, unknown>): Training {
@@ -24,6 +34,10 @@ function toTraining(doc: Record<string, unknown>): Training {
         icon: String(doc.icon || ''),
         image: String(doc.image || ''),
         modules: Array.isArray(doc.modules) ? doc.modules as string[] : [],
+        startDate: doc.startDate ? String(doc.startDate) : undefined,
+        keyHighlights: Array.isArray(doc.keyHighlights) ? doc.keyHighlights as string[] : [],
+        curriculumPdf: doc.curriculumPdf ? String(doc.curriculumPdf) : undefined,
+        placedLearners: Array.isArray(doc.placedLearners) ? doc.placedLearners as PlacedLearner[] : [],
     };
 }
 
@@ -78,12 +92,41 @@ export async function addTraining(data: Omit<Training, 'id'>): Promise<Training>
 
 export async function updateTraining(id: string, data: Partial<Training>): Promise<Training | null> {
     await connectDB();
-    const doc = await TrainingModel.findByIdAndUpdate(id, data, { new: true }).lean();
-    return doc ? toTraining(doc as Record<string, unknown>) : null;
+
+    // Check if it's a valid MongoDB ObjectId
+    const isValidId = mongoose.Types.ObjectId.isValid(id);
+
+    if (isValidId) {
+        // Normal DB update
+        const doc = await TrainingModel.findByIdAndUpdate(id, data, { new: true }).lean();
+        return doc ? toTraining(doc as Record<string, unknown>) : null;
+    } else {
+        // The id is a fallback/static id (e.g. 'it-training') — promote to DB
+        // Check if there's already a DB record with this slug (to avoid duplicates)
+        const slug = (data.slug || id);
+        const existing = await TrainingModel.findOne({ slug }).lean();
+        if (existing) {
+            const updated = await TrainingModel.findByIdAndUpdate(
+                (existing as Record<string, unknown>)._id,
+                data,
+                { new: true }
+            ).lean();
+            return updated ? toTraining(updated as Record<string, unknown>) : null;
+        }
+        // Create a brand new DB record from the full data
+        const doc = await TrainingModel.create(data);
+        return toTraining(doc.toObject());
+    }
 }
 
 export async function deleteTraining(id: string): Promise<boolean> {
     await connectDB();
+    const isValidId = mongoose.Types.ObjectId.isValid(id);
+    if (!isValidId) {
+        // Static fallback item — nothing in DB to delete
+        return true;
+    }
     const result = await TrainingModel.findByIdAndDelete(id);
     return !!result;
 }
+

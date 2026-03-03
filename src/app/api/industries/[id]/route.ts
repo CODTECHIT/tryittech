@@ -11,9 +11,10 @@ export async function PUT(
         const updated = await updateIndustry(id, data);
         if (updated) return NextResponse.json(updated);
         return NextResponse.json({ error: 'Industry not found or failed to update' }, { status: 404 });
-    } catch (error) {
-        console.error('API Error (Industries PUT):', error);
-        return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    } catch (error: unknown) {
+        const err = error as Error;
+        console.error('API Error (Industries PUT):', err);
+        return NextResponse.json({ error: err.message || 'Internal server error' }, { status: 500 });
     }
 }
 

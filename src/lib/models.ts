@@ -8,9 +8,19 @@ const TrainingSchema = new Schema({
     icon: { type: String },
     image: { type: String },
     modules: { type: [String], default: [] },
+    startDate: { type: String },
+    keyHighlights: { type: [String], default: [] },
+    curriculumPdf: { type: String },
+    placedLearners: { type: Schema.Types.Mixed, default: [] },
 }, { timestamps: true });
 
+// In development, delete cached model to pick up schema changes after hot reload
+if (process.env.NODE_ENV !== 'production' && models.Training) {
+    delete models.Training;
+}
 export const Training = models.Training || model('Training', TrainingSchema);
+
+
 
 const ServiceSchema = new Schema({
     slug: { type: String, required: true, unique: true },
@@ -29,6 +39,7 @@ export const Service = models.Service || model('Service', ServiceSchema);
 const IndustrySchema = new Schema({
     slug: { type: String, required: true, unique: true },
     name: { type: String, required: true },
+    category: { type: String, default: 'IT' },
     image: { type: String },
     secondaryImage: { type: String },
     icon: { type: String },
@@ -72,6 +83,14 @@ const LicenseSchema = new Schema({
 }, { timestamps: true });
 
 export const License = models.License || model('License', LicenseSchema);
+
+const HighlightSchema = new Schema({
+    title: { type: String, required: true },
+    icon: { type: String, default: 'Target' },
+    desc: { type: String, required: true },
+}, { timestamps: true });
+
+export const Highlight = models.Highlight || model('Highlight', HighlightSchema);
 
 // Re-export mongoose for convenience
 export default mongoose;

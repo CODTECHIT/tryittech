@@ -19,8 +19,9 @@ export async function POST(req: NextRequest) {
             return NextResponse.json(newIndustry);
         }
         return NextResponse.json({ error: 'Failed to add industry' }, { status: 500 });
-    } catch (error) {
-        console.error('API Error (Industries POST):', error);
-        return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    } catch (error: unknown) {
+        const err = error as Error;
+        console.error('API Error (Industries POST):', err);
+        return NextResponse.json({ error: err.message || 'Internal server error' }, { status: 500 });
     }
 }

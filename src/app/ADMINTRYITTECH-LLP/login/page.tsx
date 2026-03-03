@@ -30,7 +30,11 @@ export default function AdminLogin() {
                 router.push('/ADMINTRYITTECH-LLP');
             } else {
                 const data = await res.json();
-                setError(data.error || 'Invalid credentials');
+                if (res.status === 429) {
+                    setError(`🔒 ${data.error}`);
+                } else {
+                    setError(data.error || 'Invalid credentials');
+                }
             }
         } catch (error) {
             console.error('Login error:', error);

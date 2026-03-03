@@ -43,7 +43,7 @@ export default function AboutPage() {
             <Navbar />
             <PageHeader
                 title="Company"
-                subtitle='"We don' t just fill roles—we build futures by connecting the right talent with the right opportunities."'
+                subtitle={`"We don't just fill roles\u2014we build futures by connecting the right talent with the right opportunities."`}
             />
             <AboutSection />
             <CoreValues />

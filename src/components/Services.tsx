@@ -29,13 +29,31 @@ const ACCENT_GRADIENTS = [
   { main: "#06B6D4", light: "#67E8F9" }  // Cyan
 ];
 
-const ServiceCard = ({ service, index = 0 }: { service: Service; index?: number }) => {
+const ServiceCard = ({ service }: { service: Service }) => {
   const [isFlipped, setIsFlipped] = useState(false);
-  const colors = ACCENT_GRADIENTS[index % ACCENT_GRADIENTS.length];
+
+  // Use a stable hash of service.id for consistent color selection across SSR/client
+  // This avoids hydration mismatches that occur with index-based color selection
+  const colorIndex = React.useMemo(() => {
+    if (!service.id) return 0;
+    // Simple hash function to get consistent index from string
+    let hash = 0;
+    for (let i = 0; i < service.id.length; i++) {
+      hash = ((hash << 5) - hash) + service.id.charCodeAt(i);
+      hash = hash & hash;
+    }
+    return Math.abs(hash) % ACCENT_GRADIENTS.length;
+  }, [service.id]);
+
+  const colors = ACCENT_GRADIENTS[colorIndex];
+
+  const handleFlip = () => {
+    setIsFlipped(!isFlipped);
+  };
 
   return (
     <CardWrapper $isFlipped={isFlipped} $mainColor={colors.main} $lightColor={colors.light}>
-      <div className="card" onClick={() => setIsFlipped(!isFlipped)}>
+      <div className="card" onClick={handleFlip}>
         <div className="card-inner">
           {/* FRONTSIDE */}
           <div className="card-front">
@@ -294,9 +312,9 @@ export default function Services({ initialData = [] }: { initialData?: Service[]
           <div className="flex justify-center text-slate-400 font-bold uppercase tracking-widest animate-pulse">Loading Services...</div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {items.map((item, idx) => (
+            {items.map((item) => (
               <Link key={item.slug || item.id} href={`/services/${item.slug}`} className="block">
-                <ServiceCard service={item} index={idx} />
+                <ServiceCard service={item} />
               </Link>
             ))}
           </div>

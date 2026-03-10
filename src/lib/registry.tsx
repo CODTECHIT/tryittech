@@ -9,21 +9,30 @@ export default function StyledComponentsRegistry({
 }: {
     children: React.ReactNode
 }) {
-    // [Performance]: Create the stylesheet only once with lazy initial state
-    // x-ref: https://reactjs.org/docs/hooks-reference.html#lazy-initial-state
-    const [styledComponentsStyleSheet] = useState(() => new ServerStyleSheet())
+    // Only create the stylesheet on the server
+    const [styledComponentsStyleSheet] = useState(() => {
+        if (typeof window === 'undefined') {
+            return new ServerStyleSheet()
+        }
+        return null
+    })
 
     useServerInsertedHTML(() => {
+        if (!styledComponentsStyleSheet) return null
         const styles = styledComponentsStyleSheet.getStyleElement()
         styledComponentsStyleSheet.instance.clearTag()
         return <>{styles}</>
     })
 
-    if (typeof window !== 'undefined') return <>{children}</>
+    // Always wrap children with StyleSheetManager when server-side styles are available
+    // This ensures consistent class name generation between server and client
+    if (styledComponentsStyleSheet) {
+        return (
+            <StyleSheetManager sheet={styledComponentsStyleSheet.instance}>
+                {children}
+            </StyleSheetManager>
+        )
+    }
 
-    return (
-        <StyleSheetManager sheet={styledComponentsStyleSheet.instance}>
-            {children}
-        </StyleSheetManager>
-    )
+    return <>{children}</>
 }

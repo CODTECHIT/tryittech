@@ -12,6 +12,7 @@ import {
   ShieldCheck,
   BookOpen
 } from 'lucide-react';
+import { Training } from '@/lib/trainings';
 
 const podGradients = [
   { from: '#1d4ed8', to: '#1e3a8a', class: 'from-blue-700 to-blue-900', text: 'text-blue-700' },
@@ -33,8 +34,8 @@ const getIcon = (title: string) => {
   return BookOpen;
 };
 
-export default function TrainingSection({ initialData = [] }: { initialData?: any[] }) {
-  const [items, setItems] = useState<any[]>(initialData);
+export default function TrainingSection({ initialData = [] }: { initialData?: Training[] }) {
+  const [items, setItems] = useState<Training[]>(initialData);
   const [loading, setLoading] = useState(initialData.length === 0);
 
   useEffect(() => {

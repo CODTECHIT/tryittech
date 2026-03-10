@@ -21,7 +21,7 @@ export default function PageHeader({ title, subtitle, bgColor, accentColor }: Pa
                     {title}
                 </h1>
                 {subtitle && (
-                    <p className="text-xl text-white/70 max-w-2xl mx-auto font-light leading-relaxed">
+                    <p className="text-xl text-white max-w-2xl mx-auto font-medium leading-relaxed opacity-90">
                         {subtitle}
                     </p>
                 )}

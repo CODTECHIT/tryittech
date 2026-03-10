@@ -31,33 +31,48 @@ const ICON_MAP: Record<string, LucideIcon> = {
     Shield, Zap, Target, Globe, BarChart3, Cpu
 };
 
-export default function IndustryDetailClient() {
+export default function IndustryDetailClient({
+    initialData = null,
+    slug: initialSlug
+}: {
+    initialData?: Industry | null,
+    slug: string
+}) {
     const params = useParams();
-    const slug = params?.slug as string;
+    const slug = initialSlug || params?.slug as string;
     const [isScrolled, setIsScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState('overview');
-    const [industry, setIndustry] = useState<Industry | null>(null);
+    const [industry, setIndustry] = useState<Industry | null>(initialData);
     const [highlights, setHighlights] = useState<Highlight[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(!initialData);
 
     useEffect(() => {
+        const fetchHighlights = async () => {
+            try {
+                const highRes = await fetch('/api/highlights').then(res => res.json());
+                setHighlights(Array.isArray(highRes) ? highRes : []);
+            } catch (err) {
+                console.error('Failed to fetch highlights:', err);
+            }
+        };
+
         const fetchData = async () => {
             try {
-                const [indRes, highRes] = await Promise.all([
-                    fetch('/api/industries').then(res => res.json()),
-                    fetch('/api/highlights').then(res => res.json())
-                ]);
+                const indRes = await fetch('/api/industries').then(res => res.json());
                 const found = indRes.find((ind: Industry) => ind.slug === slug);
                 setIndustry(found || null);
-                setHighlights(Array.isArray(highRes) ? highRes : []);
                 setLoading(false);
             } catch (err) {
                 console.error('Failed to fetch industry data:', err);
                 setLoading(false);
             }
         };
-        fetchData();
-    }, [slug]);
+
+        fetchHighlights();
+        if (!initialData) {
+            fetchData();
+        }
+    }, [slug, initialData]);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -133,7 +148,7 @@ export default function IndustryDetailClient() {
                         </h1>
 
                         <p className="text-lg md:text-xl lg:text-2xl text-white/90 leading-relaxed font-medium max-w-2xl mb-10 border-l-4 border-[#008CC8] pl-6 md:pl-8">
-                            Empowering {industry.name} leaders with specialized talent and digital transformation strategies.
+                            {industry.info || `Empowering ${industry.name} leaders with specialized talent and digital transformation strategies.`}
                         </p>
 
                         <div className="flex flex-wrap gap-4">
@@ -197,23 +212,114 @@ export default function IndustryDetailClient() {
                             </div>
                         </div>
 
-                        <div className="grid sm:grid-cols-2 gap-6">
-                            {highlights.map((item, i) => {
-                                const IconComp = ICON_MAP[item.icon] || Target;
-                                return (
-                                    <div key={i} className="p-8 bg-slate-50 border border-slate-100 rounded-3xl hover:bg-white hover:shadow-2xl hover:-translate-y-2 transition-all group">
-                                        <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm group-hover:bg-[#008CC8] transition-colors">
-                                            <IconComp className="w-6 h-6 text-[#008CC8] group-hover:text-white transition-colors" />
+                        {industry.secondaryImage ? (
+                            <div className="relative h-[500px] rounded-[3rem] overflow-hidden shadow-2xl group border border-slate-100">
+                                <Image
+                                    src={industry.secondaryImage}
+                                    alt={`${industry.name} Secondary`}
+                                    fill
+                                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#020617]/60 to-transparent" />
+                                <div className="absolute bottom-8 left-8 right-8 text-white">
+                                    <p className="font-black uppercase tracking-widest text-xs mb-2 text-[#008CC8]">Industry Focus</p>
+                                    <p className="text-xl font-bold leading-tight">Advanced {industry.name} Synergy & Innovation</p>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="grid sm:grid-cols-2 gap-6">
+                                {highlights.map((item, i) => {
+                                    const IconComp = ICON_MAP[item.icon] || Target;
+                                    return (
+                                        <div key={i} className="p-8 bg-slate-50 border border-slate-100 rounded-3xl hover:bg-white hover:shadow-2xl hover:-translate-y-2 transition-all group">
+                                            <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm group-hover:bg-[#008CC8] transition-colors">
+                                                <IconComp className="w-6 h-6 text-[#008CC8] group-hover:text-white transition-colors" />
+                                            </div>
+                                            <h4 className="font-bold text-[#020617] mb-2">{item.title}</h4>
+                                            <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
                                         </div>
-                                        <h4 className="font-bold text-[#020617] mb-2">{item.title}</h4>
-                                        <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
-                                    </div>
-                                );
-                            })}
-                        </div>
+                                    );
+                                })}
+                            </div>
+                        )}
                     </div>
                 </div>
             </section>
+
+            {/* SEGMENTS & SOLUTIONS */}
+            {(industry.segments?.length > 0 || industry.solutions?.length > 0) && (
+                <section className="py-24 bg-slate-50 relative overflow-hidden">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="grid lg:grid-cols-2 gap-16">
+                            {industry.segments?.length > 0 && (
+                                <div className="space-y-12">
+                                    <div className="space-y-4">
+                                        <h3 className="text-sm font-black uppercase tracking-[0.3em] text-[#008CC8]">Market Segments</h3>
+                                        <h2 className="text-4xl font-bold text-[#020617]">Sectors We <span className="text-[#008CC8]">Serve</span></h2>
+                                    </div>
+                                    <div className="space-y-6">
+                                        {industry.segments.map((s, idx) => (
+                                            <div key={idx} className="p-8 bg-white rounded-[2rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
+                                                <h4 className="text-xl font-bold text-[#020617] mb-3 group-hover:text-[#008CC8] transition-colors">{s.title}</h4>
+                                                <p className="text-slate-600 leading-relaxed text-sm">{s.description}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {industry.solutions?.length > 0 && (
+                                <div className="space-y-12">
+                                    <div className="space-y-4">
+                                        <h3 className="text-sm font-black uppercase tracking-[0.3em] text-[#008CC8]">Strategic Solutions</h3>
+                                        <h2 className="text-4xl font-bold text-[#020617]">Tailored <span className="text-[#008CC8]">Impact</span></h2>
+                                    </div>
+                                    <div className="space-y-6">
+                                        {industry.solutions.map((s, idx) => (
+                                            <div key={idx} className="flex gap-6 group">
+                                                <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shrink-0 shadow-sm border border-slate-100 group-hover:bg-[#008CC8] transition-all">
+                                                    <ChevronRight className="w-6 h-6 text-[#008CC8] group-hover:text-white transition-colors" />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <h4 className="text-lg font-bold text-[#020617] group-hover:text-[#008CC8] transition-colors">{s.title}</h4>
+                                                    <p className="text-sm text-slate-500 leading-relaxed">{s.description}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </section>
+            )}
+
+            {/* DOMAIN INSIGHTS */}
+            {industry.insights?.length > 0 && (
+                <section className="py-24 bg-white">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-16">
+                        <h3 className="text-sm font-black uppercase tracking-[0.3em] text-[#008CC8] mb-4">Domain Intelligence</h3>
+                        <h2 className="text-4xl md:text-5xl font-bold text-[#020617]">Industry <span className="text-[#008CC8]">Insights</span></h2>
+                    </div>
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-3 gap-8">
+                        {industry.insights.map((ins, idx) => (
+                            <div key={idx} className="group relative h-[450px] rounded-[2.5rem] overflow-hidden border border-slate-100 shadow-lg">
+                                <Image
+                                    src={ins.image || 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80'}
+                                    alt={ins.title}
+                                    fill
+                                    className="object-cover group-hover:scale-110 transition-transform duration-1000"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/20 to-transparent" />
+                                <div className="absolute bottom-10 left-10 right-10 space-y-4">
+                                    <span className="px-4 py-1.5 bg-[#008CC8] text-white text-[10px] font-black uppercase tracking-widest rounded-full">{ins.category}</span>
+                                    <h4 className="text-2xl font-bold text-white leading-tight">{ins.title}</h4>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            )}
 
             {/* THE TRYITTECH EDGE */}
             <section id="edge" className="py-32 bg-[#020617] text-white">
@@ -229,11 +335,11 @@ export default function IndustryDetailClient() {
                             const Icon = ICON_MAP[item.icon as string] || Target;
                             return (
                                 <div key={idx} className="text-center space-y-6 group">
-                                    <div className="mx-auto w-24 h-24 rounded-full border-2 border-white/10 flex items-center justify-center group-hover:border-[#008CC8] group-hover:scale-110 transition-all duration-500">
-                                        <Icon className="w-10 h-10 text-white group-hover:text-[#008CC8] transition-colors" />
+                                    <div className="mx-auto w-24 h-24 rounded-full border-2 border-[#008CC8]/20 flex items-center justify-center bg-[#008CC8]/5 shadow-lg shadow-[#008CC8]/10 group-hover:border-[#008CC8] group-hover:scale-110 transition-all duration-500">
+                                        <Icon className="w-10 h-10 text-[#008CC8] drop-shadow-[0_0_8px_rgba(0,140,200,0.5)]" />
                                     </div>
-                                    <h4 className="text-xl font-bold uppercase tracking-widest">{item.title}</h4>
-                                    <p className="text-slate-400 leading-relaxed font-medium px-4">
+                                    <h4 className="text-xl font-bold uppercase tracking-widest text-[#008CC8]">{item.title}</h4>
+                                    <p className="text-slate-300 leading-relaxed font-medium px-4">
                                         {item.description}
                                     </p>
                                 </div>

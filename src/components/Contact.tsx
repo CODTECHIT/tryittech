@@ -1,17 +1,51 @@
 'use client';
 
 import { Mail, Globe, Linkedin, Send } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Contact() {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         mobile: '',
-        service: 'Permanent Hiring',
+        service: 'General Inquiry',
         message: ''
     });
     const [loading, setLoading] = useState(false);
+    const [options, setOptions] = useState<{
+        services: { title: string }[],
+        industries: { name: string }[],
+        trainings: { title: string }[]
+    }>({
+        services: [],
+        industries: [],
+        trainings: []
+    });
+
+    useEffect(() => {
+        const fetchOptions = async () => {
+            try {
+                const [srvRes, indRes, trnRes] = await Promise.all([
+                    fetch('/api/services'),
+                    fetch('/api/industries'),
+                    fetch('/api/trainings')
+                ]);
+                const [srv, ind, trn] = await Promise.all([
+                    srvRes.json(),
+                    indRes.json(),
+                    trnRes.json()
+                ]);
+                setOptions({
+                    services: Array.isArray(srv) ? srv : [],
+                    industries: Array.isArray(ind) ? ind : [],
+                    trainings: Array.isArray(trn) ? trn : []
+                });
+            } catch (err) {
+                console.error('Failed to fetch contact form options:', err);
+            }
+        };
+        fetchOptions();
+    }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -50,43 +84,50 @@ export default function Contact() {
                 <div className="bg-white shadow-[0_40px_100px_-20px_rgba(31,41,55,0.1)] rounded-sm overflow-hidden grid lg:grid-cols-5 border border-slate-100">
 
                     {/* Info Side */}
-                    <div className="lg:col-span-2 bg-[#020617] p-8 md:p-12 lg:p-16 text-white flex flex-col justify-between relative overflow-hidden">
+                    <div
+                        className="lg:col-span-2 p-8 md:p-12 lg:p-16 text-white flex flex-col justify-between relative overflow-hidden"
+                        style={{
+                            background: `radial-gradient(circle at 20% 30%, #6ED3C3, transparent 40%),
+                                        radial-gradient(circle at 80% 40%, #F07A3A, transparent 45%),
+                                        linear-gradient(135deg, #0B2A3B, #D94A1E)`
+                        }}
+                    >
                         <div className="relative z-10">
                             <h3 className="text-3xl md:text-4xl font-bold mb-6 md:mb-10 leading-tight text-white">Get in Touch with our Experts</h3>
-                            <p className="text-base md:text-lg text-slate-300 mb-10 md:mb-16 leading-relaxed">
+                            <p className="text-base md:text-lg text-white/90 mb-10 md:mb-16 leading-relaxed">
                                 Connect with our specialists today to discuss your talent requirements or strategic workforce goals.
                             </p>
 
                             <div className="space-y-10">
 
                                 <div className="flex items-center gap-6 group">
-                                    <div className="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-[#008CC8] group-hover:border-[#008CC8] transition-all duration-300">
-                                        <Mail className="text-[#008CC8] w-6 h-6 group-hover:text-white" />
+                                    <div className="w-12 h-12 bg-white/10 border border-white/20 flex items-center justify-center shrink-0 group-hover:bg-[#6ED3C3] group-hover:border-[#6ED3C3] transition-all duration-300">
+                                        <Mail className="text-white w-6 h-6" />
                                     </div>
                                     <div className="space-y-1">
-                                        <span className="block text-[10px] font-black text-[#008CC8] uppercase tracking-widest">Email Inquiry</span>
+                                        <span className="block text-[10px] font-black text-[#6ED3C3] uppercase tracking-widest">Email Inquiry</span>
                                         <span className="text-sm text-white font-medium">info@tryittech.in</span>
                                     </div>
                                 </div>
 
                                 <div className="flex items-center gap-6 group">
-                                    <div className="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-[#008CC8] group-hover:border-[#008CC8] transition-all duration-300">
-                                        <Globe className="text-[#008CC8] w-6 h-6 group-hover:text-white" />
+                                    <div className="w-12 h-12 bg-white/10 border border-white/20 flex items-center justify-center shrink-0 group-hover:bg-[#F07A3A] group-hover:border-[#F07A3A] transition-all duration-300">
+                                        <Globe className="text-white w-6 h-6" />
                                     </div>
                                     <div className="space-y-1">
-                                        <span className="block text-[10px] font-black text-slate-500 uppercase tracking-widest">Global Portal</span>
-                                        <span className="text-sm text-slate-300 font-medium">www.tryittech.in</span>
+                                        <span className="block text-[10px] font-black text-white/50 uppercase tracking-widest">Global Portal</span>
+                                        <span className="text-sm text-white/80 font-medium">www.tryittech.in</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div className="relative z-10 pt-16 flex gap-4">
-                            <a href="#" className="w-12 h-12 border border-white/10 flex items-center justify-center hover:bg-[#008CC8] hover:border-[#008CC8] transition-all group">
-                                <Linkedin className="w-5 h-5 text-slate-400 group-hover:text-white" />
+                            <a href="#" className="w-12 h-12 border border-white/20 flex items-center justify-center hover:bg-white hover:border-white transition-all group">
+                                <Linkedin className="w-5 h-5 text-white/50 group-hover:text-[#0B2A3B]" />
                             </a>
                         </div>
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-[#008CC8]/5 rounded-full blur-3xl -mr-32 -mt-32" />
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mr-32 -mt-32" />
                     </div>
 
                     {/* Form Side */}
@@ -135,11 +176,31 @@ export default function Contact() {
                                         onChange={(e) => setFormData({ ...formData, service: e.target.value })}
                                         className="w-full border-2 border-slate-100 p-5 focus:outline-none focus:border-[#008CC8] transition-all outline-none rounded-sm appearance-none bg-transparent font-medium text-slate-700"
                                     >
-                                        <option>Permanent Hiring</option>
-                                        <option>Contract Staffing</option>
-                                        <option>Offshore IT Solutions</option>
-                                        <option>Managed RPO & Payroll</option>
-                                        <option>General Inquiry</option>
+                                        <option value="General Inquiry">General Inquiry</option>
+
+                                        {options.services.length > 0 && (
+                                            <optgroup label="Our Services">
+                                                {options.services.map((srv, i) => (
+                                                    <option key={`srv-${i}`} value={`Service: ${srv.title}`}>{srv.title}</option>
+                                                ))}
+                                            </optgroup>
+                                        )}
+
+                                        {options.industries.length > 0 && (
+                                            <optgroup label="Market Verticals">
+                                                {options.industries.map((ind, i) => (
+                                                    <option key={`ind-${i}`} value={`Industry: ${ind.name}`}>{ind.name}</option>
+                                                ))}
+                                            </optgroup>
+                                        )}
+
+                                        {options.trainings.length > 0 && (
+                                            <optgroup label="Training Programs">
+                                                {options.trainings.map((trn, i) => (
+                                                    <option key={`trn-${i}`} value={`Training: ${trn.title}`}>{trn.title}</option>
+                                                ))}
+                                            </optgroup>
+                                        )}
                                     </select>
                                     <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
                                         <Send className="w-4 h-4 rotate-90" />

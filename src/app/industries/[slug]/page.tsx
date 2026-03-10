@@ -1,19 +1,22 @@
 import type { Metadata } from 'next';
-import industriesData from '@/data/industries.json';
+import { getIndustries, getIndustryBySlug, Industry } from '@/lib/industries';
+import IndustryDetailClient from './IndustryDetailClient';
+import { notFound } from 'next/navigation';
 
 interface Props {
     params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-    return industriesData.map((industry) => ({
+    const industries = await getIndustries();
+    return industries.map((industry: Industry) => ({
         slug: industry.slug,
     }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
-    const industry = industriesData.find((i) => i.slug === slug);
+    const industry = await getIndustryBySlug(slug);
 
     if (!industry) {
         return {
@@ -73,4 +76,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
 }
 
-export { default } from './IndustryDetailClient';
+export default async function IndustryPage({ params }: Props) {
+    const { slug } = await params;
+    const industry = await getIndustryBySlug(slug);
+
+    if (!industry) {
+        notFound();
+    }
+
+    return <IndustryDetailClient initialData={industry} slug={slug} />;
+}

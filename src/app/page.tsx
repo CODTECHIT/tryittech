@@ -1,12 +1,26 @@
 import type { Metadata } from 'next';
+import dynamic from 'next/dynamic';
+import { getServices } from '@/lib/services';
+import { getTrainings } from '@/lib/trainings';
+import { getIndustries } from '@/lib/industries';
+
+// Essential components for ATF (Above The Fold)
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
-import IndustriesOrbit from '@/components/IndustriesOrbit';
-import Services from '@/components/Services';
-import TrainingSection from '@/components/TrainingSection';
-import ClientTrust from '@/components/ClientTrust';
-import Contact from '@/components/Contact';
-import Footer from '@/components/Footer';
+
+// Dynamically import components below the fold for better performance
+const IndustriesOrbit = dynamic(() => import('@/components/IndustriesOrbit'), {
+  loading: () => <div className="min-h-[600px] flex items-center justify-center animate-pulse bg-slate-50/50 rounded-3xl mx-4 mb-20 text-slate-400 font-bold uppercase tracking-widest">Initialising Orbit...</div>
+});
+const Services = dynamic(() => import('@/components/Services'), {
+  ssr: true, // Keep SSR for SEO on core services
+});
+const TrainingSection = dynamic(() => import('@/components/TrainingSection'), {
+  loading: () => <div className="min-h-[400px] bg-[#020617] flex items-center justify-center text-blue-400 font-black uppercase tracking-widest animate-pulse">Syncing Training Ecosystem...</div>
+});
+const ClientTrust = dynamic(() => import('@/components/ClientTrust'));
+const Contact = dynamic(() => import('@/components/Contact'));
+const Footer = dynamic(() => import('@/components/Footer'));
 
 export const metadata: Metadata = {
   title: 'TRYITTECH LLP | #1 Staffing & IT Recruitment Company in Hyderabad, India',
@@ -92,7 +106,14 @@ const homepageSchema = {
   }
 };
 
-export default function Home() {
+export default async function Home() {
+  // Fetch data on the server with revalidation for optimal performance
+  const [services, trainings, industries] = await Promise.all([
+    getServices(),
+    getTrainings(),
+    getIndustries()
+  ]);
+
   return (
     <>
       <script
@@ -101,10 +122,14 @@ export default function Home() {
       />
       <main className="min-h-screen bg-white">
         <Navbar />
-        <Hero />
-        <IndustriesOrbit />
-        <Services />
-        <TrainingSection />
+        <Hero
+          initialServices={services}
+          initialTrainings={trainings}
+          initialIndustries={industries}
+        />
+        <IndustriesOrbit initialData={industries} />
+        <Services initialData={services} />
+        <TrainingSection initialData={trainings} />
         <ClientTrust />
         <Contact />
         <Footer />
@@ -112,3 +137,4 @@ export default function Home() {
     </>
   );
 }
+

@@ -9,14 +9,6 @@ import { Service } from '@/lib/services';
 
 const DEFAULT_SERVICE_IMAGE = 'https://img.freepik.com/free-photo/businesspeople-working-finance-accounting-office_23-2148908915.jpg?w=740';
 
-const BACK_COLORS = [
-  '#6A1B9A', // Purple
-  '#F39C12', // Orange
-  '#1E88E5', // Blue
-  '#7CB342', // Green
-  '#26A69A', // Teal
-];
-
 function getSafeImageUrl(url: string | undefined | null): string {
   if (!url || url.trim() === '') return DEFAULT_SERVICE_IMAGE;
   try {
@@ -27,12 +19,22 @@ function getSafeImageUrl(url: string | undefined | null): string {
   }
 }
 
+const ACCENT_GRADIENTS = [
+  { main: "#F97316", light: "#FDBA74" }, // Orange
+  { main: "#10B981", light: "#6EE7B7" }, // Emerald
+  { main: "#EC4899", light: "#F9A8D4" }, // Pink
+  { main: "#F59E0B", light: "#FCD34D" }, // Amber
+  { main: "#6366F1", light: "#A5B4FC" }, // Indigo
+  { main: "#A855F7", light: "#D8B4FE" }, // Purple
+  { main: "#06B6D4", light: "#67E8F9" }  // Cyan
+];
+
 const ServiceCard = ({ service, index = 0 }: { service: Service; index?: number }) => {
   const [isFlipped, setIsFlipped] = useState(false);
-  const backColor = BACK_COLORS[index % BACK_COLORS.length];
+  const colors = ACCENT_GRADIENTS[index % ACCENT_GRADIENTS.length];
 
   return (
-    <CardWrapper $isFlipped={isFlipped} $backColor={backColor}>
+    <CardWrapper $isFlipped={isFlipped} $mainColor={colors.main} $lightColor={colors.light}>
       <div className="card" onClick={() => setIsFlipped(!isFlipped)}>
         <div className="card-inner">
           {/* FRONTSIDE */}
@@ -51,15 +53,18 @@ const ServiceCard = ({ service, index = 0 }: { service: Service; index?: number 
               <div className="icon-badge">
                 <Briefcase className="w-6 h-6" />
               </div>
-              <h3 className="card-title text-xl md:text-2xl">{service.title}</h3>
+              <h3 className="card-title text-lg md:text-xl">{service.title}</h3>
             </div>
+
+            {/* Shine effect */}
+            <div className="shine-effect" />
           </div>
 
           {/* BACKSIDE */}
           <div className="card-back">
             <div className="back-content">
               <span className="back-label">Global Service</span>
-              <h4 className="back-title text-2xl md:text-3xl">{service.title}</h4>
+              <h4 className="back-title text-xl md:text-2xl">{service.title}</h4>
               <p className="back-desc">{service.shortDescription}</p>
               <div className="arrow-btn font-black">
                 View Details <ArrowRight className="w-4 h-4 ml-2" />
@@ -72,7 +77,7 @@ const ServiceCard = ({ service, index = 0 }: { service: Service; index?: number 
   );
 };
 
-const CardWrapper = styled.div<{ $isFlipped: boolean; $backColor: string }>`
+const CardWrapper = styled.div<{ $isFlipped: boolean; $mainColor: string; $lightColor: string }>`
   .card {
     width: 100%;
     height: 320px;
@@ -81,6 +86,16 @@ const CardWrapper = styled.div<{ $isFlipped: boolean; $backColor: string }>`
     }
     perspective: 1000px;
     cursor: pointer;
+    
+    /* Colored Glow/Shadow - Darkened */
+    box-shadow: 0 10px 40px -5px ${props => props.$mainColor}77;
+    border-radius: 20px;
+    transition: all 0.5s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 30px 60px -10px ${props => props.$mainColor}bb;
   }
 
   .card-inner {
@@ -89,7 +104,7 @@ const CardWrapper = styled.div<{ $isFlipped: boolean; $backColor: string }>`
     position: relative;
     transform-style: preserve-3d;
     transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    transform: ${props => props.$isFlipped ? 'rotateY(180deg)' : 'none'};
+    transform: ${props => props.$isFlipped ? "rotateY(180deg)" : "none"};
   }
 
   @media (min-width: 1024px) {
@@ -105,18 +120,29 @@ const CardWrapper = styled.div<{ $isFlipped: boolean; $backColor: string }>`
     backface-visibility: hidden;
     border-radius: 20px;
     overflow: hidden;
+    
+    /* Gradient Border Implementation */
+    padding: 2px;
+    background: linear-gradient(135deg, ${props => props.$mainColor}, ${props => props.$lightColor});
+  }
+
+  /* Inner containers for the border effect */
+  .card-front > div:first-child, .card-back > div:first-child {
+     /* This matches the internal background to keep the border looking like a line */
   }
 
   .img-container {
     position: absolute;
-    inset: 0;
+    inset: 2px;
+    border-radius: 18px;
+    overflow: hidden;
   }
 
   .overlay {
     position: absolute;
     inset: 0;
     background: linear-gradient(to top, #020617 0%, transparent 100%);
-    opacity: 0.8;
+    opacity: 0.5;
   }
 
   .content {
@@ -133,36 +159,47 @@ const CardWrapper = styled.div<{ $isFlipped: boolean; $backColor: string }>`
   .icon-badge {
     width: 50px;
     height: 50px;
-    background: #008CC8;
+    background: linear-gradient(135deg, ${props => props.$mainColor}, ${props => props.$lightColor});
     color: white;
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 10px 20px rgba(0, 140, 200, 0.3);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   }
 
   .card-title {
     color: white;
-    font-size: 1.5rem;
-    font-weight: 800;
-    line-height: 1.1;
-    text-transform: uppercase;
-    letter-spacing: -0.02em;
+    font-family: var(--font-quintessential), cursive;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: 0.02em;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
   }
 
   .card-back {
-    background: ${props => props.$backColor};
     transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2px;
+  }
+  
+  .back-content {
+    background: #020617;
+    width: 100%;
+    height: 100%;
+    border-radius: 18px;
     padding: 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .back-label {
-    color: rgba(255, 255, 255, 0.5);
+    background: linear-gradient(135deg, ${props => props.$mainColor}, ${props => props.$lightColor});
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     font-size: 10px;
     font-weight: 900;
     text-transform: uppercase;
@@ -172,23 +209,23 @@ const CardWrapper = styled.div<{ $isFlipped: boolean; $backColor: string }>`
 
   .back-title {
     color: white;
-    font-size: 1.75rem;
-    font-weight: 800;
+    font-family: var(--font-quintessential), cursive;
+    font-weight: 500;
     margin-bottom: 15px;
   }
 
   .back-desc {
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 0.9rem;
     line-height: 1.6;
     margin-bottom: 30px;
-    font-weight: 500;
+    font-weight: 600;
   }
 
   .arrow-btn {
     display: flex;
     align-items: center;
-    color: white;
+    color: ${props => props.$mainColor};
     font-weight: 800;
     text-transform: uppercase;
     font-size: 11px;
@@ -197,35 +234,60 @@ const CardWrapper = styled.div<{ $isFlipped: boolean; $backColor: string }>`
   }
 
   .arrow-btn:hover {
-    color: white;
     gap: 10px;
-    transform: scale(1.05);
+    transform: translateX(5px);
+  }
+
+  /* Shine Animation */
+  .shine-effect {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    transform: skewX(-25deg);
+    transition: none;
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  .card:hover .shine-effect {
+    left: 150%;
+    transition: left 0.8s ease-in-out;
   }
 `;
 
-export default function Services() {
-  const [items, setItems] = useState<Service[]>([]);
-  const [loading, setLoading] = useState(true);
+export default function Services({ initialData = [] }: { initialData?: Service[] }) {
+  const [items, setItems] = useState<Service[]>(initialData);
+  const [loading, setLoading] = useState(initialData.length === 0);
 
   useEffect(() => {
-    fetch('/api/services')
-      .then(res => res.json())
-      .then(data => {
-        setItems(Array.isArray(data) ? data : []);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error('Failed to fetch services:', err);
-        setLoading(false);
-      });
-  }, []);
+    if (initialData.length === 0) {
+      fetch('/api/services')
+        .then(res => res.json())
+        .then(data => {
+          setItems(Array.isArray(data) ? data : []);
+          setLoading(false);
+        })
+        .catch(err => {
+          console.error('Failed to fetch services:', err);
+          setLoading(false);
+        });
+    }
+  }, [initialData]);
 
   return (
     <section id="services" className="py-32 bg-[#f4f9ff] relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-20">
           <h2 className="text-[#008CC8] font-black uppercase tracking-[0.4em] text-xs mb-4">Core Capabilities</h2>
-          <h3 className="text-4xl md:text-5xl lg:text-7xl font-black text-[#020617] tracking-tighter leading-none font-poppins">Our Talent <span className="text-[#008CC8]">Solutions</span></h3>
+          <h3 className="text-4xl md:text-5xl lg:text-[4.25rem] font-black text-[#020617] tracking-tighter leading-none font-poppins">Our Talent <span className="text-[#008CC8]">Solutions</span></h3>
         </div>
 
         {loading ? (

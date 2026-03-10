@@ -19,11 +19,12 @@ interface Slide {
 const slides: Slide[] = [
     {
         type: "primary",
-        title: "TRYITTECH LLP",
-        highlight: "Staffing for What's Next",
+        badge: "TRYITTECH LLP",
+        title: "Staffing for",
+        highlight: "What's Next",
         subtitle: "Building the foundation of organizational success through specialized full-time talent acquisition and strategic headhunting.",
-        image: "https://innovasolutions.com/wp-content/uploads/2025/03/SOL_TAL_L2_B1_Desktop-2.jpg",
-        color: "#008CC8" // Original Blue
+        image: "https://images.pexels.com/photos/2608517/pexels-photo-2608517.jpeg",
+        color: "#D97706" // Amber/Brownish color matching the request
     },
     {
         type: "list",
@@ -79,25 +80,34 @@ const ACCENT_COLORS = [
     "#10B981", // Emerald
     "#EC4899", // Pink
     "#F59E0B", // Amber
-    "#6366F1"  // Indigo
+    "#6366F1", // Indigo
+    "#A855F7", // Purple
+    "#06B6D4"  // Cyan
 ];
 
-export default function Hero() {
+export default function Hero({
+    initialServices = [],
+    initialTrainings = [],
+    initialIndustries = []
+}: {
+    initialServices?: { title: string }[],
+    initialTrainings?: { title: string }[],
+    initialIndustries?: { name: string, category: string, image?: string }[]
+}) {
     const [currentSlide, setCurrentSlide] = useState(0);
-    const [dynamicSlides, setDynamicSlides] = useState(slides);
+    const [dynamicSlides, setDynamicSlides] = useState<Slide[]>(slides);
 
     useEffect(() => {
-        const fetchData = async () => {
+        const updateSlides = (
+            services: { title: string }[],
+            trainings: { title: string }[],
+            industries: { name: string, category: string, image?: string }[]
+        ) => {
             try {
-                const [servicesRes, trainingsRes, industriesRes] = await Promise.all([
-                    fetch('/api/services').then(res => res.json()),
-                    fetch('/api/trainings').then(res => res.json()),
-                    fetch('/api/industries').then(res => res.json())
-                ]);
-
-                const services = servicesRes as { title: string }[];
-                const trainings = trainingsRes as { title: string }[];
-                const industries = industriesRes as { name: string, category: string, image?: string }[];
+                if (services.length === 0 && trainings.length === 0 && industries.length === 0) {
+                    // If no data provided, we could fetch here, but we prefer server-side
+                    return;
+                }
 
                 // 1. Start with the constant primary slide
                 const newDynamicSlides: Slide[] = [slides[0]];
@@ -111,7 +121,7 @@ export default function Hero() {
                         highlight: "Services",
                         subtitle: "Comprehensive workforce solutions tailored for global scale.",
                         items: services.slice(0, 6).map(s => s.title),
-                        image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=2069&auto=format&fit=crop",
+                        image: "https://images.pexels.com/photos/327540/pexels-photo-327540.jpeg",
                         color: "#06B6D4" // Cyan
                     });
                 }
@@ -125,7 +135,7 @@ export default function Hero() {
                         highlight: "Trainings",
                         subtitle: "Empowering the next generation of professional talent.",
                         items: trainings.slice(0, 6).map(t => t.title),
-                        image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=2011&auto=format&fit=crop",
+                        image: "https://images.pexels.com/photos/1708912/pexels-photo-1708912.jpeg",
                         color: "#A855F7" // Purple
                     });
                 }
@@ -144,7 +154,9 @@ export default function Hero() {
                             highlight: `${cat} Verticals`,
                             subtitle: `Strategic talent acquisition for the ${cat} sector.`,
                             items: catIndustries.slice(0, 6).map(i => i.name),
-                            image: catIndustries[0]?.image || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop",
+                            image: cat === 'IT'
+                                ? "https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg"
+                                : (catIndustries[0]?.image || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop"),
                             color: ACCENT_COLORS[idx % ACCENT_COLORS.length]
                         });
                     });
@@ -156,8 +168,25 @@ export default function Hero() {
             }
         };
 
-        fetchData();
-    }, []);
+        if (initialServices.length > 0 || initialTrainings.length > 0 || initialIndustries.length > 0) {
+            updateSlides(initialServices, initialTrainings, initialIndustries);
+        } else {
+            // Fallback fetch if somehow props are empty
+            const fetchData = async () => {
+                try {
+                    const [sRes, tRes, iRes] = await Promise.all([
+                        fetch('/api/services').then(res => res.json()),
+                        fetch('/api/trainings').then(res => res.json()),
+                        fetch('/api/industries').then(res => res.json())
+                    ]);
+                    updateSlides(sRes, tRes, iRes);
+                } catch (e) {
+                    console.error(e);
+                }
+            };
+            fetchData();
+        }
+    }, [initialServices, initialTrainings, initialIndustries]);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -187,9 +216,9 @@ export default function Hero() {
                         alt={activeSlide.title}
                         fill
                         priority
-                        className="object-cover opacity-40 scale-105"
+                        className="object-cover opacity-60 scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#020617] via-[#020617]/40 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#020617]/80 via-[#020617]/30 to-transparent" />
                 </motion.div>
             </AnimatePresence>
 
@@ -211,13 +240,13 @@ export default function Hero() {
                             </div>
                         )}
 
-                        <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-black text-white tracking-tighter leading-[0.95] font-poppins">
+                        <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-[7rem] font-black text-white tracking-tighter leading-[0.95] font-poppins">
                             {activeSlide.title} <br />
                             <span className="italic font-light" style={{ color: activeSlide.color }}>{activeSlide.highlight}</span>
                         </h1>
 
                         <div className="space-y-6">
-                            <p className="text-base md:text-xl lg:text-2xl text-slate-300 max-w-2xl font-light leading-relaxed border-l-4 pl-5 md:pl-8" style={{ borderColor: activeSlide.color }}>
+                            <p className="text-base md:text-xl lg:text-2xl text-white max-w-2xl font-medium leading-relaxed border-l-4 pl-5 md:pl-8" style={{ borderColor: activeSlide.color }}>
                                 {activeSlide.subtitle}
                             </p>
 
@@ -230,7 +259,10 @@ export default function Hero() {
                                 >
                                     {activeSlide.items.map((item: string, idx: number) => (
                                         <div key={idx} className="flex items-center gap-3 group/item">
-                                            <div className="w-1.5 h-1.5 rounded-full transition-transform group-hover/item:scale-150" style={{ backgroundColor: activeSlide.color }} />
+                                            <div
+                                                className="w-1.5 h-1.5 rounded-full transition-transform group-hover/item:scale-150"
+                                                style={{ backgroundColor: ACCENT_COLORS[idx % ACCENT_COLORS.length] }}
+                                            />
                                             <span className="text-white font-bold uppercase tracking-widest text-[10px] md:text-xs opacity-70 group-hover/item:opacity-100 transition-opacity">
                                                 {item}
                                             </span>
@@ -248,11 +280,11 @@ export default function Hero() {
                 <button
                     onClick={prevSlide}
                     className="w-10 h-10 md:w-14 md:h-14 border border-white/20 rounded-full flex items-center justify-center text-white transition-all"
-                    onMouseEnter={(e: any) => {
+                    onMouseEnter={(e: React.MouseEvent<HTMLButtonElement>) => {
                         e.currentTarget.style.backgroundColor = activeSlide.color;
                         e.currentTarget.style.borderColor = activeSlide.color;
                     }}
-                    onMouseLeave={(e: any) => {
+                    onMouseLeave={(e: React.MouseEvent<HTMLButtonElement>) => {
                         e.currentTarget.style.backgroundColor = 'transparent';
                         e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
                     }}
@@ -262,11 +294,11 @@ export default function Hero() {
                 <button
                     onClick={nextSlide}
                     className="w-10 h-10 md:w-14 md:h-14 border border-white/20 rounded-full flex items-center justify-center text-white transition-all"
-                    onMouseEnter={(e: any) => {
+                    onMouseEnter={(e: React.MouseEvent<HTMLButtonElement>) => {
                         e.currentTarget.style.backgroundColor = activeSlide.color;
                         e.currentTarget.style.borderColor = activeSlide.color;
                     }}
-                    onMouseLeave={(e: any) => {
+                    onMouseLeave={(e: React.MouseEvent<HTMLButtonElement>) => {
                         e.currentTarget.style.backgroundColor = 'transparent';
                         e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
                     }}

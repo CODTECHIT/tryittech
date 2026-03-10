@@ -51,6 +51,7 @@ interface Training {
     startDate?: string;
     keyHighlights?: string[];
     curriculumPdf?: string;
+    placedCount?: number;
     placedLearners?: PlacedLearner[];
 }
 
@@ -322,7 +323,9 @@ export default function TrainingDetailClient() {
                         <div className="mt-12 text-center">
                             <div className="inline-flex items-center gap-3 bg-green-50 border border-green-200 rounded-2xl px-8 py-4">
                                 <Users className="w-6 h-6 text-green-600" />
-                                <span className="font-black text-green-700 text-lg">{training.placedLearners.length}+ Learners Placed</span>
+                                <span className="font-black text-green-700 text-lg">
+                                    {(training.placedCount && training.placedCount > 0) ? training.placedCount : (training.placedLearners?.length || 0)}+ Learners Placed
+                                </span>
                             </div>
                         </div>
                     </div>

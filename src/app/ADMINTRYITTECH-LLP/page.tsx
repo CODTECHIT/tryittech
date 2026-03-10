@@ -311,7 +311,7 @@ export default function AdminPanel() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let base: any = {};
         if (activeTab === 'trainings') {
-            base = { slug: '', title: '', description: '', longDescription: '', icon: 'Laptop', image: '', modules: [] };
+            base = { slug: '', title: '', description: '', longDescription: '', icon: 'Laptop', image: '', modules: [], placedCount: 0 };
         } else if (activeTab === 'services') {
             base = { slug: '', title: '', icon: 'Briefcase', image: '', secondaryImage: '', shortDescription: '', fullDescription: '', benefits: [], process: [] };
         } else if (activeTab === 'industries') {
@@ -1161,10 +1161,21 @@ export default function AdminPanel() {
                                                             </div>
                                                         </div>
 
-                                                        {/* Placed Learners */}
                                                         <div className="space-y-4">
+                                                            <div className="flex justify-between items-center bg-[#020617]/5 p-6 rounded-[24px] border border-[#008CC8]/20">
+                                                                <div>
+                                                                    <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Explicit Learners Placed Count</label>
+                                                                    <p className="text-[10px] text-slate-400 font-medium">This number will be displayed as &quot;X+ Learners Placed&quot; on the website.</p>
+                                                                </div>
+                                                                <input
+                                                                    type="number"
+                                                                    value={editingItem?.placedCount || 0}
+                                                                    onChange={e => setEditingItem({ ...editingItem, placedCount: parseInt(e.target.value) || 0 })}
+                                                                    className="w-32 bg-white border border-[#008CC8]/30 rounded-xl px-4 py-3 font-black text-[#008CC8] text-center outline-none focus:ring-2 focus:ring-[#008CC8] transition-all"
+                                                                />
+                                                            </div>
                                                             <div className="flex justify-between items-center">
-                                                                <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Placed Learners</label>
+                                                                <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Placed Learners Photo Gallery</label>
                                                                 <button
                                                                     type="button"
                                                                     onClick={() => setEditingItem({ ...editingItem, placedLearners: [...(editingItem?.placedLearners || []), { name: '', photo: '' }] })}

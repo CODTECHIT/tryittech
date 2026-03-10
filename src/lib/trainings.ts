@@ -21,6 +21,7 @@ export interface Training {
     startDate?: string;
     keyHighlights?: string[];
     curriculumPdf?: string;
+    placedCount?: number;
     placedLearners?: PlacedLearner[];
 }
 
@@ -37,6 +38,7 @@ function toTraining(doc: Record<string, unknown>): Training {
         startDate: doc.startDate ? String(doc.startDate) : undefined,
         keyHighlights: Array.isArray(doc.keyHighlights) ? doc.keyHighlights as string[] : [],
         curriculumPdf: doc.curriculumPdf ? String(doc.curriculumPdf) : undefined,
+        placedCount: Number(doc.placedCount || 0),
         placedLearners: Array.isArray(doc.placedLearners) ? doc.placedLearners as PlacedLearner[] : [],
     };
 }

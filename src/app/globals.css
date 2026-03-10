@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-deep: #020617;
+  --color-brand-deep: #0f172a;
   --color-brand-orange: #F0960A;
   --color-brand-purple: #643282;
   --color-brand-green: #6EB428;
@@ -57,7 +57,7 @@
 }
 
 .hero-overlay {
-  background: linear-gradient(rgba(10, 25, 47, 0.9), rgba(10, 25, 47, 0.85));
+  background: linear-gradient(rgba(10, 25, 47, 0.7), rgba(10, 25, 47, 0.5));
 }
 
 @layer base {

@@ -11,6 +11,7 @@ const TrainingSchema = new Schema({
     startDate: { type: String },
     keyHighlights: { type: [String], default: [] },
     curriculumPdf: { type: String },
+    placedCount: { type: Number, default: 0 },
     placedLearners: { type: Schema.Types.Mixed, default: [] },
 }, { timestamps: true });
 

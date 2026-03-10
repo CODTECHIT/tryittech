@@ -1,6 +1,6 @@
 'use client';
 
-import { Mail, Linkedin, Quote } from 'lucide-react';
+import { Quote } from 'lucide-react';
 import Image from 'next/image';
 
 const leaders = [
@@ -33,46 +33,45 @@ export default function Leadership() {
                     {/* Quotation */}
                     <div className="relative p-6 md:p-8 bg-slate-50 rounded-2xl border-l-4 border-[#008CC8] group">
                         <Quote className="absolute top-4 left-4 w-10 h-10 text-[#008CC8]/10 group-hover:text-[#008CC8]/20 transition-colors" />
-                        <p className="text-xl md:text-2xl font-medium text-[#020617] italic relative z-10">
+                        <p className="text-xl md:text-2xl font-bold text-[#020617] italic relative z-10">
                             &ldquo;Converting real-world experience into future-ready solutions.&rdquo;
                         </p>
                     </div>
                 </div>
 
                 {/* Leaders Grid */}
-                <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
+                <div className="grid md:grid-cols-2 gap-10 lg:gap-12 max-w-5xl mx-auto">
                     {leaders.map((leader, index) => (
-                        <div key={index} className="flex flex-col md:flex-row gap-8 items-start group">
-                            {/* Image Placeholder with Frame */}
-                            <div className="relative w-full md:w-72 h-80 flex-shrink-0">
-                                <div className={`absolute inset-0 border-2 ${index === 0 ? 'border-[#008CC8]' : 'border-[#F0960A]'} translate-x-3 translate-y-3 rounded-xl -z-10 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform duration-500`} />
-                                <div className="relative h-full w-full rounded-xl overflow-hidden shadow-xl">
-                                    <Image
-                                        src={leader.image}
-                                        alt={leader.name}
-                                        fill
-                                        className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
-                                    />
+                        <div key={index} className="flex flex-col bg-slate-50 rounded-[2rem] overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 group">
+                            {/* Top Image Section */}
+                            <div className="relative w-full h-[320px] md:h-[400px] overflow-hidden">
+                                <Image
+                                    src={leader.image}
+                                    alt={leader.name}
+                                    fill
+                                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                    sizes="(max-w-768px) 100vw, 50vw"
+                                />
+                                {/* Overlay Gradient */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#020617]/30 to-transparent opacity-40" />
+
+                                {/* Floating Role Tag */}
+                                <div className="absolute bottom-5 left-6">
+                                    <span className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest text-white shadow-lg ${index === 0 ? 'bg-[#008CC8]' : 'bg-[#F0960A]'}`}>
+                                        {leader.role}
+                                    </span>
                                 </div>
                             </div>
 
-                            {/* Bio Content */}
-                            <div className="flex-grow space-y-4">
-                                <div>
-                                    <span className={`font-bold text-sm uppercase tracking-widest ${index === 0 ? 'text-[#008CC8]' : 'text-[#F0960A]'}`}>{leader.role}</span>
-                                    <h4 className="text-3xl font-bold text-[#020617] mt-1">{leader.name}</h4>
-                                </div>
-                                <p className="text-slate-600 leading-relaxed text-[15px]">
+                            {/* Bottom Content Section */}
+                            <div className="p-6 md:p-8 flex flex-col flex-grow bg-white">
+                                <h4 className="text-xl md:text-2xl font-black text-[#020617] mb-3 tracking-tight">
+                                    {leader.name}
+                                </h4>
+                                <div className={`w-10 h-1 mb-4 rounded-full ${index === 0 ? 'bg-[#008CC8]' : 'bg-[#F0960A]'}`} />
+                                <p className="text-slate-900 leading-relaxed text-sm font-bold opacity-100">
                                     {leader.bio}
                                 </p>
-                                <div className="flex gap-4 pt-4">
-                                    <a href={leader.linkedin} className={`w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center text-[#020617] hover:text-white transition-all ${index === 0 ? 'hover:bg-[#008CC8]' : 'hover:bg-[#F0960A]'}`}>
-                                        <Linkedin className="w-5 h-5" />
-                                    </a>
-                                    <a href="#" className={`w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center text-[#020617] hover:text-white transition-all ${index === 0 ? 'hover:bg-[#008CC8]' : 'hover:bg-[#F0960A]'}`}>
-                                        <Mail className="w-5 h-5" />
-                                    </a>
-                                </div>
                             </div>
                         </div>
                     ))}

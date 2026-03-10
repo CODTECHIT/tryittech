@@ -19,6 +19,17 @@ interface NavItem {
   dropdown?: DropdownItem[];
 }
 
+const podGradients = [
+  'from-blue-500 to-cyan-500',
+  'from-cyan-500 to-teal-500',
+  'from-teal-500 to-green-600',
+  'from-yellow-500 to-orange-500',
+  'from-orange-500 to-red-500',
+  'from-pink-500 to-purple-500',
+  'from-purple-500 to-fuchsia-500',
+  'from-violet-500 to-purple-600'
+];
+
 const staticNavItems: NavItem[] = [
   {
     name: 'Home',
@@ -201,34 +212,38 @@ export default function Navbar() {
                           if (!acc[cat]) acc[cat] = [];
                           acc[cat].push(ind);
                           return acc;
-                        }, {} as Record<string, DropdownItem[]>)).map(([category, subs], idx) => (
-                          <div key={category}>
-                            <h3 className={`text-xs font-black uppercase tracking-[0.2em] mb-6 flex items-center gap-2 ${idx % 2 === 0 ? 'text-[#008CC8]' : 'text-[#e11d48]'}`}>
-                              <span className={`w-1.5 h-1.5 rounded-full ${idx % 2 === 0 ? 'bg-[#008CC8]' : 'bg-[#e11d48]'}`} />
-                              {category} Verticals
-                            </h3>
-                            <div className="grid grid-cols-1 gap-y-4">
-                              {subs.map((subItem) => (
-                                <Link
-                                  key={subItem.name}
-                                  href={subItem.href}
-                                  className={`group/link flex items-center gap-2 text-[14px] font-semibold transition-all ${dropdownTextColor} hover:text-[#008CC8]`}
-                                >
-                                  {subItem.name}
-                                </Link>
-                              ))}
+                        }, {} as Record<string, DropdownItem[]>))
+                          .sort(([a]) => a === 'IT' ? -1 : 1)
+                          .map(([category, subs]) => (
+                            <div key={category}>
+                              <h3 className={`text-xs font-black uppercase tracking-[0.2em] mb-6 flex items-center gap-2 ${category === 'IT' ? 'text-[#008CC8]' : 'text-[#e11d48]'}`}>
+                                <span className={`w-1.5 h-1.5 rounded-full ${category === 'IT' ? 'bg-[#008CC8]' : 'bg-[#e11d48]'}`} />
+                                {category} Verticals
+                              </h3>
+                              <div className="grid grid-cols-1 gap-y-4">
+                                {subs.map((subItem, sIdx) => (
+                                  <Link
+                                    key={subItem.name}
+                                    href={subItem.href}
+                                    className={`group/link flex items-center gap-3 text-[14px] font-semibold transition-all ${dropdownTextColor} hover:text-[#008CC8]`}
+                                  >
+                                    <div className={`w-0.5 h-5 bg-gradient-to-b ${podGradients[sIdx % podGradients.length]} rounded-full transition-transform group-hover/link:scale-y-125 origin-center`} />
+                                    {subItem.name}
+                                  </Link>
+                                ))}
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          ))}
                       </div>
                     ) : (
                       <div className={`grid ${item.name === 'Contact' ? 'grid-cols-1' : 'grid-cols-4'} gap-y-7 gap-x-10`}>
-                        {item.dropdown.map((subItem) => (
+                        {item.dropdown.map((subItem, sIdx) => (
                           <Link
                             key={subItem.name}
                             href={subItem.href}
-                            className={`group/item text-[13.5px] font-medium transition-all ${dropdownTextColor} hover:text-[#008CC8]`}
+                            className={`group/item flex items-center gap-3 text-[13.5px] font-semibold transition-all ${dropdownTextColor} hover:text-[#008CC8]`}
                           >
+                            <div className={`w-0.5 h-5 bg-gradient-to-b ${podGradients[sIdx % podGradients.length]} rounded-full transition-transform group-hover/item:scale-y-125 origin-center`} />
                             {subItem.name}
                           </Link>
                         ))}
@@ -298,34 +313,38 @@ export default function Navbar() {
                         if (!acc[cat]) acc[cat] = [];
                         acc[cat].push(ind);
                         return acc;
-                      }, {} as Record<string, DropdownItem[]>)).map(([category, subs], idx) => (
-                        <div key={category} className="mt-4 first:mt-2">
-                          <span className={`text-[10px] font-black uppercase tracking-widest ${idx % 2 === 0 ? 'text-[#008CC8]' : 'text-[#e11d48]'}`}>
-                            {category} Verticals
-                          </span>
-                          <div className="flex flex-col space-y-2 mt-2">
-                            {subs.map((subItem) => (
-                              <Link
-                                key={subItem.name}
-                                href={subItem.href}
-                                onClick={() => setIsOpen(false)}
-                                className="py-2 text-slate-500 font-medium hover:text-[#008CC8]"
-                              >
-                                {subItem.name}
-                              </Link>
-                            ))}
+                      }, {} as Record<string, DropdownItem[]>))
+                        .sort(([a]) => a === 'IT' ? -1 : 1)
+                        .map(([category, subs]) => (
+                          <div key={category} className="mt-4 first:mt-2">
+                            <span className={`text-[10px] font-black uppercase tracking-widest ${category === 'IT' ? 'text-[#008CC8]' : 'text-[#e11d48]'}`}>
+                              {category} Verticals
+                            </span>
+                            <div className="flex flex-col space-y-2 mt-2">
+                              {subs.map((subItem, sIdx) => (
+                                <Link
+                                  key={subItem.name}
+                                  href={subItem.href}
+                                  onClick={() => setIsOpen(false)}
+                                  className="py-2 text-slate-500 font-medium hover:text-[#008CC8] flex items-center gap-3"
+                                >
+                                  <div className={`w-1 h-3 bg-gradient-to-b ${podGradients[sIdx % podGradients.length]} rounded-full`} />
+                                  {subItem.name}
+                                </Link>
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
                     </>
                   ) : (
-                    item.dropdown.map((subItem) => (
+                    item.dropdown.map((subItem, sIdx) => (
                       <Link
                         key={subItem.name}
                         href={subItem.href}
                         onClick={() => setIsOpen(false)}
-                        className="py-2 text-slate-500 font-medium hover:text-[#008CC8]"
+                        className="py-2 text-slate-500 font-medium hover:text-[#008CC8] flex items-center gap-3"
                       >
+                        <div className={`w-1 h-3 bg-gradient-to-b ${podGradients[sIdx % podGradients.length]} rounded-full`} />
                         {subItem.name}
                       </Link>
                     ))

@@ -2,8 +2,9 @@ import { notFound } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import PageHeader from '@/components/PageHeader';
+import Image from 'next/image';
 import { policiesContent, PolicySlug } from '@/constants/policiesContent';
-import { Shield, Clock, FileText, CheckCircle } from 'lucide-react';
+import { Shield, CheckCircle } from 'lucide-react';
 
 export async function generateStaticParams() {
     return Object.keys(policiesContent).map((slug) => ({
@@ -24,24 +25,27 @@ export default async function PolicyDetailPage({ params }: { params: Promise<{ s
             <Navbar />
             <PageHeader
                 title={policy.title}
-                subtitle={`Version ${policy.version} | Last Updated: ${policy.updatedDate}`}
             />
 
-            <section className="py-24">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <section className="py-24 relative overflow-hidden">
+                {/* Watermark Logo */}
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.05] overflow-hidden">
+                    <div className="relative w-[500px] h-[500px]">
+                        <Image
+                            src="/images/clients/logoo.png"
+                            alt="Watermark"
+                            fill
+                            className="object-contain"
+                        />
+                    </div>
+                </div>
+
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                     {/* Metadata Bar */}
                     <div className="flex flex-wrap gap-6 mb-16 p-6 bg-slate-50 rounded-2xl border border-slate-100">
                         <div className="flex items-center gap-2 text-slate-600">
                             <Shield className="w-5 h-5 text-[#008CC8]" />
                             <span className="text-sm font-semibold tracking-wide">Corporate Policy</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-slate-600">
-                            <Clock className="w-5 h-5 text-[#008CC8]" />
-                            <span className="text-sm font-semibold tracking-wide">Updated {policy.updatedDate}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-slate-600">
-                            <FileText className="w-5 h-5 text-[#008CC8]" />
-                            <span className="text-sm font-semibold tracking-wide">Revision {policy.version}</span>
                         </div>
                     </div>
 
@@ -61,35 +65,35 @@ export default async function PolicyDetailPage({ params }: { params: Promise<{ s
                                 </div>
                             </div>
                         ))}
+                    </div>
 
-                        {/* User Compliance Section */}
-                        {policy.userCompliance && (
-                            <div className="mt-24 p-10 bg-[#020617] rounded-3xl text-white relative overflow-hidden">
-                                <div className="absolute top-0 right-0 w-64 h-64 bg-[#008CC8]/10 rounded-full -mr-32 -mt-32 blur-3xl" />
-                                <div className="relative z-10">
-                                    <h3 className="text-2xl font-bold mb-8 flex items-center gap-3">
-                                        <CheckCircle className="w-8 h-8 text-[#008CC8]" />
-                                        User Compliance
-                                    </h3>
-                                    <ul className="space-y-4 mb-12">
-                                        {policy.userCompliance.map((point, idx) => (
-                                            <li key={idx} className="flex items-start gap-4 text-slate-300">
-                                                <span className="w-1.5 h-1.5 bg-[#008CC8] rounded-full mt-2 flex-shrink-0" />
-                                                <span>{point}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                    <div className="pt-8 border-t border-white/10 text-slate-400 text-sm italic">
-                                        * By accessing our systems, you agree to abide by the aforementioned terms and conditions.
-                                    </div>
+                    {/* User Compliance Section */}
+                    {policy.userCompliance && (
+                        <div className="mt-24 p-10 bg-[#020617] rounded-3xl text-white relative overflow-hidden not-prose">
+                            <div className="absolute top-0 right-0 w-64 h-64 bg-[#008CC8]/10 rounded-full -mr-32 -mt-32 blur-3xl" />
+                            <div className="relative z-10">
+                                <h3 className="text-2xl font-bold mb-8 flex items-center gap-3 text-white">
+                                    <CheckCircle className="w-8 h-8 text-[#008CC8]" />
+                                    User Compliance
+                                </h3>
+                                <ul className="space-y-4 mb-12">
+                                    {policy.userCompliance.map((point, idx) => (
+                                        <li key={idx} className="flex items-start gap-4 text-slate-300">
+                                            <span className="w-1.5 h-1.5 bg-[#008CC8] rounded-full mt-2 flex-shrink-0" />
+                                            <span className="text-slate-200 leading-relaxed font-medium">{point}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                                <div className="pt-8 border-t border-white/10 text-slate-400 text-sm italic">
+                                    * By accessing our systems, you agree to abide by the aforementioned terms and conditions.
                                 </div>
                             </div>
-                        )}
-                    </div>
+                        </div>
+                    )}
                 </div>
             </section>
 
             <Footer />
-        </main>
+        </main >
     );
 }

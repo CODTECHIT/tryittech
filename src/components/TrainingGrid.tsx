@@ -6,11 +6,24 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Laptop, BookOpen, ShieldCheck, Gamepad2 } from 'lucide-react';
 
-const iconMap: { [key: string]: React.ReactNode } = {
-  Laptop: <Laptop className="w-8 h-8 text-white relative z-10" />,
-  BookOpen: <BookOpen className="w-8 h-8 text-white relative z-10" />,
-  ShieldCheck: <ShieldCheck className="w-8 h-8 text-white relative z-10" />,
-  Gamepad2: <Gamepad2 className="w-8 h-8 text-white relative z-10" />,
+const cardGradients = [
+  { theme: '#008CC8', border: 'linear-gradient(135deg, #008CC8, #00D1FF)', text: 'text-[#008CC8]', glow: 'rgba(0, 209, 255, 0.7)' },
+  { theme: '#F43F5E', border: 'linear-gradient(135deg, #F43F5E, #FB7185)', text: 'text-[#F43F5E]', glow: 'rgba(244, 63, 94, 0.7)' },
+  { theme: '#10B981', border: 'linear-gradient(135deg, #10B981, #34D399)', text: 'text-[#10B981]', glow: 'rgba(16, 185, 129, 0.7)' },
+  { theme: '#F59E0B', border: 'linear-gradient(135deg, #F59E0B, #FBBF24)', text: 'text-[#F59E0B]', glow: 'rgba(245, 158, 11, 0.7)' },
+  { theme: '#8B5CF6', border: 'linear-gradient(135deg, #8B5CF6, #C084FC)', text: 'text-[#8B5CF6]', glow: 'rgba(139, 92, 246, 0.7)' },
+  { theme: '#EC4899', border: 'linear-gradient(135deg, #EC4899, #F472B6)', text: 'text-[#EC4899]', glow: 'rgba(236, 72, 153, 0.7)' },
+];
+
+const renderIcon = (iconName: string, className: string) => {
+  const props = { className: `${className} relative z-10`, strokeWidth: 3 };
+  switch (iconName) {
+    case 'Laptop': return <Laptop {...props} />;
+    case 'BookOpen': return <BookOpen {...props} />;
+    case 'ShieldCheck': return <ShieldCheck {...props} />;
+    case 'Gamepad2': return <Gamepad2 {...props} />;
+    default: return <BookOpen {...props} />;
+  }
 };
 
 interface Training {
@@ -23,9 +36,16 @@ interface Training {
   modules: string[];
 }
 
-const TrainingCard = ({ title, description, icon, image }: { title: string, description: string, icon: string, image: string }) => {
+interface GradientTheme {
+  theme: string;
+  border: string;
+  text: string;
+  glow: string;
+}
+
+const TrainingCard = ({ title, description, icon, image, gradient }: { title: string, description: string, icon: string, image: string, gradient: GradientTheme }) => {
   return (
-    <StyledWrapper>
+    <StyledWrapper gradient={gradient}>
       <div className="training-card">
         {/* FRONT: Visual State */}
         <div className="face-front">
@@ -35,7 +55,7 @@ const TrainingCard = ({ title, description, icon, image }: { title: string, desc
           </div>
           <div className="info">
             <div className="icon-box">
-              {iconMap[icon] || <Laptop className="w-8 h-8 text-white relative z-10" />}
+              {renderIcon(icon, `w-7 h-7 ${gradient.text}`)}
             </div>
             <h4 className="card-title">{title}</h4>
           </div>
@@ -58,15 +78,33 @@ const TrainingCard = ({ title, description, icon, image }: { title: string, desc
   );
 };
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.div<{ gradient: GradientTheme }>`
   .training-card {
     position: relative;
     width: 100%;
-    height: 380px;
-    border-radius: 4px;
+    height: 310px;
+    border-radius: 24px;
     overflow: hidden;
     cursor: pointer;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    background: white;
+    box-shadow: 0 15px 35px -12px rgba(0,0,0,0.5), 0 0 30px -5px ${props => props.gradient.glow};
+    border: 5px solid transparent;
+    background-clip: padding-box;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -5px; 
+      z-index: -1;
+      background: ${props => props.gradient.border};
+      border-radius: inherit;
+    }
+  }
+
+  .training-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.6), 0 0 50px 0 ${props => props.gradient.glow};
   }
 
   .face-front, .face-back {
@@ -93,7 +131,7 @@ const StyledWrapper = styled.div`
   .scrim {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, #020617 0%, rgba(2, 6, 23, 0.4) 60%, transparent 100%);
+    background: linear-gradient(to top, #020617 0%, rgba(2, 6, 23, 0.3) 50%, transparent 100%);
   }
 
   .info {
@@ -109,30 +147,35 @@ const StyledWrapper = styled.div`
   }
 
   .icon-box {
-    width: 60px;
-    height: 60px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    background: white;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    border-radius: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
-    color: white;
+    transform: rotate(-3deg);
+    transition: all 0.3s ease;
+  }
+
+  .training-card:hover .icon-box {
+    transform: rotate(0deg) scale(1.15);
   }
 
   .card-title {
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 900;
     color: white;
-    letter-spacing: -0.02em;
-    line-height: 1.1;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    text-shadow: 0 3px 15px rgba(0,0,0,0.6);
   }
 
   /* BACK FACE */
   .face-back {
-    background: #008CC8;
+    background: ${props => props.gradient.border};
     z-index: 1;
     transform: translateY(100%);
     display: flex;
@@ -231,13 +274,14 @@ export default function TrainingGrid() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {trainings.map((category) => (
+      {trainings.map((category, idx) => (
         <Link key={category.id} href={`/training/${category.slug}`} className="block">
           <TrainingCard
             title={category.title}
             description={category.description}
             icon={category.icon}
             image={category.image}
+            gradient={cardGradients[idx % cardGradients.length]}
           />
         </Link>
       ))}

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Poppins } from "next/font/google";
+import { Inter, Poppins, Quintessential } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -11,6 +11,12 @@ const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800", "900"],
+});
+
+const quintessential = Quintessential({
+  variable: "--font-quintessential",
+  weight: ["400"],
+  subsets: ["latin"],
 });
 
 const BASE_URL = 'https://www.tryittech.in';
@@ -219,7 +225,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
       </head>
-      <body className={`${inter.variable} ${poppins.variable} antialiased font-inter`}>
+      <body className={`${inter.variable} ${poppins.variable} ${quintessential.variable} antialiased font-inter`} suppressHydrationWarning>
         <StyledComponentsRegistry>
           {children}
         </StyledComponentsRegistry>

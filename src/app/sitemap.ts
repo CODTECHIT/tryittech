@@ -1,19 +1,26 @@
 import { MetadataRoute } from 'next';
-import trainingsData from '@/data/trainings.json';
-import servicesData from '@/data/services.json';
-import industriesData from '@/data/industries.json';
+import { getServices } from '@/lib/services';
+import { getTrainings } from '@/lib/trainings';
+import { getIndustries } from '@/lib/industries';
 
 const BASE_URL = 'https://www.tryittech.in';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const now = new Date();
 
-    // Static pages
+    // Fetch live data from DB for sitemap accuracy
+    const [services, trainings, industries] = await Promise.all([
+        getServices(),
+        getTrainings(),
+        getIndustries()
+    ]);
+
+    // Static core pages
     const staticPages: MetadataRoute.Sitemap = [
         {
             url: BASE_URL,
             lastModified: now,
-            changeFrequency: 'weekly',
+            changeFrequency: 'daily',
             priority: 1.0,
         },
         {
@@ -48,27 +55,27 @@ export default function sitemap(): MetadataRoute.Sitemap {
         },
     ];
 
-    // Dynamic service pages
-    const servicePages: MetadataRoute.Sitemap = servicesData.map((service) => ({
+    // Dynamic service pages from DB
+    const servicePages: MetadataRoute.Sitemap = services.map((service) => ({
         url: `${BASE_URL}/services/${service.slug}`,
         lastModified: now,
-        changeFrequency: 'monthly' as const,
+        changeFrequency: 'weekly',
         priority: 0.8,
     }));
 
-    // Dynamic training pages
-    const trainingPages: MetadataRoute.Sitemap = trainingsData.map((training) => ({
+    // Dynamic training pages from DB
+    const trainingPages: MetadataRoute.Sitemap = trainings.map((training) => ({
         url: `${BASE_URL}/training/${training.slug}`,
         lastModified: now,
-        changeFrequency: 'monthly' as const,
+        changeFrequency: 'weekly',
         priority: 0.7,
     }));
 
-    // Dynamic industry pages
-    const industryPages: MetadataRoute.Sitemap = industriesData.map((industry) => ({
+    // Dynamic industry pages from DB
+    const industryPages: MetadataRoute.Sitemap = industries.map((industry) => ({
         url: `${BASE_URL}/industries/${industry.slug}`,
         lastModified: now,
-        changeFrequency: 'monthly' as const,
+        changeFrequency: 'weekly',
         priority: 0.7,
     }));
 

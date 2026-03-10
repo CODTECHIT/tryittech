@@ -16,7 +16,8 @@
       "DevOps Engineering",
       "Mobile App Development",
       "AI & Machine Learning"
-    ]
+    ],
+    "placedCount": 0
   },
   {
     "id": "general-training",
@@ -34,7 +35,8 @@
       "Time Management",
       "Critical Thinking",
       "Interview Preparation"
-    ]
+    ],
+    "placedCount": 0
   },
   {
     "id": "ehs-training",
@@ -51,7 +53,8 @@
       "First Aid Certification",
       "Industrial Safety Protocols",
       "Environmental Compliance"
-    ]
+    ],
+    "placedCount": 0
   },
   {
     "id": "kids-language",
@@ -68,6 +71,7 @@
       "Logic & Reasoning",
       "Language Learning (Basics)",
       "Art & Creativity Workshop"
-    ]
+    ],
+    "placedCount": 0
   }
 ]

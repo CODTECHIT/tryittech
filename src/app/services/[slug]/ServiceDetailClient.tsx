@@ -82,7 +82,7 @@ export default function ServiceDetailClient() {
             <Navbar />
             <PageHeader
                 title={service.title}
-                subtitle="Industry-leading workforce solutions designed for the future of global enterprise."
+                subtitle={service.shortDescription || "Industry-leading workforce solutions designed for the future of global enterprise."}
                 bgColor={activeColor}
                 accentColor="white"
             />

@@ -12,15 +12,17 @@ export default function AboutSection() {
                     <div className="relative">
                         <div className="relative h-[400px] md:h-[600px] w-full rounded-2xl overflow-hidden shadow-2xl">
                             <Image
-                                src="https://innovasolutions.com/wp-content/uploads/2025/03/SOL_TAL_L2_B1_Desktop-2.jpg"
+                                src="https://images.pexels.com/photos/4066041/pexels-photo-4066041.jpeg"
                                 alt="Strategic Workforce Solutions Team"
                                 fill
                                 className="object-cover"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#020617]/60 to-transparent" />
-                            <div className="absolute bottom-8 left-8 right-8 text-white">
-                                <p className="text-sm uppercase tracking-widest font-bold mb-2 text-[#008CC8]">The Future of Work</p>
-                                <h4 className="text-2xl font-bold">Empowering India&apos;s Talent Economy</h4>
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/40 to-transparent opacity-80" />
+                            <div className="absolute bottom-10 left-10 right-10 text-white z-10">
+                                <p className="text-[10px] md:text-xs uppercase tracking-[0.3em] font-black mb-3 text-[#008CC8]">The Future of Work</p>
+                                <h4 className="text-2xl md:text-3xl font-black leading-tight drop-shadow-md text-white">
+                                    Empowering India&apos;s <br /> Talent Economy
+                                </h4>
                             </div>
                         </div>
                         {/* Decorative elements */}
@@ -39,15 +41,15 @@ export default function AboutSection() {
                             </h3>
                         </div>
 
-                        <div className="space-y-6 text-slate-600 leading-relaxed text-lg">
+                        <div className="space-y-6 text-slate-800 leading-relaxed text-lg font-medium">
                             <p>
                                 <strong className="text-[#020617]">TRYITTECH LLP</strong> is an India-based Staffing, Workforce Solutions, and Education Technology company dedicated to helping organizations build agile, compliant, and future-ready workforces. We combine deep industry expertise, AI-driven digital platforms, and structured learning solutions to address evolving talent and skill requirements across industries.
                             </p>
                             <p>
-                                We support clients across <span className="font-semibold text-slate-800">IT, Non-IT, Healthcare, BFSI, Automotive, Logistics, Retail, Telecom, Manufacturing and BPO services</span>, delivering end-to-end workforce solutions that enhance productivity, reduce operational complexity, and enable sustainable growth.
+                                We support clients across <span className="font-bold text-[#020617]">IT, Non-IT, Healthcare, BFSI, Automotive, Logistics, Retail, Telecom, Manufacturing and BPO services</span>, delivering end-to-end workforce solutions that enhance productivity, reduce operational complexity, and enable sustainable growth.
                             </p>
                             <p>
-                                At the core of our approach is the integration of <span className="text-[#008CC8] font-semibold">education technology</span> with workforce solutions. Through digital learning platforms and skill development programs, we help bridge the gap between industry demand and workforce readiness.
+                                At the core of our approach is the integration of <span className="text-[#008CC8] font-bold">education technology</span> with workforce solutions. Through digital learning platforms and skill development programs, we help bridge the gap between industry demand and workforce readiness.
                             </p>
                             <p>
                                 Our operations are built on ethical practices and regulatory compliance. We are committed to creating formal employment opportunities and fostering inclusive workplaces that reflect the communities we serve.
@@ -65,7 +67,7 @@ export default function AboutSection() {
                         <div className="lg:col-span-1">
                             <h2 className="text-[#008CC8] font-black uppercase tracking-[0.3em] text-xs mb-4">The Blueprint</h2>
                             <h3 className="text-4xl font-bold text-white mb-6">Our Vision</h3>
-                            <p className="text-slate-400 text-lg leading-relaxed">
+                            <p className="text-white font-bold text-lg leading-relaxed opacity-90">
                                 Shaping the future of global staffing through an integrated ecosystem of technology and human potential.
                             </p>
                             <div className="mt-12 w-20 h-1 bg-gradient-to-r from-[#008CC8] to-[#008CC8]" />
@@ -76,7 +78,7 @@ export default function AboutSection() {
                                 <div className="w-12 h-12 bg-[#008CC8]/20 rounded-lg flex items-center justify-center text-[#008CC8] mb-6">
                                     <Target className="w-6 h-6" />
                                 </div>
-                                <p className="text-slate-300 text-sm leading-relaxed">
+                                <p className="text-white text-sm leading-relaxed font-bold opacity-90">
                                     To become India&apos;s most trusted and technology-driven workforce partner, empowering organizations with AI-enabled staffing solutions and digital skill development.
                                 </p>
                             </div>
@@ -85,7 +87,7 @@ export default function AboutSection() {
                                 <div className="w-12 h-12 bg-[#643282]/20 rounded-lg flex items-center justify-center text-[#643282] mb-6">
                                     <Lightbulb className="w-6 h-6" />
                                 </div>
-                                <p className="text-slate-300 text-sm leading-relaxed">
+                                <p className="text-white text-sm leading-relaxed font-bold opacity-90">
                                     We envision building an integrated ecosystem where staffing, education technology, and workforce transformation work together to enhance productivity.
                                 </p>
                             </div>
@@ -94,7 +96,7 @@ export default function AboutSection() {
                                 <div className="w-12 h-12 bg-[#6EB428]/20 rounded-lg flex items-center justify-center text-[#6EB428] mb-6">
                                     <TrendingUp className="w-6 h-6" />
                                 </div>
-                                <p className="text-slate-300 text-sm leading-relaxed">
+                                <p className="text-white text-sm leading-relaxed font-bold opacity-90">
                                     Through innovation and data-driven insights, we aim to bridge the gap between industry demand and workforce capability, shaping a resilient future of work.
                                 </p>
                             </div>
@@ -103,7 +105,7 @@ export default function AboutSection() {
                                 <div className="w-12 h-12 bg-[#F0960A]/20 rounded-lg flex items-center justify-center text-[#F0960A] mb-6">
                                     <Users className="w-6 h-6" />
                                 </div>
-                                <p className="text-slate-300 text-sm leading-relaxed">
+                                <p className="text-white text-sm leading-relaxed font-bold opacity-90">
                                     To foster inclusive growth by delivering scalable education technology solutions and improving employability across diverse industrial sectors.
                                 </p>
                             </div>

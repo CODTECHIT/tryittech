@@ -189,7 +189,7 @@ const CardWrapper = styled.div<{ $isFlipped: boolean; $mainColor: string; $light
   .card-title {
     color: white;
     font-family: var(--font-quintessential), cursive;
-    font-weight: 500;
+    font-weight: 800;
     line-height: 1.3;
     letter-spacing: 0.02em;
     text-shadow: 0 2px 4px rgba(0,0,0,0.5);
@@ -228,7 +228,7 @@ const CardWrapper = styled.div<{ $isFlipped: boolean; $mainColor: string; $light
   .back-title {
     color: white;
     font-family: var(--font-quintessential), cursive;
-    font-weight: 500;
+    font-weight: 800;
     margin-bottom: 15px;
   }
 

@@ -2,6 +2,7 @@
 
 import { Mail, Globe, Linkedin, Send } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import NextImage from 'next/image';
 
 export default function Contact() {
     const [formData, setFormData] = useState({
@@ -85,49 +86,55 @@ export default function Contact() {
 
                     {/* Info Side */}
                     <div
-                        className="lg:col-span-2 p-8 md:p-12 lg:p-16 text-white flex flex-col justify-between relative overflow-hidden"
-                        style={{
-                            background: `radial-gradient(circle at 20% 30%, #6ED3C3, transparent 40%),
-                                        radial-gradient(circle at 80% 40%, #F07A3A, transparent 45%),
-                                        linear-gradient(135deg, #0B2A3B, #D94A1E)`
-                        }}
+                        className="lg:col-span-2 p-8 md:p-12 lg:p-16 text-[#020617] flex flex-col justify-between relative overflow-hidden"
                     >
+                        {/* Box Background Image */}
+                        <div className="absolute inset-0 z-0">
+                            <NextImage
+                                src="/images/sd.jpg"
+                                alt="Background"
+                                fill
+                                className="object-cover opacity-100"
+                            />
+                            <div className="absolute inset-0 bg-white/70 backdrop-blur-[2px]" />
+                        </div>
+
                         <div className="relative z-10">
-                            <h3 className="text-3xl md:text-4xl font-bold mb-6 md:mb-10 leading-tight text-white">Get in Touch with our Experts</h3>
-                            <p className="text-base md:text-lg text-white/90 mb-10 md:mb-16 leading-relaxed">
+                            <h3 className="text-3xl md:text-4xl font-bold mb-6 md:mb-10 leading-tight text-[#020617]">Get in Touch with our Experts</h3>
+                            <p className="text-base md:text-lg text-[#020617]/90 mb-10 md:mb-16 leading-relaxed font-bold">
                                 Connect with our specialists today to discuss your talent requirements or strategic workforce goals.
                             </p>
 
                             <div className="space-y-10">
 
                                 <div className="flex items-center gap-6 group">
-                                    <div className="w-12 h-12 bg-white/10 border border-white/20 flex items-center justify-center shrink-0 group-hover:bg-[#6ED3C3] group-hover:border-[#6ED3C3] transition-all duration-300">
-                                        <Mail className="text-white w-6 h-6" />
+                                    <div className="w-12 h-12 bg-[#020617]/5 border border-[#020617]/10 flex items-center justify-center shrink-0 group-hover:bg-[#008CC8] group-hover:border-[#008CC8] transition-all duration-300">
+                                        <Mail className="text-[#020617] w-6 h-6 group-hover:text-white" />
                                     </div>
                                     <div className="space-y-1">
-                                        <span className="block text-[10px] font-black text-[#6ED3C3] uppercase tracking-widest">Email Inquiry</span>
-                                        <span className="text-sm text-white font-medium">info@tryittech.in</span>
+                                        <span className="block text-[10px] font-black text-[#008CC8] uppercase tracking-widest">Email Inquiry</span>
+                                        <span className="text-sm text-[#020617] font-black">info@tryittech.in</span>
                                     </div>
                                 </div>
 
                                 <div className="flex items-center gap-6 group">
-                                    <div className="w-12 h-12 bg-white/10 border border-white/20 flex items-center justify-center shrink-0 group-hover:bg-[#F07A3A] group-hover:border-[#F07A3A] transition-all duration-300">
-                                        <Globe className="text-white w-6 h-6" />
+                                    <div className="w-12 h-12 bg-[#020617]/5 border border-[#020617]/10 flex items-center justify-center shrink-0 group-hover:bg-[#008CC8] group-hover:border-[#008CC8] transition-all duration-300">
+                                        <Globe className="text-[#020617] w-6 h-6 group-hover:text-white" />
                                     </div>
                                     <div className="space-y-1">
-                                        <span className="block text-[10px] font-black text-white/50 uppercase tracking-widest">Global Portal</span>
-                                        <span className="text-sm text-white/80 font-medium">www.tryittech.in</span>
+                                        <span className="block text-[10px] font-black text-[#020617]/50 uppercase tracking-widest">Global Portal</span>
+                                        <span className="text-sm text-[#020617]/80 font-black">www.tryittech.in</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div className="relative z-10 pt-16 flex gap-4">
-                            <a href="#" className="w-12 h-12 border border-white/20 flex items-center justify-center hover:bg-white hover:border-white transition-all group">
-                                <Linkedin className="w-5 h-5 text-white/50 group-hover:text-[#0B2A3B]" />
+                            <a href="#" className="w-12 h-12 border border-[#020617]/10 flex items-center justify-center hover:bg-[#020617] hover:border-[#020617] transition-all group">
+                                <Linkedin className="w-5 h-5 text-[#020617]/50 group-hover:text-white" />
                             </a>
                         </div>
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mr-32 -mt-32" />
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-[#008CC8]/10 rounded-full blur-3xl -mr-32 -mt-32" />
                     </div>
 
                     {/* Form Side */}

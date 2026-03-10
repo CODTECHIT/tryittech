@@ -25,7 +25,8 @@ export default async function middleware(request: NextRequest) {
         pathname.startsWith('/api/industries') ||
         pathname.startsWith('/api/trainings') ||
         pathname.startsWith('/api/trainers') ||
-        pathname.startsWith('/api/licenses')
+        pathname.startsWith('/api/licenses') ||
+        pathname.startsWith('/api/clients')
     );
 
     if (isPublicGet) {

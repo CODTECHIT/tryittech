@@ -95,7 +95,7 @@ html {
 .marquee-container {
   display: flex;
   width: max-content;
-  animation: marquee 60s linear infinite;
+  animation: marquee 20s linear infinite;
 }
 
 .marquee-container:hover {

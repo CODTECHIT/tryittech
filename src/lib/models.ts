@@ -93,5 +93,12 @@ const HighlightSchema = new Schema({
 
 export const Highlight = models.Highlight || model('Highlight', HighlightSchema);
 
+const ClientLogoSchema = new Schema({
+    name: { type: String, required: true },
+    image: { type: String, required: true },
+}, { timestamps: true });
+
+export const ClientLogo = models.ClientLogo || model('ClientLogo', ClientLogoSchema);
+
 // Re-export mongoose for convenience
 export default mongoose;

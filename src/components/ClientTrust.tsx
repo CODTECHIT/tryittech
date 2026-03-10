@@ -1,17 +1,51 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
-export default function ClientTrust() {
-    const clients = [
-        { name: "AWS Partner", localPath: "https://innovasolutions.com/wp-content/uploads/2025/03/AWS-Partner-Services-All-services-2.png" },
-        { name: "Microsoft Azure", localPath: "https://innovasolutions.com/wp-content/uploads/2025/06/Microsoft-Azure@2x-p1.png" },
-        { name: "Salesforce", localPath: "https://innovasolutions.com/wp-content/uploads/2025/03/customer-360.jpg" },
-        { name: "Microsoft Security", localPath: "https://innovasolutions.com/wp-content/uploads/2025/06/Microsoft-Security@2x-p4.png" },
-        { name: "Microsoft App Innovation", localPath: "https://innovasolutions.com/wp-content/uploads/2025/06/Microsoft-Digitalapp@2x-p2.png" },
-        { name: "Snowflake", localPath: "https://innovasolutions.com/wp-content/uploads/2025/03/transforming_data_experience_mobile.jpg" }
-    ];
+interface Client {
+    name: string;
+    image: string;
+}
 
-    // Double the array for seamless infinite loop
-    const marqueeItems = [...clients, ...clients];
+export default function ClientTrust() {
+    const [clients, setClients] = useState<Client[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchClients = async () => {
+            try {
+                const res = await fetch('/api/clients');
+                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                const data = await res.json();
+                if (Array.isArray(data)) {
+                    setClients(data);
+                }
+            } catch (error) {
+                console.error('Failed to fetch clients:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchClients();
+    }, []);
+
+    // Create a doubled list for the seamless infinite loop (-50% translation)
+    const marqueeItems: Client[] = clients.length > 0 ? [...clients, ...clients] : [];
+
+    if (loading) {
+        return (
+            <div className="py-20 bg-[#020617] text-center">
+                <div className="inline-block w-8 h-8 border-4 border-[#008CC8]/20 border-t-[#008CC8] rounded-full animate-spin mb-4" />
+                <p className="text-white/20 font-black uppercase tracking-widest text-xs">Synchronizing Partners...</p>
+            </div>
+        );
+    }
+
+    if (clients.length === 0) {
+        return null; // Hide the section if no logos are available
+    }
 
     return (
         <section className="py-16 md:py-24 bg-[#020617] border-t border-white/5 overflow-hidden relative">
@@ -27,15 +61,21 @@ export default function ClientTrust() {
                     {marqueeItems.map((client, idx) => (
                         <div
                             key={idx}
-                            className="flex-shrink-0 flex items-center justify-center bg-white p-8 w-64 h-32 rounded-lg group hover:shadow-[0_0_20px_rgba(0,140,120,0.3)] transition-all duration-500 hover:scale-105"
+                            className="flex-shrink-0 flex flex-col items-center justify-center bg-white p-6 w-64 h-44 rounded-xl group hover:shadow-[0_0_30px_rgba(0,140,200,0.2)] transition-all duration-500 hover:scale-105 border border-white/10"
                         >
-                            <div className="relative w-full h-full flex items-center justify-center">
+                            <div className="relative w-full h-24 flex items-center justify-center mb-4 transition-transform duration-500 group-hover:scale-110">
                                 <Image
-                                    src={client.localPath}
+                                    src={client.image}
                                     alt={client.name}
                                     fill
                                     className="object-contain p-2"
+                                    unoptimized={true}
                                 />
+                            </div>
+                            <div className="w-full pt-4 border-t border-slate-50 text-center">
+                                <span className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400 group-hover:text-[#008CC8] transition-colors duration-300">
+                                    {client.name}
+                                </span>
                             </div>
                         </div>
                     ))}
@@ -52,4 +92,3 @@ export default function ClientTrust() {
         </section>
     );
 }
-

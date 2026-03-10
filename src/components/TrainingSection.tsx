@@ -115,7 +115,7 @@ export default function TrainingSection({ initialData = [] }: { initialData?: Tr
                               <h4 className="text-sm md:text-base font-black uppercase tracking-wider text-[#020617] leading-tight group-hover:text-[#008CC8] transition-colors line-clamp-1">
                                 {category.title}
                               </h4>
-                              <p className="text-[10px] md:text-xs text-slate-500 font-bold line-clamp-2 leading-relaxed group-hover:text-slate-700 transition-colors">
+                              <p className="text-[10px] md:text-xs text-[#020617] font-bold line-clamp-2 leading-relaxed transition-colors">
                                 {category.description}
                               </p>
                             </div>

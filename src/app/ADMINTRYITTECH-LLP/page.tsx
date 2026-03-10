@@ -95,7 +95,7 @@ function ToastContainer({ toasts, onDismiss }: { toasts: ToastData[]; onDismiss:
     );
 }
 
-type ContentType = 'trainings' | 'services' | 'industries' | 'inquiries' | 'trainers' | 'licenses' | 'highlights';
+type ContentType = 'trainings' | 'services' | 'industries' | 'inquiries' | 'trainers' | 'licenses' | 'highlights' | 'clients';
 
 interface TabConfig {
     id: ContentType;
@@ -112,7 +112,8 @@ const TABS: TabConfig[] = [
     { id: 'highlights', label: 'Core Highlights', icon: Target, api: '/api/highlights' },
     { id: 'inquiries', label: 'Inquiries', icon: MessageSquare, api: '/api/inquiries', isPrivate: true },
     { id: 'trainers', label: 'Trainers', icon: Users, api: '/api/trainers', isPrivate: true },
-    { id: 'licenses', label: 'Licenses', icon: FileCheck, api: '/api/licenses', isPrivate: true }
+    { id: 'licenses', label: 'Licenses', icon: FileCheck, api: '/api/licenses', isPrivate: true },
+    { id: 'clients', label: 'Client Logos', icon: ImageIcon, api: '/api/clients' }
 ];
 
 export default function AdminPanel() {
@@ -184,20 +185,24 @@ export default function AdminPanel() {
         if (!editingItem) return;
 
         // ─── URL Validation before saving ─────────────────────────
-        if (['trainings', 'services', 'industries'].includes(activeTab)) {
+        if (['trainings', 'services', 'industries', 'clients'].includes(activeTab)) {
             const errors: string[] = [];
             const newUrlErrors: Record<string, string> = {};
 
+            const mainImageLabel = activeTab === 'clients' ? 'Logo URL' : 'Hero Image URL';
+
+            // Main Image Validation
             if (editingItem.image && editingItem.image.trim() !== '' && !isValidImageUrl(editingItem.image)) {
-                errors.push('Hero Image URL');
+                errors.push(mainImageLabel);
                 newUrlErrors.image = 'Please enter a valid URL starting with https://';
             }
             if (!editingItem.image || editingItem.image.trim() === '') {
-                errors.push('Hero Image URL');
+                errors.push(mainImageLabel);
                 newUrlErrors.image = 'Image URL is required';
             }
 
-            if (activeTab !== 'trainings') {
+            // Secondary Image Validation (Only for services and industries)
+            if (['services', 'industries'].includes(activeTab)) {
                 if (editingItem.secondaryImage && editingItem.secondaryImage.trim() !== '' && !isValidImageUrl(editingItem.secondaryImage)) {
                     errors.push('Secondary Image URL');
                     newUrlErrors.secondaryImage = 'Please enter a valid URL starting with https://';
@@ -322,6 +327,8 @@ export default function AdminPanel() {
             base = { name: '', license_number: '', start_date: '', end_date: '', status: 'Active', details: {} };
         } else if (activeTab === 'highlights') {
             base = { title: '', icon: 'Target', desc: '' };
+        } else if (activeTab === 'clients') {
+            base = { name: '', image: '' };
         }
         setEditingItem(base);
         setIsEditing(true);
@@ -364,6 +371,32 @@ export default function AdminPanel() {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const renderItemCard = (item: any) => {
+        if (activeTab === 'clients') {
+            return (
+                <div key={item.id} className={`bg-white p-6 rounded-3xl shadow-sm border transition-all flex flex-col items-center justify-center gap-4 ${selectedIds.includes(item.id) ? 'border-[#008CC8] ring-1 ring-[#008CC8]' : 'border-slate-100'}`}>
+                    <div className="relative w-full h-32 bg-slate-50 rounded-2xl overflow-hidden flex items-center justify-center p-6">
+                        <Image
+                            src={getSafeImageUrl(item.image)}
+                            alt={item.name}
+                            fill
+                            className="object-contain p-4"
+                        />
+                    </div>
+                    <div className="text-center w-full">
+                        <h3 className="text-lg font-black text-slate-900 truncate">{item.name}</h3>
+                    </div>
+                    <div className="flex gap-2 w-full pt-4 border-t border-slate-50">
+                        <button onClick={() => startEdit(item)} className="flex-1 h-10 rounded-xl bg-slate-50 text-slate-400 hover:text-[#008CC8] hover:bg-[#008CC8]/10 transition-all flex items-center justify-center gap-2 font-bold text-xs">
+                            <Edit className="w-4 h-4" /> Edit
+                        </button>
+                        <button onClick={() => handleDelete(item.id)} className="w-10 h-10 rounded-xl bg-slate-50 text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all flex items-center justify-center">
+                            <Trash2 className="w-5 h-5" />
+                        </button>
+                    </div>
+                </div>
+            );
+        }
+
         if (activeTab === 'highlights') {
             const IconComp = ICON_MAP[item.icon] || Target;
             return (
@@ -859,6 +892,27 @@ export default function AdminPanel() {
                                                         <p className="text-center py-6 text-slate-300 text-xs font-medium italic border-2 border-dashed border-slate-100 rounded-2xl">
                                                             No custom fields added yet.
                                                         </p>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Clients Form */}
+                                    {activeTab === 'clients' && (
+                                        <div className="space-y-8">
+                                            <div className="space-y-4">
+                                                <div className="space-y-2">
+                                                    <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Company Name</label>
+                                                    <input value={editingItem.name} onChange={e => setEditingItem({ ...editingItem, name: e.target.value })} className="w-full bg-slate-50 p-4 border rounded-2xl font-bold" placeholder="e.g. Microsoft" />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Logo URL (High Quality PNG/SVG)</label>
+                                                    <input value={editingItem.image} onChange={e => setEditingItem({ ...editingItem, image: e.target.value })} className="w-full bg-slate-50 p-4 border rounded-2xl font-bold" placeholder="https://example.com/logo.png" />
+                                                    {editingItem.image && isValidImageUrl(editingItem.image) && (
+                                                        <div className="mt-4 p-4 bg-slate-100 rounded-2xl flex items-center justify-center">
+                                                            <Image src={editingItem.image} alt="Preview" width={200} height={100} className="object-contain h-20" unoptimized />
+                                                        </div>
                                                     )}
                                                 </div>
                                             </div>

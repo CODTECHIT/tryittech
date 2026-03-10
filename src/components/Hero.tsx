@@ -46,6 +46,36 @@ const slides: Slide[] = [
     {
         type: "list",
         badge: "TRYITTECH LLP",
+        title: "Specialized",
+        highlight: "IT Verticals",
+        subtitle: "Strategic talent acquisition for the IT sector.",
+        items: [
+            "Information Technology",
+            "Software Development",
+            "Cloud & DevOps",
+            "Cybersecurity"
+        ],
+        image: "https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg",
+        color: "#06B6D4" // Cyan
+    },
+    {
+        type: "list",
+        badge: "TRYITTECH LLP",
+        title: "Specialized",
+        highlight: "Non-IT Verticals",
+        subtitle: "Deep domain expertise across non-IT economic sectors.",
+        items: [
+            "Finance & Banking",
+            "Health & Pharma",
+            "Retail & E-commerce",
+            "Manufacturing"
+        ],
+        image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop",
+        color: "#F97316" // Orange
+    },
+    {
+        type: "list",
+        badge: "TRYITTECH LLP",
         title: "Excellence in",
         highlight: "Trainings",
         subtitle: "Empowering the next generation of professional talent.",
@@ -57,21 +87,6 @@ const slides: Slide[] = [
         ],
         image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=2011&auto=format&fit=crop",
         color: "#A855F7" // Purple
-    },
-    {
-        type: "list",
-        badge: "TRYITTECH LLP",
-        title: "Specialized",
-        highlight: "Industries",
-        subtitle: "Deep domain expertise across various economic sectors.",
-        items: [
-            "Information Technology",
-            "Finance & Banking",
-            "Health & Pharma",
-            "Retail & E-commerce"
-        ],
-        image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop",
-        color: "#F97316" // Orange
     }
 ];
 
@@ -126,26 +141,18 @@ export default function Hero({
                     });
                 }
 
-                // 3. Add Trainings Slide if data exists
-                if (Array.isArray(trainings) && trainings.length > 0) {
-                    newDynamicSlides.push({
-                        type: "list",
-                        badge: "TRYITTECH LLP",
-                        title: "Excellence in",
-                        highlight: "Trainings",
-                        subtitle: "Empowering the next generation of professional talent.",
-                        items: trainings.slice(0, 6).map(t => t.title),
-                        image: "https://images.pexels.com/photos/1708912/pexels-photo-1708912.jpeg",
-                        color: "#A855F7" // Purple
-                    });
-                }
-
-                // 4. Add Industry Slides grouped by Category
+                // 3 & 4. Add Industry Slides grouped by Category (IT first, then Non-IT)
                 if (Array.isArray(industries) && industries.length > 0) {
+                    // Sort so IT comes first (slide 3), then Non-IT (slide 4)
                     const categories = Array.from(new Set(industries.map(i => i.category || 'Professional')))
-                        .filter(Boolean);
+                        .filter(Boolean)
+                        .sort((a, b) => {
+                            if (a === 'IT') return -1;
+                            if (b === 'IT') return 1;
+                            return a.localeCompare(b);
+                        });
 
-                    categories.forEach((cat, idx) => {
+                    categories.forEach((cat) => {
                         const catIndustries = industries.filter(i => i.category === cat);
                         newDynamicSlides.push({
                             type: "list",
@@ -157,8 +164,22 @@ export default function Hero({
                             image: cat === 'IT'
                                 ? "https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg"
                                 : (catIndustries[0]?.image || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop"),
-                            color: ACCENT_COLORS[idx % ACCENT_COLORS.length]
+                            color: cat === 'IT' ? "#06B6D4" : "#F97316" // Cyan for IT, Orange for Non-IT
                         });
+                    });
+                }
+
+                // 5. Add Trainings Slide last
+                if (Array.isArray(trainings) && trainings.length > 0) {
+                    newDynamicSlides.push({
+                        type: "list",
+                        badge: "TRYITTECH LLP",
+                        title: "Excellence in",
+                        highlight: "Trainings",
+                        subtitle: "Empowering the next generation of professional talent.",
+                        items: trainings.slice(0, 6).map(t => t.title),
+                        image: "https://images.pexels.com/photos/1708912/pexels-photo-1708912.jpeg",
+                        color: "#A855F7" // Purple
                     });
                 }
 

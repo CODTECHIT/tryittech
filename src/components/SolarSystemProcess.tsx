@@ -44,22 +44,28 @@ export default function SolarSystemProcess({ title, steps }: SolarSystemProcessP
 
                 {/* Visual Orbit Rings */}
                 <div
-                    className="absolute rounded-full border border-slate-100 opacity-50"
+                    className="absolute rounded-full border-2 border-slate-200 opacity-60"
                     style={{ width: orbitRadius * 2, height: orbitRadius * 2 }}
                 />
                 <div
-                    className="absolute rounded-full border border-slate-50 opacity-30"
+                    className="absolute rounded-full border-2 border-slate-100 opacity-40"
                     style={{ width: (orbitRadius - 40) * 2, height: (orbitRadius - 40) * 2 }}
                 />
 
                 {/* Central Focus Area */}
-                <div className="absolute z-10 w-[240px] h-[240px] rounded-full bg-white/40 backdrop-blur-xl border border-white/80 shadow-2xl flex flex-col items-center justify-center text-center p-8 group overflow-hidden">
-                    <div
-                        className="absolute inset-0 opacity-10 blur-3xl transition-colors duration-1000"
-                        style={{ backgroundColor: colors[activeIndex % colors.length] }}
+                <div
+                    className="absolute z-10 w-[240px] h-[240px] rounded-full bg-white/70 backdrop-blur-xl border-4 flex flex-col items-center justify-center text-center p-8 group overflow-hidden transition-all duration-1000 ease-in-out shadow-2xl"
+                    style={{
+                        borderColor: colors[activeIndex % colors.length],
+                        boxShadow: `0 0 40px ${colors[activeIndex % colors.length]}30`
+                    }}
+                >
+                    <motion.div
+                        className="absolute inset-0 opacity-20 blur-3xl transition-colors duration-1000"
+                        animate={{ backgroundColor: colors[activeIndex % colors.length] }}
                     />
                     <div className="relative z-10">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-[#008CC8] mb-2 block">Focusing On</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest mb-2 block transition-colors duration-1000" style={{ color: colors[activeIndex % colors.length] }}>Focusing On</span>
                         <AnimatePresence mode="wait">
                             <motion.h5
                                 key={activeIndex}
@@ -71,7 +77,10 @@ export default function SolarSystemProcess({ title, steps }: SolarSystemProcessP
                                 {steps[activeIndex]}
                             </motion.h5>
                         </AnimatePresence>
-                        <div className="w-12 h-1 bg-[#008CC8]/20 mx-auto mt-4 rounded-full" />
+                        <div
+                            className="w-12 h-1 mx-auto mt-4 rounded-full transition-colors duration-1000 opacity-30"
+                            style={{ backgroundColor: colors[activeIndex % colors.length] }}
+                        />
                     </div>
                 </div>
 
@@ -118,7 +127,7 @@ export default function SolarSystemProcess({ title, steps }: SolarSystemProcessP
                                 )}
 
                                 <div
-                                    className={`relative w-24 h-24 rounded-full flex flex-col items-center justify-center text-white p-4 transition-all duration-700 shadow-xl border-2 ${isActive ? 'border-white' : 'border-white/40'}`}
+                                    className={`relative w-24 h-24 rounded-full flex flex-col items-center justify-center text-white p-4 transition-all duration-700 shadow-xl border-4 ${isActive ? 'border-white' : 'border-slate-300'}`}
                                     style={{
                                         backgroundColor: colors[index % colors.length],
                                         boxShadow: isActive ? `0 0 30px ${colors[index % colors.length]}50` : 'none'

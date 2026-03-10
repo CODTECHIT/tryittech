@@ -1,6 +1,6 @@
 'use client';
 
-import { Mail, Globe, Linkedin, Send } from 'lucide-react';
+import { Mail, Globe, Send } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import NextImage from 'next/image';
 
@@ -82,7 +82,7 @@ export default function Contact() {
     return (
         <section id="contact" className="section-padding bg-light relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="shadow-[0_40px_100px_-20px_rgba(31,41,55,0.1)] rounded-sm overflow-hidden grid lg:grid-cols-5 border border-slate-100 relative">
+                <div className="shadow-[0_40px_100px_-20px_rgba(31,41,55,0.1)] rounded-[40px] md:rounded-[60px] overflow-hidden grid lg:grid-cols-5 border border-white/10 relative">
                     {/* Unified Box Background Image */}
                     <div className="absolute inset-0 z-0">
                         <NextImage
@@ -107,30 +107,41 @@ export default function Contact() {
                             <div className="space-y-10">
 
                                 <div className="flex items-center gap-6 group">
-                                    <div className="w-12 h-12 bg-[#020617]/5 border border-[#020617]/10 flex items-center justify-center shrink-0 group-hover:bg-[#008CC8] group-hover:border-[#008CC8] transition-all duration-300">
-                                        <Mail className="text-[#020617] w-6 h-6 group-hover:text-white" />
+                                    <div className="w-14 h-14 bg-gradient-to-br from-[#1d4ed8] to-[#1e3a8a] rounded-2xl flex items-center justify-center shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                        <Mail className="text-white w-7 h-7" />
                                     </div>
                                     <div className="space-y-1">
-                                        <span className="block text-[10px] font-black text-[#008CC8] uppercase tracking-widest">Email Inquiry</span>
-                                        <span className="text-sm text-[#020617] font-black">info@tryittech.in</span>
+                                        <span className="block text-[10px] font-black uppercase tracking-widest bg-gradient-to-r from-[#1d4ed8] to-[#1e3a8a] bg-clip-text text-transparent">Email Inquiry</span>
+                                        <span className="text-base text-[#020617] font-black">info@tryittech.in</span>
                                     </div>
                                 </div>
 
                                 <div className="flex items-center gap-6 group">
-                                    <div className="w-12 h-12 bg-[#020617]/5 border border-[#020617]/10 flex items-center justify-center shrink-0 group-hover:bg-[#008CC8] group-hover:border-[#008CC8] transition-all duration-300">
-                                        <Globe className="text-[#020617] w-6 h-6 group-hover:text-white" />
+                                    <div className="w-14 h-14 bg-gradient-to-br from-[#0f766e] to-[#134e4a] rounded-2xl flex items-center justify-center shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                        <Globe className="text-white w-7 h-7" />
                                     </div>
                                     <div className="space-y-1">
-                                        <span className="block text-[10px] font-black text-[#020617]/50 uppercase tracking-widest">Global Portal</span>
-                                        <span className="text-sm text-[#020617]/80 font-black">www.tryittech.in</span>
+                                        <span className="block text-[10px] font-black uppercase tracking-widest bg-gradient-to-r from-[#0f766e] to-[#134e4a] bg-clip-text text-transparent">Global Portal</span>
+                                        <span className="text-base text-[#020617] font-black">www.tryittech.in</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div className="relative z-10 pt-16 flex gap-4">
-                            <a href="#" className="w-12 h-12 border border-[#020617]/10 flex items-center justify-center hover:bg-[#020617] hover:border-[#020617] transition-all group">
-                                <Linkedin className="w-5 h-5 text-[#020617]/50 group-hover:text-white" />
+                            <a
+                                href="https://www.linkedin.com/company/tryittech-llp/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-12 h-12 bg-white flex items-center justify-center rounded-xl shadow-md hover:scale-110 transition-all border border-slate-100"
+                            >
+                                <NextImage
+                                    src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png"
+                                    alt="LinkedIn"
+                                    width={24}
+                                    height={24}
+                                    className="object-contain"
+                                />
                             </a>
                         </div>
                         <div className="absolute top-0 right-0 w-64 h-64 bg-[#008CC8]/10 rounded-full blur-3xl -mr-32 -mt-32" />
@@ -141,23 +152,23 @@ export default function Contact() {
                         <form onSubmit={handleSubmit} className="space-y-10">
                             <div className="grid md:grid-cols-2 gap-6 md:gap-10">
                                 <div className="relative group">
-                                    <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest absolute -top-2.5 left-5 bg-white/50 backdrop-blur-sm px-2 group-focus-within:text-[#008CC8] transition-colors">Your Full Name</label>
+                                    <label className="text-[10px] font-black text-[#020617] uppercase tracking-widest absolute -top-3 left-6 bg-white px-3 py-0.5 z-20 rounded-full border border-[#020617]/10 group-focus-within:text-[#008CC8] group-focus-within:border-[#008CC8] transition-all shadow-sm">Your Full Name</label>
                                     <input
                                         required
                                         type="text"
                                         value={formData.name}
                                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                        className="w-full border-2 border-[#020617]/10 p-5 focus:outline-none focus:border-[#008CC8] transition-all outline-none rounded-sm font-semibold text-[#020617] placeholder:text-slate-400 bg-white/30 backdrop-blur-sm"
+                                        className="w-full border-2 border-[#020617]/20 p-5 focus:outline-none focus:border-[#008CC8] transition-all outline-none rounded-2xl font-semibold text-[#020617] placeholder:text-slate-500 bg-white/50 backdrop-blur-md relative z-10"
                                         placeholder="e.g. Johnathan Doe"
                                     />
                                 </div>
                                 <div className="relative group">
-                                    <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest absolute -top-2.5 left-5 bg-white/50 backdrop-blur-sm px-2 group-focus-within:text-[#008CC8] transition-colors">Email Address</label>
+                                    <label className="text-[10px] font-black text-[#020617] uppercase tracking-widest absolute -top-3 left-6 bg-white px-3 py-0.5 z-20 rounded-full border border-[#020617]/10 group-focus-within:text-[#008CC8] group-focus-within:border-[#008CC8] transition-all shadow-sm">Email Address</label>
                                     <input
                                         type="email"
                                         value={formData.email}
                                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                        className="w-full border-2 border-[#020617]/10 p-5 focus:outline-none focus:border-[#008CC8] transition-all outline-none rounded-sm font-semibold text-[#020617] placeholder:text-slate-400 bg-white/30 backdrop-blur-sm"
+                                        className="w-full border-2 border-[#020617]/20 p-5 focus:outline-none focus:border-[#008CC8] transition-all outline-none rounded-2xl font-semibold text-[#020617] placeholder:text-slate-500 bg-white/50 backdrop-blur-md relative z-10"
                                         placeholder="email@company.com"
                                     />
                                 </div>
@@ -165,22 +176,22 @@ export default function Contact() {
 
                             <div className="grid md:grid-cols-2 gap-6 md:gap-10">
                                 <div className="relative group">
-                                    <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest absolute -top-2.5 left-5 bg-white/50 backdrop-blur-sm px-2 group-focus-within:text-[#008CC8] transition-colors">Mobile Number</label>
+                                    <label className="text-[10px] font-black text-[#020617] uppercase tracking-widest absolute -top-3 left-6 bg-white px-3 py-0.5 z-20 rounded-full border border-[#020617]/10 group-focus-within:text-[#008CC8] group-focus-within:border-[#008CC8] transition-all shadow-sm">Mobile Number</label>
                                     <input
                                         required
                                         type="tel"
                                         value={formData.mobile}
                                         onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
-                                        className="w-full border-2 border-[#020617]/10 p-5 focus:outline-none focus:border-[#008CC8] transition-all outline-none rounded-sm font-semibold text-[#020617] placeholder:text-slate-400 bg-white/30 backdrop-blur-sm"
+                                        className="w-full border-2 border-[#020617]/20 p-5 focus:outline-none focus:border-[#008CC8] transition-all outline-none rounded-2xl font-semibold text-[#020617] placeholder:text-slate-500 bg-white/50 backdrop-blur-md relative z-10"
                                         placeholder="+91 00000 00000"
                                     />
                                 </div>
                                 <div className="relative group">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest absolute -top-2.5 left-5 bg-white/50 backdrop-blur-sm px-2 group-focus-within:text-[#008CC8] transition-colors">Service Interest</label>
+                                    <label className="text-[10px] font-black text-[#020617] uppercase tracking-widest absolute -top-3 left-6 bg-white px-3 py-0.5 z-20 rounded-full border border-[#020617]/10 group-focus-within:text-[#008CC8] group-focus-within:border-[#008CC8] transition-all shadow-sm">Service Interest</label>
                                     <select
                                         value={formData.service}
                                         onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                                        className="w-full border-2 border-[#020617]/10 p-5 focus:outline-none focus:border-[#008CC8] transition-all outline-none rounded-sm appearance-none bg-white/30 backdrop-blur-sm font-medium text-slate-700"
+                                        className="w-full border-2 border-[#020617]/20 p-5 focus:outline-none focus:border-[#008CC8] transition-all outline-none rounded-2xl appearance-none bg-white/50 backdrop-blur-md font-black text-[#020617] relative z-10"
                                     >
                                         <option value="General Inquiry">General Inquiry</option>
 
@@ -208,19 +219,19 @@ export default function Contact() {
                                             </optgroup>
                                         )}
                                     </select>
-                                    <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                                    <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-[#020617] z-20">
                                         <Send className="w-4 h-4 rotate-90" />
                                     </div>
                                 </div>
                             </div>
 
                             <div className="relative group">
-                                <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest absolute -top-2.5 left-5 bg-white/50 backdrop-blur-sm px-2 group-focus-within:text-[#008CC8] transition-colors">Your Message</label>
+                                <label className="text-[10px] font-black text-[#020617] uppercase tracking-widest absolute -top-3 left-6 bg-white px-3 py-0.5 z-20 rounded-full border border-[#020617]/10 group-focus-within:text-[#008CC8] group-focus-within:border-[#008CC8] transition-all shadow-sm">Your Message</label>
                                 <textarea
                                     rows={5}
                                     value={formData.message}
                                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                    className="w-full border-2 border-[#020617]/10 p-5 focus:outline-none focus:border-[#008CC8] transition-all outline-none rounded-sm font-semibold text-[#020617] placeholder:text-slate-400 resize-none bg-white/30 backdrop-blur-sm"
+                                    className="w-full border-2 border-[#020617]/20 p-5 focus:outline-none focus:border-[#008CC8] transition-all outline-none rounded-2xl font-semibold text-[#020617] placeholder:text-slate-500 resize-none bg-white/50 backdrop-blur-md relative z-10"
                                     placeholder="How can we help your organization scale?"
                                 />
                             </div>

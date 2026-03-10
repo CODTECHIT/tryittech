@@ -119,6 +119,16 @@ export default function AdminLogin() {
                                 </>
                             )}
                         </button>
+
+                        <div className="text-center pt-2">
+                            <button
+                                type="button"
+                                onClick={() => setError('💡 To reset your password, please update the ADMIN_PASS variable in your hosting environment or .env file.')}
+                                className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-[#008CC8] transition-colors"
+                            >
+                                Forgot password?
+                            </button>
+                        </div>
                     </form>
 
                     <div className="bg-slate-50 p-6 text-center border-t border-slate-100">

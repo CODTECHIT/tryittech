@@ -1,6 +1,6 @@
 'use client';
 
-import { Scale, ShieldAlert, Gavel, Lock, ShieldCheck, ChevronRight, Monitor } from 'lucide-react';
+import { Scale, ShieldAlert, Gavel, Lock, ShieldCheck, ChevronRight, Monitor, Quote } from 'lucide-react';
 import Link from 'next/link';
 
 const policies = [
@@ -58,9 +58,17 @@ export default function Policies() {
                             Our Corporate <span className="text-[#008CC8]">Policies</span>
                         </h3>
                     </div>
-                    <p className="text-slate-500 max-w-sm mb-2 italic">
-                        Ensuring transparency, safety, and ethical standards across all global operations.
-                    </p>
+
+                    <div className="relative max-w-md">
+                        <div className="relative p-6 md:p-8 bg-transparent rounded-2xl border-l-4 group" style={{ borderLeftColor: '#008CC8' }}>
+                            <Quote
+                                className="absolute top-4 left-4 w-10 h-10 opacity-20 group-hover:opacity-40 transition-all duration-300 text-[#008CC8]"
+                            />
+                            <p className="text-xl font-bold text-[#020617] italic text-center relative z-10 leading-relaxed px-4">
+                                &ldquo;  Ensuring transparency, safety, and ethical standards across all global operations.  &rdquo;
+                            </p>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

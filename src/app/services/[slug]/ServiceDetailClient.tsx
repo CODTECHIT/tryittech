@@ -3,10 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useParams, notFound } from 'next/navigation';
-import { CheckCircle2, ArrowLeft } from 'lucide-react';
+import { CheckCircle2, ArrowLeft, Quote } from 'lucide-react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
-import PageHeader from '@/components/PageHeader';
 import Footer from '@/components/Footer';
 import Contact from '@/components/Contact';
 import SolarSystemProcess from '@/components/SolarSystemProcess';
@@ -80,15 +79,8 @@ export default function ServiceDetailClient() {
     return (
         <main className="bg-white">
             <Navbar />
-            <PageHeader
-                title={service.title}
-                subtitle={service.shortDescription || "Industry-leading workforce solutions designed for the future of global enterprise."}
-                bgColor={activeColor}
-                accentColor="white"
-            />
-
-            {/* Premium Service Image Section */}
-            <section className="relative h-[500px] w-full mt-[-2rem]">
+            {/* Premium Integrated Service Hero */}
+            <section className="relative h-[70vh] w-full">
                 <div className="absolute inset-0">
                     <Image
                         src={service.image || defaultImage}
@@ -98,14 +90,39 @@ export default function ServiceDetailClient() {
                         priority
                         quality={100}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#020617]/40 to-[#020617]/80" />
                 </div>
-                <div className="absolute bottom-16 inset-x-0">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="flex items-center gap-6">
-                            <div className="w-16 h-1 rounded-full" style={{ backgroundColor: activeColor }} />
-                            <p className="text-white text-lg font-bold tracking-widest uppercase">Service Excellence & Strategy</p>
+
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 h-full flex flex-col items-center justify-center text-center">
+                    <div className="space-y-6 max-w-4xl">
+                        <div className="flex items-center justify-center gap-4 mb-4">
+                            <span className="w-12 h-[2px]" style={{ backgroundColor: activeColor }} />
+                            <span className="font-black uppercase tracking-[0.4em] text-[10px]" style={{ color: activeColor }}>Service Excellence & Strategy</span>
+                            <span className="w-12 h-[2px]" style={{ backgroundColor: activeColor }} />
                         </div>
+
+                        <h1
+                            className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-tight"
+                            style={{ color: activeColor }}
+                        >
+                            {service.title}
+                        </h1>
+
+                        <div className="relative max-w-3xl mx-auto mt-8">
+                            <div className="relative p-6 md:p-8 bg-transparent rounded-2xl border-l-4 group shadow-sm" style={{ borderLeftColor: activeColor }}>
+                                <Quote
+                                    className="absolute top-4 left-4 w-10 h-10 opacity-20 group-hover:opacity-40 transition-all duration-300"
+                                    style={{ color: activeColor }}
+                                />
+                                <p className="text-xl md:text-2xl font-bold text-[#020617] italic text-center relative z-10 leading-relaxed">
+                                    &ldquo;  {service.shortDescription || "Industry-leading workforce solutions designed for the future of global enterprise."}  &rdquo;
+                                </p>
+                            </div>
+                        </div>
+
+                        <div
+                            className="w-24 h-1.5 mx-auto mt-12 rounded-full shadow-lg"
+                            style={{ backgroundColor: activeColor }}
+                        />
                     </div>
                 </div>
             </section>
@@ -129,10 +146,10 @@ export default function ServiceDetailClient() {
                                     <span className="h-0.5 w-12" style={{ backgroundColor: activeColor }} />
                                     <span className="font-black uppercase tracking-[0.3em] text-[10px]" style={{ color: activeColor }}>Methodology & Approach</span>
                                 </div>
-                                <h2 className="text-5xl font-bold text-[#020617] tracking-tighter leading-tight">
+                                <h2 className="text-5xl font-black text-black tracking-tighter leading-tight">
                                     Strategic <span style={{ color: activeColor }}>Overview</span>
                                 </h2>
-                                <div className="text-xl text-slate-600 leading-relaxed space-y-6 max-w-xl">
+                                <div className="text-xl text-gray-800 leading-relaxed space-y-6 max-w-xl font-medium">
                                     {service.fullDescription.split('\n\n').map((paragraph, i) => (
                                         <p key={i}>{paragraph}</p>
                                     ))}
@@ -183,7 +200,7 @@ export default function ServiceDetailClient() {
                                 <div className="inline-block px-4 py-1.5 bg-slate-50 rounded-full border border-slate-100 mb-2">
                                     <span className="text-[10px] font-black uppercase tracking-widest" style={{ color: activeColor }}>Value Creation</span>
                                 </div>
-                                <h3 className="text-3xl font-bold text-[#020617]">Key Strategic <span style={{ color: activeColor }}>Impacts</span></h3>
+                                <h3 className="text-3xl font-black text-black">Key Strategic <span style={{ color: activeColor }}>Impacts</span></h3>
                                 <div className="grid gap-6">
                                     {service.benefits.map((benefit, idx) => (
                                         <div key={idx} className="flex gap-6 group items-start">
@@ -222,7 +239,7 @@ export default function ServiceDetailClient() {
                         <div className="max-w-4xl mx-auto">
                             <div className="text-center mb-16">
                                 <h4 className="font-black uppercase tracking-[0.4em] text-xs mb-4" style={{ color: activeColor }}>Our Methodology</h4>
-                                <h2 className="text-4xl md:text-5xl font-bold text-[#020617] mb-6">Delivery <span style={{ color: activeColor }}>Framework</span></h2>
+                                <h2 className="text-4xl md:text-5xl font-black text-black mb-6">Delivery <span style={{ color: activeColor }}>Framework</span></h2>
                                 <div className="w-24 h-1.5 mx-auto rounded-full" style={{ backgroundColor: activeColor }} />
                             </div>
 

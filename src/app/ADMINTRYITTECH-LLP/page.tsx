@@ -1389,7 +1389,7 @@ export default function AdminPanel() {
                                                         {/* Industry Edge Section */}
                                                         <div className="space-y-6 pt-6 border-t border-slate-100">
                                                             <div className="flex justify-between items-center">
-                                                                <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Edge Advantages (The TRYITTECH Edge)</label>
+                                                                <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Edge Advantages (THE TRYITTECH EDGE)</label>
                                                                 <button type="button" onClick={() => handleArrayAction('edge', 'add', undefined, { title: '', description: '', icon: 'Shield' })} className="text-[#008CC8] text-xs font-black uppercase tracking-widest flex items-center gap-2">
                                                                     <Plus className="w-4 h-4" /> Add Edge
                                                                 </button>

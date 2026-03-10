@@ -108,7 +108,7 @@ export default function IndustryDetailClient({
 
     const navLinks = [
         { id: 'overview', label: 'Overview' },
-        { id: 'edge', label: 'The TRYITTECH Edge' }
+        { id: 'edge', label: 'THE TRYITTECH EDGE' }
     ];
 
     return (
@@ -193,10 +193,10 @@ export default function IndustryDetailClient({
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid lg:grid-cols-2 gap-20 items-center">
                         <div className="space-y-8">
-                            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#020617] tracking-tight leading-tight">
+                            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-black tracking-tight leading-tight">
                                 Navigating the future of <span className="text-[#008CC8]">{industry.name}</span>
                             </h2>
-                            <p className="text-lg md:text-xl text-slate-600 leading-relaxed font-light">
+                            <p className="text-lg md:text-xl text-gray-800 leading-relaxed font-medium">
                                 {industry.overview}
                             </p>
 
@@ -236,7 +236,7 @@ export default function IndustryDetailClient({
                                                 <IconComp className="w-6 h-6 text-[#008CC8] group-hover:text-white transition-colors" />
                                             </div>
                                             <h4 className="font-bold text-[#020617] mb-2">{item.title}</h4>
-                                            <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
+                                            <p className="text-sm text-gray-700 leading-relaxed font-medium">{item.desc}</p>
                                         </div>
                                     );
                                 })}
@@ -255,13 +255,13 @@ export default function IndustryDetailClient({
                                 <div className="space-y-12">
                                     <div className="space-y-4">
                                         <h3 className="text-sm font-black uppercase tracking-[0.3em] text-[#008CC8]">Market Segments</h3>
-                                        <h2 className="text-4xl font-bold text-[#020617]">Sectors We <span className="text-[#008CC8]">Serve</span></h2>
+                                        <h2 className="text-4xl font-black text-black">Sectors We <span className="text-[#008CC8]">Serve</span></h2>
                                     </div>
                                     <div className="space-y-6">
                                         {industry.segments.map((s, idx) => (
                                             <div key={idx} className="p-8 bg-white rounded-[2rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
                                                 <h4 className="text-xl font-bold text-[#020617] mb-3 group-hover:text-[#008CC8] transition-colors">{s.title}</h4>
-                                                <p className="text-slate-600 leading-relaxed text-sm">{s.description}</p>
+                                                <p className="text-gray-700 leading-relaxed text-sm font-medium">{s.description}</p>
                                             </div>
                                         ))}
                                     </div>
@@ -272,7 +272,7 @@ export default function IndustryDetailClient({
                                 <div className="space-y-12">
                                     <div className="space-y-4">
                                         <h3 className="text-sm font-black uppercase tracking-[0.3em] text-[#008CC8]">Strategic Solutions</h3>
-                                        <h2 className="text-4xl font-bold text-[#020617]">Tailored <span className="text-[#008CC8]">Impact</span></h2>
+                                        <h2 className="text-4xl font-black text-black">Tailored <span className="text-[#008CC8]">Impact</span></h2>
                                     </div>
                                     <div className="space-y-6">
                                         {industry.solutions.map((s, idx) => (
@@ -282,7 +282,7 @@ export default function IndustryDetailClient({
                                                 </div>
                                                 <div className="space-y-2">
                                                     <h4 className="text-lg font-bold text-[#020617] group-hover:text-[#008CC8] transition-colors">{s.title}</h4>
-                                                    <p className="text-sm text-slate-500 leading-relaxed">{s.description}</p>
+                                                    <p className="text-sm text-gray-700 leading-relaxed font-medium">{s.description}</p>
                                                 </div>
                                             </div>
                                         ))}
@@ -294,39 +294,14 @@ export default function IndustryDetailClient({
                 </section>
             )}
 
-            {/* DOMAIN INSIGHTS */}
-            {industry.insights?.length > 0 && (
-                <section className="py-24 bg-white">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-16">
-                        <h3 className="text-sm font-black uppercase tracking-[0.3em] text-[#008CC8] mb-4">Domain Intelligence</h3>
-                        <h2 className="text-4xl md:text-5xl font-bold text-[#020617]">Industry <span className="text-[#008CC8]">Insights</span></h2>
-                    </div>
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-3 gap-8">
-                        {industry.insights.map((ins, idx) => (
-                            <div key={idx} className="group relative h-[450px] rounded-[2.5rem] overflow-hidden border border-slate-100 shadow-lg">
-                                <Image
-                                    src={ins.image || 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80'}
-                                    alt={ins.title}
-                                    fill
-                                    className="object-cover group-hover:scale-110 transition-transform duration-1000"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/20 to-transparent" />
-                                <div className="absolute bottom-10 left-10 right-10 space-y-4">
-                                    <span className="px-4 py-1.5 bg-[#008CC8] text-white text-[10px] font-black uppercase tracking-widest rounded-full">{ins.category}</span>
-                                    <h4 className="text-2xl font-bold text-white leading-tight">{ins.title}</h4>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </section>
-            )}
+
 
             {/* THE TRYITTECH EDGE */}
             <section id="edge" className="py-32 bg-[#020617] text-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center max-w-3xl mx-auto mb-20 space-y-6">
                         <h3 className="text-[#008CC8] font-black uppercase tracking-[0.4em] text-xs">Proprietary Value</h3>
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white">The TRYITTECH Edge</h2>
+                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white">THE TRYITTECH EDGE</h2>
                         <div className="w-24 h-2 bg-[#008CC8] mx-auto rounded-full" />
                     </div>
 

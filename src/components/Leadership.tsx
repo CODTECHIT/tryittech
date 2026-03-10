@@ -50,6 +50,7 @@ export default function Leadership() {
                                     alt={leader.name}
                                     fill
                                     className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                    style={{ objectPosition: index === 0 ? '50% 80%' : '30% 30%' }}
                                     sizes="(max-w-768px) 100vw, 50vw"
                                 />
                                 {/* Overlay Gradient */}

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Mail, Linkedin, MessageSquare, Phone } from 'lucide-react';
+import { Mail, Linkedin, MessageSquare, Phone, Quote } from 'lucide-react';
 
 const staticSections = [
     {
@@ -110,12 +110,30 @@ export default function Footer() {
                                 </span>
                             </div>
                         </Link>
-                        <p className="text-[15px] leading-relaxed mb-10 text-white/80 font-medium">
-                            Empowering organizations through specialized talent and strategic workforce transformation.
-                        </p>
+                        <div className="relative mb-10 max-w-sm">
+                            <div className="relative p-5 bg-transparent rounded-2xl border-l-4 group" style={{ borderLeftColor: '#008CC8' }}>
+                                <Quote
+                                    className="absolute top-3 left-3 w-8 h-8 opacity-20 group-hover:opacity-40 transition-all duration-300 text-[#008CC8]"
+                                />
+                                <p className="text-sm leading-relaxed text-white/80 font-bold italic relative z-10 pl-4">
+                                    &ldquo;  Empowering organizations through specialized talent and strategic workforce transformation.  &rdquo;
+                                </p>
+                            </div>
+                        </div>
                         <div className="flex flex-col gap-4">
-                            <a href="https://www.linkedin.com/company/tryittech-llp/" target="_blank" rel="noopener noreferrer" className="w-12 h-12 border border-white/20 flex items-center justify-center hover:bg-[#008CC8] hover:border-[#008CC8] transition-all group rounded-lg">
-                                <Linkedin className="w-5 h-5 text-white/50 group-hover:text-white" />
+                            <a
+                                href="https://www.linkedin.com/company/tryittech-llp/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-12 h-12 bg-white flex items-center justify-center rounded-xl shadow-md hover:scale-110 transition-all border border-slate-100"
+                            >
+                                <Image
+                                    src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png"
+                                    alt="LinkedIn"
+                                    width={24}
+                                    height={24}
+                                    className="object-contain"
+                                />
                             </a>
                         </div>
                     </div>
@@ -177,7 +195,7 @@ export default function Footer() {
                             © {currentYear} TRYITTECH LLP. All Rights Reserved.
                             <br className="md:hidden" />
                             <span className="hidden md:inline mx-4 text-white/20">|</span>
-                            Developed by <a href="https://www.codtechitsolutions.com/" target="_blank" rel="noopener noreferrer" className="text-[#008CC8] hover:text-white transition-colors">CODTECH IT Solutions</a>
+                            <span className="text-[10px] text-white/20">Developed by <a href="https://www.codtechitsolutions.com/" target="_blank" rel="noopener noreferrer" className="text-white/30 hover:text-white/50 transition-colors">CODTECH IT Solutions</a></span>
                         </p>
                     </div>
 

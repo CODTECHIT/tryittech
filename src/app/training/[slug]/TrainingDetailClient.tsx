@@ -212,7 +212,7 @@ export default function TrainingDetailClient() {
                         <div className="bg-slate-50 p-10 rounded-[40px] border border-slate-100">
                             <h3 className="text-2xl font-bold text-[#020617] mb-8 flex items-center gap-3">
                                 <Zap className="w-6 h-6 text-[#008CC8]" />
-                                Curriculum Modules
+                                courses
                             </h3>
 
                             <div className="space-y-4">

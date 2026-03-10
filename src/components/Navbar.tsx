@@ -144,14 +144,12 @@ export default function Navbar() {
   }, []);
 
   // Determine navbar background based on scroll and page
-  const navBg = isHome
-    ? (isScrolled ? 'bg-white shadow-md py-3' : 'bg-transparent py-5')
-    : 'bg-[#020617] shadow-md py-3';
+  const navBg = (isHome && !isScrolled) ? 'bg-transparent py-5' : 'bg-white shadow-md py-3';
 
-  const textColor = isHome && !isScrolled ? 'text-white' : (isHome ? 'text-[#020617]' : 'text-white');
-  const linkColor = isHome && !isScrolled ? 'text-white/90' : (isHome ? 'text-slate-600' : 'text-slate-300 hover:text-white');
-  const dropdownBg = isHome && !isScrolled ? 'bg-white/10 backdrop-blur-md border border-white/10' : 'bg-white shadow-2xl border border-slate-100';
-  const dropdownTextColor = isHome && !isScrolled ? 'text-white' : 'text-slate-700';
+  const textColor = (isHome && !isScrolled) ? 'text-white' : 'text-[#020617]';
+  const linkColor = (isHome && !isScrolled) ? 'text-white/90' : 'text-[#020617]';
+  const dropdownBg = (isHome && !isScrolled) ? 'bg-white/10 backdrop-blur-md border border-white/10' : 'bg-white shadow-2xl border border-slate-100';
+  const dropdownTextColor = (isHome && !isScrolled) ? 'text-white' : 'text-slate-700';
 
   return (
     <nav className={`fixed w-full z-50 transition-all duration-300 ${navBg}`}>
@@ -167,10 +165,10 @@ export default function Navbar() {
               priority
             />
             <div className="flex flex-col">
-              <span className={`text-xl md:text-2xl font-black tracking-tight leading-none ${isHome && !isScrolled ? 'text-white' : (isHome ? 'text-[#020617]' : 'text-white')}`}>
+              <span className={`text-xl md:text-2xl font-black tracking-tight leading-none ${textColor}`}>
                 TRYITTECH <span className="text-[#008CC8]">LLP</span>
               </span>
-              <span className={`text-[10px] font-bold tracking-[0.2em] uppercase mt-1 ${isHome && !isScrolled ? 'text-slate-400' : (isHome ? 'text-slate-500' : 'text-slate-400')}`}>
+              <span className={`text-[10px] font-bold tracking-[0.2em] uppercase mt-1 ${(isHome && !isScrolled) ? 'text-slate-400' : 'text-slate-500'}`}>
                 Staffing for What&apos;s Next
               </span>
             </div>
@@ -184,7 +182,7 @@ export default function Navbar() {
               <div className="flex items-center">
                 <Link
                   href={item.href}
-                  className={`nav-link flex items-center gap-1.5 py-1 font-medium transition-colors ${linkColor}`}
+                  className={`nav-link flex items-center gap-1.5 py-1 font-bold transition-colors ${linkColor}`}
                 >
                   {item.name}
                   {item.dropdown && (

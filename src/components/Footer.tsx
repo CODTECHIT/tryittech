@@ -139,20 +139,36 @@ export default function Footer() {
                     </div>
 
                     <div className="flex-1 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-12 lg:gap-8">
-                        {sections.map((section) => (
-                            <div key={section.title}>
-                                <h4 className="text-white font-black mb-6 text-[10px] md:text-[11px] uppercase tracking-[0.3em] opacity-90">{section.title}</h4>
-                                <ul className="space-y-3 text-[13px] font-bold">
-                                    {section.links.map((link) => (
-                                        <li key={link.name}>
-                                            <Link href={link.href} className="text-white/60 hover:text-[#008CC8] transition-colors hover:translate-x-1 inline-block">
-                                                {link.name}
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ))}
+                        {sections.map((section) => {
+                            const hoverColor =
+                                section.title === 'Services' ? '#F07A3A' :
+                                    section.title === 'Industries' ? '#25D366' :
+                                        section.title === 'Training' ? '#008CC8' :
+                                            '#6ED3C3';
+
+                            return (
+                                <div key={section.title}>
+                                    <h4 className="text-white font-black mb-6 text-[10px] md:text-[11px] uppercase tracking-[0.3em] opacity-90">{section.title}</h4>
+                                    <ul className="space-y-3 text-[13px] font-bold">
+                                        {section.links.map((link) => (
+                                            <li key={link.name}>
+                                                <Link
+                                                    href={link.href}
+                                                    className="text-white/60 transition-colors hover:translate-x-1 inline-block"
+                                                    style={{
+                                                        color: 'rgba(255, 255, 255, 0.6)'
+                                                    } as React.CSSProperties}
+                                                    onMouseEnter={(e) => e.currentTarget.style.color = hoverColor}
+                                                    onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)'}
+                                                >
+                                                    {link.name}
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
 

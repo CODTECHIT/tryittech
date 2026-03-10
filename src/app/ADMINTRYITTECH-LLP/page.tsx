@@ -1137,10 +1137,10 @@ export default function AdminPanel() {
                                                             />
                                                         </div>
 
-                                                        {/* Curriculum Modules */}
+                                                        {/* courses */}
                                                         <div className="space-y-4">
                                                             <div className="flex justify-between items-center">
-                                                                <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">Curriculum Modules</label>
+                                                                <label className="text-xs font-black uppercase tracking-widest text-[#008CC8]">courses</label>
                                                                 <button type="button" onClick={() => handleArrayAction('modules', 'add')} className="text-[#008CC8] text-xs font-black uppercase tracking-widest flex items-center gap-2 hover:bg-[#008CC8]/5 px-4 py-2 rounded-lg transition-all">
                                                                     <Plus className="w-4 h-4" /> Add Module
                                                                 </button>

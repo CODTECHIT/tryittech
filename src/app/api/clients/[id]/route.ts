@@ -3,10 +3,10 @@ import { updateClientLogo, deleteClientLogo } from '@/lib/clients';
 
 export async function PUT(
     req: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const id = params.id;
+        const { id } = await params;
         const data = await req.json();
         const updated = await updateClientLogo(id, data);
         if (updated) {
@@ -21,10 +21,10 @@ export async function PUT(
 
 export async function DELETE(
     req: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const id = params.id;
+        const { id } = await params;
         const success = await deleteClientLogo(id);
         if (success) {
             return NextResponse.json({ message: 'Deleted successfully' });

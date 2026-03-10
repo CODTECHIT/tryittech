@@ -82,23 +82,22 @@ export default function Contact() {
     return (
         <section id="contact" className="section-padding bg-light relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="bg-white shadow-[0_40px_100px_-20px_rgba(31,41,55,0.1)] rounded-sm overflow-hidden grid lg:grid-cols-5 border border-slate-100">
+                <div className="shadow-[0_40px_100px_-20px_rgba(31,41,55,0.1)] rounded-sm overflow-hidden grid lg:grid-cols-5 border border-slate-100 relative">
+                    {/* Unified Box Background Image */}
+                    <div className="absolute inset-0 z-0">
+                        <NextImage
+                            src="/images/sd.jpg"
+                            alt="Background"
+                            fill
+                            className="object-cover opacity-100"
+                        />
+                        <div className="absolute inset-0 bg-white/70 backdrop-blur-[2px]" />
+                    </div>
 
                     {/* Info Side */}
                     <div
                         className="lg:col-span-2 p-8 md:p-12 lg:p-16 text-[#020617] flex flex-col justify-between relative overflow-hidden"
                     >
-                        {/* Box Background Image */}
-                        <div className="absolute inset-0 z-0">
-                            <NextImage
-                                src="/images/sd.jpg"
-                                alt="Background"
-                                fill
-                                className="object-cover opacity-100"
-                            />
-                            <div className="absolute inset-0 bg-white/70 backdrop-blur-[2px]" />
-                        </div>
-
                         <div className="relative z-10">
                             <h3 className="text-3xl md:text-4xl font-bold mb-6 md:mb-10 leading-tight text-[#020617]">Get in Touch with our Experts</h3>
                             <p className="text-base md:text-lg text-[#020617]/90 mb-10 md:mb-16 leading-relaxed font-bold">
@@ -138,27 +137,27 @@ export default function Contact() {
                     </div>
 
                     {/* Form Side */}
-                    <div className="lg:col-span-3 p-8 md:p-12 lg:p-20 bg-white">
+                    <div className="lg:col-span-3 p-8 md:p-12 lg:p-20 relative z-10">
                         <form onSubmit={handleSubmit} className="space-y-10">
                             <div className="grid md:grid-cols-2 gap-6 md:gap-10">
                                 <div className="relative group">
-                                    <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest absolute -top-2.5 left-5 bg-white px-2 group-focus-within:text-[#008CC8] transition-colors">Your Full Name</label>
+                                    <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest absolute -top-2.5 left-5 bg-white/50 backdrop-blur-sm px-2 group-focus-within:text-[#008CC8] transition-colors">Your Full Name</label>
                                     <input
                                         required
                                         type="text"
                                         value={formData.name}
                                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                        className="w-full border-2 border-slate-200 p-5 focus:outline-none focus:border-[#008CC8] transition-all outline-none rounded-sm font-semibold text-[#020617] placeholder:text-slate-400"
+                                        className="w-full border-2 border-[#020617]/10 p-5 focus:outline-none focus:border-[#008CC8] transition-all outline-none rounded-sm font-semibold text-[#020617] placeholder:text-slate-400 bg-white/30 backdrop-blur-sm"
                                         placeholder="e.g. Johnathan Doe"
                                     />
                                 </div>
                                 <div className="relative group">
-                                    <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest absolute -top-2.5 left-5 bg-white px-2 group-focus-within:text-[#008CC8] transition-colors">Email Address</label>
+                                    <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest absolute -top-2.5 left-5 bg-white/50 backdrop-blur-sm px-2 group-focus-within:text-[#008CC8] transition-colors">Email Address</label>
                                     <input
                                         type="email"
                                         value={formData.email}
                                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                        className="w-full border-2 border-slate-200 p-5 focus:outline-none focus:border-[#008CC8] transition-all outline-none rounded-sm font-semibold text-[#020617] placeholder:text-slate-400"
+                                        className="w-full border-2 border-[#020617]/10 p-5 focus:outline-none focus:border-[#008CC8] transition-all outline-none rounded-sm font-semibold text-[#020617] placeholder:text-slate-400 bg-white/30 backdrop-blur-sm"
                                         placeholder="email@company.com"
                                     />
                                 </div>
@@ -166,22 +165,22 @@ export default function Contact() {
 
                             <div className="grid md:grid-cols-2 gap-6 md:gap-10">
                                 <div className="relative group">
-                                    <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest absolute -top-2.5 left-5 bg-white px-2 group-focus-within:text-[#008CC8] transition-colors">Mobile Number</label>
+                                    <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest absolute -top-2.5 left-5 bg-white/50 backdrop-blur-sm px-2 group-focus-within:text-[#008CC8] transition-colors">Mobile Number</label>
                                     <input
                                         required
                                         type="tel"
                                         value={formData.mobile}
                                         onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
-                                        className="w-full border-2 border-slate-200 p-5 focus:outline-none focus:border-[#008CC8] transition-all outline-none rounded-sm font-semibold text-[#020617] placeholder:text-slate-400"
+                                        className="w-full border-2 border-[#020617]/10 p-5 focus:outline-none focus:border-[#008CC8] transition-all outline-none rounded-sm font-semibold text-[#020617] placeholder:text-slate-400 bg-white/30 backdrop-blur-sm"
                                         placeholder="+91 00000 00000"
                                     />
                                 </div>
                                 <div className="relative group">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest absolute -top-2.5 left-5 bg-white px-2 group-focus-within:text-[#008CC8] transition-colors">Service Interest</label>
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest absolute -top-2.5 left-5 bg-white/50 backdrop-blur-sm px-2 group-focus-within:text-[#008CC8] transition-colors">Service Interest</label>
                                     <select
                                         value={formData.service}
                                         onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                                        className="w-full border-2 border-slate-100 p-5 focus:outline-none focus:border-[#008CC8] transition-all outline-none rounded-sm appearance-none bg-transparent font-medium text-slate-700"
+                                        className="w-full border-2 border-[#020617]/10 p-5 focus:outline-none focus:border-[#008CC8] transition-all outline-none rounded-sm appearance-none bg-white/30 backdrop-blur-sm font-medium text-slate-700"
                                     >
                                         <option value="General Inquiry">General Inquiry</option>
 
@@ -216,12 +215,12 @@ export default function Contact() {
                             </div>
 
                             <div className="relative group">
-                                <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest absolute -top-2.5 left-5 bg-white px-2 group-focus-within:text-[#008CC8] transition-colors">Your Message</label>
+                                <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest absolute -top-2.5 left-5 bg-white/50 backdrop-blur-sm px-2 group-focus-within:text-[#008CC8] transition-colors">Your Message</label>
                                 <textarea
                                     rows={5}
                                     value={formData.message}
                                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                    className="w-full border-2 border-slate-200 p-5 focus:outline-none focus:border-[#008CC8] transition-all outline-none rounded-sm font-semibold text-[#020617] placeholder:text-slate-400 resize-none"
+                                    className="w-full border-2 border-[#020617]/10 p-5 focus:outline-none focus:border-[#008CC8] transition-all outline-none rounded-sm font-semibold text-[#020617] placeholder:text-slate-400 resize-none bg-white/30 backdrop-blur-sm"
                                     placeholder="How can we help your organization scale?"
                                 />
                             </div>

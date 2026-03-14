@@ -116,7 +116,7 @@ export default function IndustryDetailClient({
             <Navbar />
 
             {/* HERO SECTION */}
-            <section className="relative h-[85vh] w-full flex items-center overflow-hidden">
+            <section className="relative h-[60vh] sm:h-[70vh] md:h-[85vh] w-full flex items-center overflow-hidden">
                 <div className="absolute inset-0">
                     <Image
                         src={industry.image || 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&q=80'}
@@ -138,16 +138,16 @@ export default function IndustryDetailClient({
                         transition={{ duration: 0.8, ease: "easeOut" }}
                         className="max-w-4xl"
                     >
-                        <div className="flex items-center gap-3 text-[#008CC8] mb-6">
-                            <span className="w-12 h-[2px] bg-[#008CC8]" />
-                            <span className="text-sm font-bold uppercase tracking-[0.3em]">Vertical Excellence</span>
+                        <div className="flex items-center gap-2 sm:gap-3 text-[#008CC8] mb-4 sm:mb-6">
+                            <span className="w-8 sm:w-12 h-[2px] bg-[#008CC8]" />
+                            <span className="text-xs sm:text-sm font-bold uppercase tracking-[0.3em]">Vertical Excellence</span>
                         </div>
 
-                        <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter leading-[0.9] mb-8">
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl xl:text-8xl font-black text-white tracking-tighter leading-[0.9] mb-4 sm:mb-6 md:mb-8">
                             {industry.name}
                         </h1>
 
-                        <p className="text-lg md:text-xl lg:text-2xl text-white/90 leading-relaxed font-medium max-w-2xl mb-10 border-l-4 border-[#008CC8] pl-6 md:pl-8">
+                        <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/90 leading-relaxed font-medium max-w-xl sm:max-w-2xl mb-6 sm:mb-8 md:mb-10 border-l-4 border-[#008CC8] pl-4 sm:pl-6 md:pl-8">
                             {industry.info || `Empowering ${industry.name} leaders with specialized talent and digital transformation strategies.`}
                         </p>
 

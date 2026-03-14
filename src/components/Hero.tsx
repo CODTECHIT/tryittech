@@ -16,6 +16,83 @@ interface Slide {
     color: string; // Dynamic accent color
 }
 
+const TRAINING_SLIDES: Slide[] = [
+    {
+        type: "list",
+        badge: "TRYITTECH LLP",
+        title: "Excellence in",
+        highlight: "IT & ERP",
+        subtitle: "Mastering technical domains with our expert-led programs.",
+        items: [
+            "SQL DEVELOPER",
+            "JAVA FULL STACK",
+            "C++ / DOT NET",
+            "TABLEAU / POWER BI",
+            "AI & GEN AI",
+            "PYTHON",
+            "AGILE / SCRUM",
+            "SAP MODULES",
+            "PROMPT ENG"
+        ],
+        image: "https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg",
+        color: "#6366F1" // Indigo
+    },
+    {
+        type: "list",
+        badge: "TRYITTECH LLP",
+        title: "Excellence in",
+        highlight: "NON-IT",
+        subtitle: "Developing essential professional and language skills.",
+        items: [
+            "GERMAN LANGUAGE",
+            "FRENCH LANGUAGE",
+            "SPANISH LANGUAGE",
+            "COMMUNICATION SKILLS",
+            "QUALITY MANAGEMENT",
+            "HR GENERALIST",
+            "HR BUSINESS PARTNER",
+            "DIGITAL MARKETING",
+            "MEDIA CONTENT"
+        ],
+        image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg",
+        color: "#F59E0B" // Amber
+    },
+    {
+        type: "list",
+        badge: "TRYITTECH LLP",
+        title: "Excellence in",
+        highlight: "KIDS",
+        subtitle: "Nurturing young minds through creative learning foundations.",
+        items: [
+            "PHONICS",
+            "CREATIVE WRITING",
+            "PUBLIC SPEAKING"
+        ],
+        image: "https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg",
+        color: "#EC4899" // Pink
+    },
+    {
+        type: "list",
+        badge: "TRYITTECH LLP",
+        title: "Excellence in",
+        highlight: "EHS",
+        subtitle: "Ensuring safety and compliance in the industrial environment.",
+        items: [
+            "SAP EHS",
+            "CHEMICAL SAFETY",
+            "FIRE SAFETY",
+            "FIRST AID & CPR",
+            "PPE STANDARDS",
+            "CONTRACTOR SAFETY",
+            "BEHAVIOUR SAFETY",
+            "EMERGENCY PREP",
+            "IND. HYGIENE"
+        ],
+        image: "https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg",
+        color: "#10B981" // Emerald
+    }
+];
+
 const slides: Slide[] = [
     {
         type: "primary",
@@ -70,7 +147,7 @@ const slides: Slide[] = [
             "Retail & E-commerce",
             "Manufacturing"
         ],
-        image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop",
+        image: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop",
         color: "#F97316" // Orange
     },
     {
@@ -87,7 +164,8 @@ const slides: Slide[] = [
         ],
         image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=2011&auto=format&fit=crop",
         color: "#A855F7" // Purple
-    }
+    },
+    ...TRAINING_SLIDES
 ];
 
 const ACCENT_COLORS = [
@@ -163,13 +241,13 @@ export default function Hero({
                             items: catIndustries.slice(0, 6).map(i => i.name),
                             image: cat === 'IT'
                                 ? "https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg"
-                                : (catIndustries[0]?.image || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop"),
+                                : "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop",
                             color: cat === 'IT' ? "#06B6D4" : "#F97316" // Cyan for IT, Orange for Non-IT
                         });
                     });
                 }
 
-                // 5. Add Trainings Slide last
+                // 5. Add Trainings Slides
                 if (Array.isArray(trainings) && trainings.length > 0) {
                     newDynamicSlides.push({
                         type: "list",
@@ -182,6 +260,9 @@ export default function Hero({
                         color: "#A855F7" // Purple
                     });
                 }
+
+                // Add the 4 specific categories provided by the user
+                newDynamicSlides.push(...TRAINING_SLIDES);
 
                 setDynamicSlides(newDynamicSlides);
             } catch (error) {
@@ -223,14 +304,14 @@ export default function Hero({
 
     return (
         <section className="relative h-screen min-h-[700px] w-full bg-[#020617] overflow-hidden">
-            <AnimatePresence mode="wait">
+            <AnimatePresence>
                 <motion.div
-                    key={currentSlide}
+                    key={`bg-${currentSlide}`}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 1.5, ease: "easeInOut" }}
-                    className="absolute inset-0"
+                    transition={{ duration: 1.2, ease: "easeInOut" }}
+                    className="absolute inset-0 z-0"
                 >
                     <Image
                         src={activeSlide.image}
@@ -245,21 +326,23 @@ export default function Hero({
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 h-full flex items-center">
                 <div className="max-w-4xl pt-20">
-                    <motion.div
-                        key={`content-${currentSlide}`}
-                        initial={{ opacity: 0, x: -50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.8, delay: 0.5 }}
-                        className="space-y-8"
-                    >
-                        {activeSlide.badge && (
-                            <div className="flex items-center gap-4">
-                                <span className="w-12 h-[2px]" style={{ backgroundColor: activeSlide.color }} />
-                                <span className="font-bold uppercase tracking-[0.4em] text-xs" style={{ color: activeSlide.color }}>
-                                    {activeSlide.badge}
-                                </span>
-                            </div>
-                        )}
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={`content-${currentSlide}`}
+                            initial={{ opacity: 0, x: -50 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: 50 }}
+                            transition={{ duration: 0.6, ease: "easeInOut" }}
+                            className="space-y-8"
+                        >
+                            {activeSlide.badge && (
+                                <div className="flex items-center gap-4">
+                                    <span className="w-12 h-[2px]" style={{ backgroundColor: activeSlide.color }} />
+                                    <span className="font-bold uppercase tracking-[0.4em] text-xs" style={{ color: activeSlide.color }}>
+                                        {activeSlide.badge}
+                                    </span>
+                                </div>
+                            )}
 
                         <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-[7rem] font-black text-white tracking-tighter leading-[0.95] font-poppins">
                             {activeSlide.title} <br />
@@ -293,6 +376,7 @@ export default function Hero({
                             )}
                         </div>
                     </motion.div>
+                    </AnimatePresence>
                 </div>
             </div>
 

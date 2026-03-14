@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { signSession, checkRateLimit, resetRateLimit } from '@/lib/security';
+import { createSession, checkRateLimit, resetRateLimit, loginSchema, validateInput } from '@/lib/security';
 
 export async function POST(req: NextRequest) {
     try {
@@ -20,18 +20,27 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        const { username, password } = await req.json();
+        const body = await req.json();
+
+        // ── Input Validation ──
+        const validation = validateInput(loginSchema, body);
+        if (!validation.success) {
+            return NextResponse.json({ error: validation.error }, { status: 400 });
+        }
+
+        const { username, password } = validation.data;
 
         const validUser = process.env.ADMIN_USER;
         const validPass = process.env.ADMIN_PASS;
 
         if (username === validUser && password === validPass) {
-            // ── Successful login: clear rate limit, issue session ──
+            // ── Successful login: clear rate limit, issue new session ──
             resetRateLimit(ip);
 
             const response = NextResponse.json({ message: 'Login successful' });
-            const secureToken = crypto.randomUUID() + '-' + Date.now();
-            const signedToken = await signSession(secureToken);
+
+            // Use new session system to prevent session fixation
+            const { signedToken } = await createSession();
 
             response.cookies.set('admin_session', signedToken, {
                 httpOnly: true,

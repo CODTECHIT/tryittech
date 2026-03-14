@@ -1,17 +1,22 @@
+import { isAuthenticated } from '@/lib/security';
 import { NextRequest, NextResponse } from 'next/server';
-import { verifySession } from '@/lib/security';
+import { verifySessionWithStore } from '@/lib/security';
 
 const MAX_SIZE_BYTES = 2 * 1024 * 1024; // 2 MB
 
 export async function POST(req: NextRequest) {
     // ── Auth Guard ──
     const session = req.cookies.get('admin_session');
-    const isValid = session?.value ? await verifySession(session.value) : false;
+    const isValid = session?.value ? await verifySessionWithStore(session.value) : false;
     if (!isValid) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     try {
+        if (!await isAuthenticated(req)) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        }
+
         const formData = await req.formData();
         const file = formData.get('file') as File | null;
 

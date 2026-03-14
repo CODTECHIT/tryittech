@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import PageHeader from '@/components/PageHeader';
@@ -6,10 +7,75 @@ import Image from 'next/image';
 import { policiesContent, PolicySlug } from '@/constants/policiesContent';
 import { Shield, CheckCircle } from 'lucide-react';
 
+const BASE_URL = 'https://www.tryittech.in';
+
 export async function generateStaticParams() {
     return Object.keys(policiesContent).map((slug) => ({
         slug: slug,
     }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+    const { slug } = await params;
+    const policy = policiesContent[slug as PolicySlug];
+
+    if (!policy) {
+        return {
+            title: 'Policy Not Found | TRYITTECH LLP',
+            description: 'The requested policy page was not found.',
+        };
+    }
+
+    const title = `${policy.title} | Corporate Policies | TRYITTECH LLP`;
+    const description = `${policy.title} - TRYITTECH LLP corporate policy. ${policy.sections[0]?.content.slice(0, 150).join(' ')}... Learn about our commitment to compliance, data security, and best practices.`;
+    const url = `${BASE_URL}/policies/${slug}`;
+
+    const keywordsMap: Record<string, string[]> = {
+        'privacy-policy': ['privacy policy India', 'data protection policy Hyderabad', 'personal data processing policy', 'GDPR compliance India', 'data security policy TRYITTECH'],
+        'terms-of-service': ['terms of service India', 'service agreement Hyderabad', 'terms and conditions TRYITTECH', 'usage policy India', 'legal terms staffing'],
+        'cookie-policy': ['cookie policy India', 'cookie consent Hyderabad', 'tracking policy TRYITTECH', 'cookies GDPR India', 'website cookies policy'],
+        'hr-policies': ['HR policies India', 'employee handbook Hyderabad', 'workplace policies TRYITTECH', 'human resources policies India', 'employment policies Hyderabad'],
+        'code-of-conduct': ['code of conduct India', 'employee code of ethics Hyderabad', 'business ethics TRYITTECH', 'professional conduct India', 'workplace ethics Hyderabad'],
+        'data-security': ['data security policy India', 'information security Hyderabad', 'cybersecurity policy TRYITTECH', 'data protection India', 'IT security policy Hyderabad'],
+        'compliance': ['compliance policy India', 'regulatory compliance Hyderabad', 'legal compliance TRYITTECH', 'industry standards India', 'audit compliance Hyderabad'],
+        'anti-harassment': ['anti-harassment policy India', 'workplace harassment Hyderabad', 'sexual harassment policy TRYITTECH', 'workplace safety India', 'employee protection Hyderabad'],
+    };
+
+    return {
+        title,
+        description,
+        keywords: [
+            ...(keywordsMap[slug] || []),
+            'corporate policy TRYITTECH',
+            'company policies India',
+            'HR policies Hyderabad',
+            'staffing company policies',
+        ],
+        alternates: {
+            canonical: url,
+        },
+        openGraph: {
+            title,
+            description,
+            url,
+            type: 'article',
+            publishedTime: '2024-01-01T00:00:00Z',
+            modifiedTime: new Date().toISOString(),
+            authors: ['TRYITTECH LLP'],
+            section: 'Corporate Policies',
+            images: [{ url: '/images/clients/logoo.png', width: 1200, height: 630, alt: `${policy.title} - TRYITTECH LLP` }],
+        },
+        twitter: {
+            title,
+            description,
+            card: 'summary_large_image',
+            images: ['/images/clients/logoo.png'],
+        },
+        robots: {
+            index: true,
+            follow: true,
+        },
+    };
 }
 
 export default async function PolicyDetailPage({ params }: { params: Promise<{ slug: string }> }) {

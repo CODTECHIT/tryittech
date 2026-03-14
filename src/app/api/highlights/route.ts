@@ -1,3 +1,4 @@
+import { isAuthenticated } from '@/lib/security';
 import { NextRequest, NextResponse } from 'next/server';
 import { getHighlights, addHighlight } from '@/lib/highlights';
 
@@ -13,6 +14,10 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
     try {
+        if (!await isAuthenticated(req)) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        }
+
         const data = await req.json();
         const newHighlight = await addHighlight(data);
         if (newHighlight) {

@@ -1,3 +1,4 @@
+import { isAuthenticated } from '@/lib/security';
 export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { getTrainings, addTraining } from '@/lib/trainings';
@@ -14,6 +15,10 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
     try {
+        if (!await isAuthenticated(req)) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        }
+
         const body = await req.json();
         const newTraining = await addTraining(body);
         return NextResponse.json(newTraining, { status: 201 });

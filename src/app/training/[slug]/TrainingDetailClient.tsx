@@ -15,7 +15,6 @@ import {
     Calendar,
     CheckCircle2,
     FileText,
-    Download,
     Users,
     Send,
     Phone,
@@ -115,7 +114,7 @@ export default function TrainingDetailClient() {
             <Navbar />
 
             {/* ── HERO ── */}
-            <section className="relative h-[75vh] w-full flex items-center overflow-hidden">
+            <section className="relative h-[60vh] sm:h-[70vh] md:h-[75vh] w-full flex items-center overflow-hidden">
                 <div className="absolute inset-0">
                     <Image
                         src={training.image || 'https://img.freepik.com/free-photo/business-startup-strategy-goals-concept_53876-120909.jpg'}
@@ -131,37 +130,21 @@ export default function TrainingDetailClient() {
                         initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }} className="max-w-4xl"
                     >
-                        <div className="flex items-center gap-3 text-[#008CC8] mb-6">
-                            <IconComponent className="w-8 h-8" />
-                            <span className="text-sm font-bold uppercase tracking-[0.3em]">Specialized Training Program</span>
+                        <div className="flex items-center gap-2 sm:gap-3 text-[#008CC8] mb-4 sm:mb-6">
+                            <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8" />
+                            <span className="text-xs sm:text-sm font-bold uppercase tracking-[0.3em]">Specialized Training Program</span>
                         </div>
 
-                        <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-tight mb-6">
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black text-white tracking-tighter leading-tight mb-4 sm:mb-6">
                             {training.title}
                         </h1>
 
-                        <p className="text-xl text-white/90 leading-relaxed font-medium max-w-2xl mb-8 border-l-4 border-[#008CC8] pl-8">
+                        <p className="text-base sm:text-lg md:text-xl text-white/90 leading-relaxed font-medium max-w-xl sm:max-w-2xl mb-6 sm:mb-8 border-l-4 border-[#008CC8] pl-4 sm:pl-8">
                             {training.description}
                         </p>
 
                         {/* Quick meta badges */}
                         <div className="flex flex-wrap gap-4">
-                            {formattedDate && (
-                                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-5 py-2.5">
-                                    <Calendar className="w-4 h-4 text-[#008CC8]" />
-                                    <span className="text-white font-bold text-sm">Starts: {formattedDate}</span>
-                                </div>
-                            )}
-                            {training.curriculumPdf && (
-                                <a
-                                    href={training.curriculumPdf}
-                                    download="curriculum.pdf"
-                                    className="flex items-center gap-2 bg-[#008CC8] rounded-full px-5 py-2.5 text-white font-bold text-sm hover:bg-white hover:text-[#020617] transition-all"
-                                >
-                                    <Download className="w-4 h-4" />
-                                    Download Curriculum
-                                </a>
-                            )}
                             <a
                                 href="#enquire"
                                 className="flex items-center gap-2 bg-white text-[#020617] rounded-full px-5 py-2.5 font-bold text-sm hover:bg-[#008CC8] hover:text-white transition-all"
@@ -216,28 +199,64 @@ export default function TrainingDetailClient() {
                             </h3>
 
                             <div className="space-y-4">
-                                {training.modules.length > 0 ? training.modules.map((module, idx) => (
-                                    <div key={idx} className="flex items-center gap-4 p-4 bg-white rounded-2xl shadow-sm border border-slate-100 group hover:border-[#008CC8] transition-colors">
-                                        <div className="w-8 h-8 bg-[#008CC8]/10 rounded-full flex items-center justify-center text-[#008CC8] font-bold text-xs group-hover:bg-[#008CC8] group-hover:text-white transition-all">
-                                            {idx + 1}
+                                {training.modules.length > 0 ? (training.modules as (string | { title?: string; startDate?: string; curriculumPdf?: string })[]).map((module, idx) => {
+                                    const isObj = typeof module === 'object' && module !== null;
+                                    const title = (isObj ? module.title : module) || 'Module';
+                                    const mDate = isObj ? module.startDate : null;
+                                    const mPdf = isObj ? module.curriculumPdf : null;
+
+                                    const mFormattedDate = mDate
+                                        ? new Date(mDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+                                        : null;
+
+                                    return (
+                                        <div key={idx} className="group relative bg-white border border-slate-200 rounded-[2rem] p-4 md:p-5 hover:border-[#008CC8] hover:shadow-xl hover:shadow-[#008CC8]/5 transition-all duration-300 overflow-hidden">
+                                            <div className="flex flex-col sm:flex-row sm:items-center gap-4 md:gap-6">
+                                                {/* Number Index */}
+                                                <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-[#008CC8] font-black text-sm md:text-base group-hover:bg-[#008CC8] group-hover:text-white transition-all shrink-0">
+                                                    {(idx + 1).toString().padStart(2, '0')}
+                                                </div>
+
+                                                {/* Information Area */}
+                                                <div className="flex-1 min-w-0">
+                                                    <h4 className="text-slate-900 font-black text-base md:text-lg leading-tight mb-2 group-hover:text-[#008CC8] transition-colors truncate">
+                                                        {title}
+                                                    </h4>
+                                                    {mFormattedDate && (
+                                                        <motion.div
+                                                            animate={{ opacity: [1, 0, 1] }}
+                                                            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                                                            className="flex items-center gap-2 text-red-600 whitespace-nowrap"
+                                                        >
+                                                            <Calendar className="w-3.5 h-3.5" />
+                                                            <span className="text-[10px] md:text-xs font-black uppercase tracking-widest">
+                                                                Starts: {mFormattedDate}
+                                                            </span>
+                                                        </motion.div>
+                                                    )}
+                                                </div>
+
+                                                {/* Action Area */}
+                                                {mPdf && (
+                                                    <div className="shrink-0">
+                                                        <a
+                                                            href={mPdf}
+                                                            download={`${title.toLowerCase().replace(/\s+/g, '-')}-curriculum.pdf`}
+                                                            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#008CC8] text-white rounded-xl font-black text-[10px] md:text-xs uppercase tracking-widest hover:bg-slate-800 transition-all shadow-md shadow-[#008CC8]/20"
+                                                        >
+                                                            <FileText className="w-3.5 h-3.5" />
+                                                            Get Course PDF
+                                                        </a>
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
-                                        <span className="font-bold text-slate-700">{module}</span>
-                                    </div>
-                                )) : (
+                                    );
+                                }) : (
                                     <p className="text-slate-400 text-sm italic">Curriculum will be updated soon.</p>
                                 )}
                             </div>
 
-                            {training.curriculumPdf && (
-                                <a
-                                    href={training.curriculumPdf}
-                                    download="curriculum.pdf"
-                                    className="mt-8 flex items-center justify-center gap-3 w-full py-4 bg-[#008CC8] text-white font-black rounded-2xl hover:bg-[#020617] transition-all"
-                                >
-                                    <Download className="w-5 h-5" />
-                                    Download Full Curriculum PDF
-                                </a>
-                            )}
                         </div>
                     </div>
                 </div>

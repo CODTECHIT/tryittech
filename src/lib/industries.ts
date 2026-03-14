@@ -1,5 +1,6 @@
 import connectDB from './db';
 import { Industry as IndustryModel } from './models';
+import { sanitizeData } from './security';
 import fs from 'fs';
 import path from 'path';
 
@@ -19,6 +20,8 @@ export interface Industry {
     edge: { title: string; description: string; icon: string }[];
     source?: 'db' | 'fallback';
 }
+
+const INDUSTRY_FIELDS: (keyof Industry)[] = ['slug', 'name', 'category', 'image', 'secondaryImage', 'icon', 'info', 'overview', 'segments', 'solutions', 'insights', 'edge'];
 
 function toIndustry(doc: Record<string, unknown>, source: 'db' | 'fallback' = 'db'): Industry & { source: string } {
     return {
@@ -85,7 +88,8 @@ export async function getIndustryBySlug(slug: string): Promise<Industry | undefi
 export async function addIndustry(data: Omit<Industry, 'id'>): Promise<Industry | null> {
     try {
         await connectDB();
-        const doc = await IndustryModel.create(data);
+        const sanitized = sanitizeData(data as Record<string, unknown>, INDUSTRY_FIELDS as string[]);
+        const doc = await IndustryModel.create(sanitized);
         return toIndustry(doc.toObject() as Record<string, unknown>, 'db');
     } catch (err) {
         console.error('Error adding industry:', err);
@@ -96,6 +100,7 @@ export async function addIndustry(data: Omit<Industry, 'id'>): Promise<Industry 
 export async function updateIndustry(id: string, data: Partial<Industry>): Promise<Industry | null> {
     try {
         await connectDB();
+        const sanitized = sanitizeData(data as Record<string, unknown>, INDUSTRY_FIELDS as string[]);
         let doc = null;
 
         // Only try findById if it looks like a valid MongoDB ID
@@ -103,7 +108,7 @@ export async function updateIndustry(id: string, data: Partial<Industry>): Promi
         const isObjectId = /^[0-9a-fA-F]{24}$/.test(id);
 
         if (isObjectId) {
-            const updated = await IndustryModel.findByIdAndUpdate(id, data, { new: true }).lean();
+            const updated = await IndustryModel.findByIdAndUpdate(id, sanitized, { new: true }).lean();
             if (updated) doc = updated;
         }
 
@@ -112,10 +117,10 @@ export async function updateIndustry(id: string, data: Partial<Industry>): Promi
             // Check if it exists in DB already by its unique slug
             const existing = await IndustryModel.findOne({ slug: data.slug }).lean();
             if (existing) {
-                doc = await IndustryModel.findByIdAndUpdate(existing._id, data, { new: true }).lean();
+                doc = await IndustryModel.findByIdAndUpdate(existing._id, sanitized, { new: true }).lean();
             } else {
                 // Not in DB at all, create it now
-                const created = await IndustryModel.create(data);
+                const created = await IndustryModel.create(sanitized);
                 doc = created.toObject();
             }
         }

@@ -1,6 +1,14 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { invalidateSession } from '@/lib/security';
 
-export async function POST() {
+export async function POST(req: NextRequest) {
+    const session = req.cookies.get('admin_session');
+
+    // Invalidate session in the session store
+    if (session?.value) {
+        invalidateSession(session.value);
+    }
+
     const response = NextResponse.json({ message: 'Logged out successfully' });
 
     // Clear the session cookie

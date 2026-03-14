@@ -24,7 +24,35 @@ export default function robots(): MetadataRoute.Robots {
                 ],
             },
             {
+                userAgent: 'Googlebot-Image',
+                allow: '/',
+                disallow: [
+                    '/ADMINTRYITTECH-LLP/',
+                    '/api/',
+                ],
+            },
+            {
+                userAgent: 'Googlebot-Mobile',
+                allow: '/',
+            },
+            {
                 userAgent: 'Bingbot',
+                allow: '/',
+                disallow: [
+                    '/ADMINTRYITTECH-LLP/',
+                    '/api/',
+                ],
+            },
+            {
+                userAgent: 'Slurp',
+                allow: '/',
+            },
+            {
+                userAgent: 'DuckDuckBot',
+                allow: '/',
+            },
+            {
+                userAgent: 'Yandex',
                 allow: '/',
                 disallow: [
                     '/ADMINTRYITTECH-LLP/',

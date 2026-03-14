@@ -1,8 +1,11 @@
 import connectDB from './db';
 import { Highlight as HighlightModel } from './models';
+import { sanitizeData } from './security';
 import fs from 'fs';
 import path from 'path';
 import mongoose from 'mongoose';
+
+const HIGHLIGHT_FIELDS: (keyof Highlight)[] = ['title', 'icon', 'desc'];
 
 export interface Highlight {
     id: string;
@@ -11,7 +14,7 @@ export interface Highlight {
     desc: string;
 }
 
-function toHighlight(doc: Record<string, any>): Highlight {
+function toHighlight(doc: Record<string, unknown>): Highlight {
     return {
         id: String(doc._id || doc.id),
         title: String(doc.title || ''),
@@ -35,7 +38,7 @@ export async function getHighlights(): Promise<Highlight[]> {
     try {
         await connectDB();
         const docs = await HighlightModel.find({}).lean();
-        const dbHighlights = (docs || []).map(d => toHighlight(d as Record<string, any>));
+        const dbHighlights = (docs || []).map(d => toHighlight(d as Record<string, unknown>));
 
         // If we have items in the DB, only show those to avoid showing duplicates or old fallbacks
         if (dbHighlights.length > 0) {
@@ -53,7 +56,8 @@ export async function getHighlights(): Promise<Highlight[]> {
 export async function addHighlight(data: Omit<Highlight, 'id'>): Promise<Highlight | null> {
     try {
         await connectDB();
-        const doc = await HighlightModel.create(data);
+        const sanitized = sanitizeData(data as Record<string, unknown>, HIGHLIGHT_FIELDS as string[]);
+        const doc = await HighlightModel.create(sanitized);
         return toHighlight(doc.toObject());
     } catch (err) {
         console.error('Error adding highlight:', err);
@@ -64,18 +68,19 @@ export async function addHighlight(data: Omit<Highlight, 'id'>): Promise<Highlig
 export async function updateHighlight(id: string, data: Partial<Highlight>): Promise<Highlight | null> {
     try {
         await connectDB();
+        const sanitized = sanitizeData(data as Record<string, unknown>, HIGHLIGHT_FIELDS as string[]);
         let doc = null;
 
         const isObjectId = mongoose.Types.ObjectId.isValid(id);
         if (isObjectId) {
-            doc = await HighlightModel.findByIdAndUpdate(id, data, { new: true }).lean();
+            doc = await HighlightModel.findByIdAndUpdate(id, sanitized, { new: true }).lean();
         }
 
         // If not found by ID, it might be a fallback item being edited/promoted
         if (!doc && data.title) {
             const existing = await HighlightModel.findOne({ title: data.title }).lean();
             if (existing) {
-                doc = await HighlightModel.findByIdAndUpdate(existing._id, data, { new: true }).lean();
+                doc = await HighlightModel.findByIdAndUpdate(existing._id, sanitized, { new: true }).lean();
             } else {
                 // Not in DB, promote from fallback to DB status
                 const created = await HighlightModel.create({
@@ -87,7 +92,7 @@ export async function updateHighlight(id: string, data: Partial<Highlight>): Pro
             }
         }
 
-        return doc ? toHighlight(doc as Record<string, any>) : null;
+        return doc ? toHighlight(doc as Record<string, unknown>) : null;
     } catch (err) {
         console.error('Error updating highlight:', err);
         return null;

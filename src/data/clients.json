@@ -1,0 +1,13 @@
+[
+  { "name": "Tata Consultancy Services", "image": "/images/clients/tcs.svg" },
+  { "name": "Cognizant Technology Solutions", "image": "/images/clients/cognizant.svg" },
+  { "name": "Tech Mahindra", "image": "/images/clients/tech-mahindra.png" },
+  { "name": "HDFC Bank", "image": "/images/clients/hdfc-bank.png" },
+  { "name": "ICICI Bank", "image": "/images/clients/icici-bank.jpg" },
+  { "name": "Qualcomm", "image": "/images/clients/qualcomm.svg" },
+  { "name": "Persistent Systems", "image": "/images/clients/persistent.svg" },
+  { "name": "Mphasis", "image": "/images/clients/mphasis.svg" },
+  { "name": "Aspire Systems", "image": "/images/clients/aspire-systems.png" },
+  { "name": "Buddi AI", "image": "/images/clients/buddi-ai.png" },
+  { "name": "Zensar Technologies", "image": "/images/clients/zensar.svg" }
+]

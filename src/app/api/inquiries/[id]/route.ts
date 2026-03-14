@@ -1,11 +1,15 @@
+import { isAuthenticated } from '@/lib/security';
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import { Inquiry } from '@/lib/models';
 
 export async function DELETE(
-    _req: NextRequest,
+    req: NextRequest,
     { params }: { params: Promise<{ id: string }> }
 ) {
+    if (!await isAuthenticated(req)) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
     try {
         const { id } = await params;
         await connectDB();

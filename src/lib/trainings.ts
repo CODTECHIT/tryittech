@@ -1,8 +1,17 @@
 import connectDB from './db';
 import { Training as TrainingModel } from './models';
+import { sanitizeData } from './security';
 import fs from 'fs';
 import path from 'path';
 import mongoose from 'mongoose';
+
+const TRAINING_FIELDS: (keyof Training)[] = ['slug', 'title', 'description', 'longDescription', 'icon', 'image', 'modules', 'startDate', 'keyHighlights', 'curriculumPdf', 'placedCount', 'placedLearners'];
+
+export interface TrainingModule {
+    title: string;
+    startDate?: string;
+    curriculumPdf?: string;
+}
 
 export interface PlacedLearner {
     name: string;
@@ -17,7 +26,7 @@ export interface Training {
     longDescription: string;
     icon: string;
     image: string;
-    modules: string[];
+    modules: (string | TrainingModule)[];
     startDate?: string;
     keyHighlights?: string[];
     curriculumPdf?: string;
@@ -34,7 +43,16 @@ function toTraining(doc: Record<string, unknown>): Training {
         longDescription: String(doc.longDescription || ''),
         icon: String(doc.icon || ''),
         image: String(doc.image || ''),
-        modules: Array.isArray(doc.modules) ? doc.modules as string[] : [],
+        // Handle both string[] (legacy) and TrainingModule[]
+        modules: Array.isArray(doc.modules) ? doc.modules.map(m => {
+            if (typeof m === 'string') return m;
+            const obj = m as Record<string, unknown>;
+            return {
+                title: String(obj.title || ''),
+                startDate: obj.startDate ? String(obj.startDate) : undefined,
+                curriculumPdf: obj.curriculumPdf ? String(obj.curriculumPdf) : undefined,
+            };
+        }) : [],
         startDate: doc.startDate ? String(doc.startDate) : undefined,
         keyHighlights: Array.isArray(doc.keyHighlights) ? doc.keyHighlights as string[] : [],
         curriculumPdf: doc.curriculumPdf ? String(doc.curriculumPdf) : undefined,
@@ -88,19 +106,21 @@ export async function getTrainingBySlug(slug: string): Promise<Training | undefi
 
 export async function addTraining(data: Omit<Training, 'id'>): Promise<Training> {
     await connectDB();
-    const doc = await TrainingModel.create(data);
+    const sanitized = sanitizeData(data as Record<string, unknown>, TRAINING_FIELDS as string[]);
+    const doc = await TrainingModel.create(sanitized);
     return toTraining(doc.toObject());
 }
 
 export async function updateTraining(id: string, data: Partial<Training>): Promise<Training | null> {
     await connectDB();
+    const sanitized = sanitizeData(data as Record<string, unknown>, TRAINING_FIELDS as string[]);
 
     // Check if it's a valid MongoDB ObjectId
     const isValidId = mongoose.Types.ObjectId.isValid(id);
 
     if (isValidId) {
         // Normal DB update
-        const doc = await TrainingModel.findByIdAndUpdate(id, data, { new: true }).lean();
+        const doc = await TrainingModel.findByIdAndUpdate(id, sanitized, { new: true }).lean();
         return doc ? toTraining(doc as Record<string, unknown>) : null;
     } else {
         // The id is a fallback/static id (e.g. 'it-training') — promote to DB
@@ -110,13 +130,13 @@ export async function updateTraining(id: string, data: Partial<Training>): Promi
         if (existing) {
             const updated = await TrainingModel.findByIdAndUpdate(
                 (existing as Record<string, unknown>)._id,
-                data,
+                sanitized,
                 { new: true }
             ).lean();
             return updated ? toTraining(updated as Record<string, unknown>) : null;
         }
         // Create a brand new DB record from the full data
-        const doc = await TrainingModel.create(data);
+        const doc = await TrainingModel.create(sanitized);
         return toTraining(doc.toObject());
     }
 }

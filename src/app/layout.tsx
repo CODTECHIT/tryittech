@@ -128,6 +128,35 @@ export const metadata: Metadata = {
     'geo.placename': 'Hyderabad, Telangana, India',
     'geo.position': '17.3850;78.4867',
     'ICBM': '17.3850, 78.4867',
+    'business:contact_data:street_address': 'Hyderabad',
+    'business:contact_data:locality': 'Hyderabad',
+    'business:contact_data:region': 'Telangana',
+    'business:contact_data:postal_code': '500001',
+    'business:contact_data:country_name': 'India',
+    'og:email': 'info@tryittech.in',
+    'og:phone_number': '+91-40-1234-5678',
+    'og:fax_number': '+91-40-1234-5679',
+    'og:latitude': '17.385044',
+    'og:longitude': '78.486671',
+    'og:street_address': 'Hyderabad',
+    'og:locality': 'Hyderabad',
+    'og:region': 'Telangana',
+    'og:postal_code': '500001',
+    'og:country_name': 'India',
+    'og:website': 'https://www.tryittech.in',
+    'twitter:creator': '@tryittech',
+    'twitter:site': '@tryittech',
+    'DC.title': 'TRYITTECH LLP - Premier Staffing & HR Solutions Company in India',
+    'DC.creator': 'TRYITTECH LLP',
+    'DC.subject': 'Staffing, HR Solutions, IT Recruitment, Payroll Services',
+    'DC.description': 'India\'s premier staffing & HR solutions company in Hyderabad. Specialized in IT recruitment, permanent hiring, contract staffing, staff augmentation, RPO, offshore IT hub, and payroll services.',
+    'DC.publisher': 'TRYITTECH LLP',
+    'DC.contributor': 'TRYITTECH LLP',
+    'DC.language': 'en-IN',
+    'DC.coverage': 'India',
+    'DC.source': 'TRYITTECH LLP',
+    'abstract': 'TRYITTECH LLP is India\'s premier staffing and HR solutions company providing IT recruitment, staff augmentation, RPO, payroll services and corporate training across Hyderabad and all of India.',
+    'summary': 'Leading staffing and HR solutions company in Hyderabad, India. Expert IT recruitment, contract staffing, RPO, payroll services and training.',
   },
 };
 
@@ -213,6 +242,87 @@ const websiteSchema = {
   }
 };
 
+const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@type": ["LocalBusiness", "EmploymentAgency"],
+  "@id": "https://www.tryittech.in/#localbusiness",
+  "name": "TRYITTECH LLP",
+  "legalName": "TRYITTECH LLP",
+  "url": "https://www.tryittech.in",
+  "logo": "https://www.tryittech.in/images/clients/logoo.png",
+  "image": "https://www.tryittech.in/images/clients/logoo.png",
+  "description": "India's premier staffing & HR solutions company in Hyderabad providing IT recruitment, staff augmentation, RPO, payroll services and corporate training.",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Plot No. 123, Cyber Hills, Madhapur",
+    "addressLocality": "Hyderabad",
+    "addressRegion": "Telangana",
+    "postalCode": "500081",
+    "addressCountry": "IN"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "17.4485",
+    "longitude": "78.3908"
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "09:00",
+      "closes": "18:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": "Saturday",
+      "opens": "10:00",
+      "closes": "14:00"
+    }
+  ],
+  "priceRange": "$",
+  "currenciesAccepted": "INR,USD",
+  "paymentAccepted": "Cash, Credit Card, Bank Transfer",
+  "telephone": "+91-40-1234-5678",
+  "email": "info@tryittech.in",
+  "areaServed": [
+    { "@type": "State", "name": "Telangana" },
+    { "@type": "State", "name": "Andhra Pradesh" },
+    { "@type": "Country", "name": "India" },
+    { "@type": "Country", "name": "United States" },
+    { "@type": "Country", "name": "United Kingdom" }
+  ],
+  "serviceType": [
+    "Permanent Hiring",
+    "Contract Staffing",
+    "Staff Augmentation",
+    "RPO Frameworks",
+    "Offshore IT Hub",
+    "Payroll Services",
+    "IT Training",
+    "EHS Training"
+  ],
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "reviewCount": "150",
+    "bestRating": "5"
+  },
+  "review": [
+    {
+      "@type": "Review",
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": "5"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "TCS"
+      },
+      "reviewBody": "TRYITTECH has been an excellent staffing partner for our organization."
+    }
+  ]
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -236,6 +346,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
         />
         <script
           dangerouslySetInnerHTML={{

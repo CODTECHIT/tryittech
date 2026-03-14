@@ -1,12 +1,16 @@
-import { NextResponse } from 'next/server';
+import { isAuthenticated } from '@/lib/security';
+import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import { Trainer } from '@/lib/models';
 import { sanitizeData } from '@/lib/security';
 
-export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+    if (!await isAuthenticated(req)) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
     try {
         const { id } = await params;
-        const body = await request.json();
+        const body = await req.json();
         const sanitized = sanitizeData(body, ['name', 'mobile', 'email', 'expertise', 'details']);
 
         await connectDB();
@@ -18,7 +22,10 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     }
 }
 
-export async function DELETE(_request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+    if (!await isAuthenticated(req)) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
     try {
         const { id } = await params;
         await connectDB();

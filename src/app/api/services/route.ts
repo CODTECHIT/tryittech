@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServices, addService } from '@/lib/services';
+import { isAuthenticated } from '@/lib/security';
 
 export async function GET() {
     try {
@@ -13,6 +14,9 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
     try {
+        if (!await isAuthenticated(req)) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        }
         const data = await req.json();
         const newService = await addService(data);
         if (newService) {

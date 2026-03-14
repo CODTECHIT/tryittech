@@ -51,12 +51,12 @@ export default function TrainingPage() {
                 subtitle="Empowering individuals with specialized skills for every stage of life."
             />
 
-            <section className="section-padding py-20 bg-white">
+            <section className="section-padding py-12 md:py-20 bg-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center max-w-3xl mx-auto mb-16">
-                        <h2 className="text-[#008CC8] font-bold uppercase tracking-widest text-sm mb-3">Skill Development</h2>
-                        <h3 className="text-3xl md:text-4xl font-extrabold text-[#020617] mb-6">Explore Our Courses</h3>
-                        <p className="text-slate-600 text-lg">
+                    <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
+                        <h2 className="text-[#008CC8] font-bold uppercase tracking-widest text-xs sm:text-sm mb-2 md:mb-3">Skill Development</h2>
+                        <h3 className="text-2xl md:text-3xl md:text-4xl font-extrabold text-[#020617] mb-4 md:mb-6">Explore Our Courses</h3>
+                        <p className="text-slate-600 text-base md:text-lg">
                             From professional certifications to early childhood development, we offer distinct training modules designed for success.
                         </p>
                     </div>

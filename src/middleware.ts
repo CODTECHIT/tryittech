@@ -1,32 +1,43 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { verifySession } from '@/lib/security';
+import { verifySessionWithStore } from '@/lib/security';
 
 // Routes that don't require authentication
-const PUBLIC_PATCHES = [
+const PUBLIC_PATHS = [
     '/ADMINTRYITTECH-LLP/login',
     '/api/auth/login',
     '/api/auth/logout',
 ];
 
 export default async function middleware(request: NextRequest) {
-    const { pathname } = request.nextUrl;
+    const { pathname, protocol } = request.nextUrl;
     const method = request.method;
 
-    // 1. Whitelist public UI routes
-    if (PUBLIC_PATCHES.some(path => pathname === path)) {
+    // ─── HTTPS Enforcement in Production ───
+    if (process.env.NODE_ENV === 'production' && protocol === 'http:') {
+        // Get the host with HTTPS
+        const host = request.headers.get('host') || request.nextUrl.host;
+        const httpsUrl = `https://${host}${pathname}${request.nextUrl.search}`;
+        return NextResponse.redirect(httpsUrl, 301);
+    }
+
+    // Normalize path by removing trailing slash for comparison
+    const normalizedPath = pathname.endsWith('/') && pathname.length > 1
+        ? pathname.slice(0, -1)
+        : pathname;
+
+    // 1. Whitelist public UI and auth routes
+    if (PUBLIC_PATHS.some(path => normalizedPath === path)) {
         return NextResponse.next();
     }
 
     // 2. Allow ALL GET requests for public data APIs
     // This fixes the 401 errors for services, industries, trainings, etc.
     const isPublicGet = method === 'GET' && (
-        pathname.startsWith('/api/services') ||
-        pathname.startsWith('/api/industries') ||
-        pathname.startsWith('/api/trainings') ||
-        pathname.startsWith('/api/trainers') ||
-        pathname.startsWith('/api/licenses') ||
-        pathname.startsWith('/api/clients')
+        normalizedPath.startsWith('/api/services') ||
+        normalizedPath.startsWith('/api/industries') ||
+        normalizedPath.startsWith('/api/trainings') ||
+        normalizedPath.startsWith('/api/clients')
     );
 
     if (isPublicGet) {
@@ -34,19 +45,19 @@ export default async function middleware(request: NextRequest) {
     }
 
     // 3. Allow public inquiry submission (only POST)
-    if (pathname === '/api/inquiries' && method === 'POST') {
+    if (normalizedPath === '/api/inquiries' && method === 'POST') {
         return NextResponse.next();
     }
 
     // 4. Protect Admin UI and all other API Routes (POST/PUT/DELETE)
-    const isAdminPath = pathname.startsWith('/ADMINTRYITTECH-LLP');
-    const isApiPath = pathname.startsWith('/api/') && !pathname.startsWith('/api/auth');
+    const isAdminPath = normalizedPath.startsWith('/ADMINTRYITTECH-LLP');
+    const isApiPath = normalizedPath.startsWith('/api/') && !normalizedPath.startsWith('/api/auth');
 
     if (isAdminPath || isApiPath) {
         const session = request.cookies.get('admin_session');
 
-        // SECURITY FIX: Cryptographically verify the session signature
-        const isValid = session?.value ? await verifySession(session.value) : false;
+        // SECURITY FIX: Use session store verification to prevent fixation
+        const isValid = session?.value ? await verifySessionWithStore(session.value) : false;
 
         if (!isValid) {
             // If it's an API call, return 401 instead of redirecting

@@ -12,11 +12,22 @@
   --font-montserrat: var(--font-montserrat);
 }
 
+/* Responsive container max-widths */
+.container-responsive {
+  @apply w-full mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl;
+}
+
 @layer base {
   body {
     @apply text-slate-800 antialiased;
     font-family: var(--font-inter), ui-sans-serif, system-ui;
     font-feature-settings: "ss01", "ss02", "cv01", "cv03";
+  }
+
+  html {
+    @apply scroll-smooth;
+    -webkit-text-size-adjust: 100%;
+    -webkit-overflow-scrolling: touch;
   }
 
   h1,
@@ -27,6 +38,19 @@
   h6 {
     @apply font-bold tracking-tight text-brand-deep;
     font-family: var(--font-montserrat), ui-sans-serif, system-ui;
+  }
+
+  /* Responsive heading sizes */
+  h1 {
+    @apply text-3xl md:text-4xl lg:text-5xl;
+  }
+
+  h2 {
+    @apply text-2xl md:text-3xl lg:text-4xl;
+  }
+
+  h3 {
+    @apply text-xl md:text-2xl lg:text-3xl;
   }
 }
 
@@ -44,15 +68,29 @@
   }
 
   .btn-primary {
-    @apply px-8 py-4 bg-brand-deep text-white font-bold rounded-lg hover:bg-brand-teal transition-all duration-300 shadow-lg text-center flex items-center justify-center gap-2;
+    @apply px-6 py-3 md:px-8 md:py-4 bg-brand-deep text-white font-bold rounded-lg hover:bg-brand-teal transition-all duration-300 shadow-lg text-center flex items-center justify-center gap-2 text-sm md:text-base;
   }
 
   .btn-outline {
-    @apply px-8 py-4 bg-transparent text-brand-deep font-bold rounded-lg border-2 border-brand-deep/20 hover:border-brand-teal hover:text-brand-teal transition-all duration-300 text-center;
+    @apply px-6 py-3 md:px-8 md:py-4 bg-transparent text-brand-deep font-bold rounded-lg border-2 border-brand-deep/20 hover:border-brand-teal hover:text-brand-teal transition-all duration-300 text-center text-sm md:text-base;
   }
 
   .section-padding {
-    @apply py-24 md:py-32;
+    @apply py-12 md:py-16 lg:py-24;
+  }
+
+  .section-padding-lg {
+    @apply py-16 md:py-24 lg:py-32;
+  }
+
+  /* Card responsive styles */
+  .card-responsive {
+    @apply w-full p-4 md:p-6 lg:p-8;
+  }
+
+  /* Grid responsive helpers */
+  .grid-responsive {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 lg:gap-8;
   }
 }
 

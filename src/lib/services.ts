@@ -1,5 +1,6 @@
 import connectDB from './db';
 import { Service as ServiceModel } from './models';
+import { sanitizeData } from './security';
 import fs from 'fs';
 import path from 'path';
 
@@ -14,7 +15,13 @@ export interface Service {
     fullDescription: string;
     benefits: string[];
     process: string[];
+    startDate?: string;
+    curriculumPdf?: string;
+    executivePerspective?: string;
 }
+
+// Allowed fields for service operations (for sanitization)
+const SERVICE_FIELDS: string[] = ['slug', 'title', 'icon', 'image', 'secondaryImage', 'shortDescription', 'fullDescription', 'benefits', 'process', 'startDate', 'curriculumPdf', 'executivePerspective'];
 
 function isValidUrl(value: unknown): boolean {
     if (!value || typeof value !== 'string' || value.trim() === '') return false;
@@ -38,6 +45,9 @@ function toService(doc: Record<string, unknown>): Service {
         fullDescription: String(doc.fullDescription || ''),
         benefits: Array.isArray(doc.benefits) ? doc.benefits as string[] : [],
         process: Array.isArray(doc.process) ? doc.process as string[] : [],
+        startDate: doc.startDate ? String(doc.startDate) : undefined,
+        curriculumPdf: doc.curriculumPdf ? String(doc.curriculumPdf) : undefined,
+        executivePerspective: doc.executivePerspective ? String(doc.executivePerspective) : undefined,
     };
 }
 
@@ -86,7 +96,13 @@ export async function getServiceBySlug(slug: string): Promise<Service | undefine
 export async function addService(data: Omit<Service, 'id'>): Promise<Service | null> {
     try {
         await connectDB();
-        const doc = await ServiceModel.create(data);
+        // Sanitize input to prevent NoSQL injection
+        const sanitized = sanitizeData(data as Record<string, unknown>, SERVICE_FIELDS);
+        if (Object.keys(sanitized).length === 0) {
+            console.error('No valid fields provided for service');
+            return null;
+        }
+        const doc = await ServiceModel.create(sanitized);
         return toService(doc.toObject());
     } catch (err) {
         console.error('Error adding service:', err);
@@ -97,7 +113,13 @@ export async function addService(data: Omit<Service, 'id'>): Promise<Service | n
 export async function updateService(id: string, data: Partial<Service>): Promise<Service | null> {
     try {
         await connectDB();
-        const doc = await ServiceModel.findByIdAndUpdate(id, data, { new: true }).lean();
+        // Sanitize input to prevent NoSQL injection
+        const sanitized = sanitizeData(data as Record<string, unknown>, SERVICE_FIELDS);
+        if (Object.keys(sanitized).length === 0) {
+            console.error('No valid fields provided for service update');
+            return null;
+        }
+        const doc = await ServiceModel.findByIdAndUpdate(id, sanitized, { new: true }).lean();
         return doc ? toService(doc as Record<string, unknown>) : null;
     } catch (err) {
         console.error('Error updating service:', err);

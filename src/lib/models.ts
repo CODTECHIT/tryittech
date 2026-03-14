@@ -7,7 +7,7 @@ const TrainingSchema = new Schema({
     longDescription: { type: String },
     icon: { type: String },
     image: { type: String },
-    modules: { type: [String], default: [] },
+    modules: { type: [Schema.Types.Mixed], default: [] },
     startDate: { type: String },
     keyHighlights: { type: [String], default: [] },
     curriculumPdf: { type: String },
@@ -33,8 +33,15 @@ const ServiceSchema = new Schema({
     fullDescription: { type: String },
     benefits: { type: [String], default: [] },
     process: { type: [String], default: [] },
+    startDate: { type: String },
+    curriculumPdf: { type: String },
+    executivePerspective: { type: String },
 }, { timestamps: true });
 
+// In development, delete cached model to pick up schema changes after hot reload
+if (process.env.NODE_ENV !== 'production' && models.Service) {
+    delete models.Service;
+}
 export const Service = models.Service || model('Service', ServiceSchema);
 
 const IndustrySchema = new Schema({
@@ -100,5 +107,17 @@ const ClientLogoSchema = new Schema({
 
 export const ClientLogo = models.ClientLogo || model('ClientLogo', ClientLogoSchema);
 
+const AuditLogSchema = new Schema({
+    adminId: { type: String, required: true },
+    action: { type: String, required: true }, // e.g., 'DELETE_SERVICE', 'UPDATE_TRAINING'
+    targetId: { type: String },
+    targetType: { type: String }, // e.g., 'Service', 'Training'
+    details: { type: Schema.Types.Mixed },
+    ip: { type: String },
+}, { timestamps: true });
+
+export const AuditLog = models.AuditLog || model('AuditLog', AuditLogSchema);
+
 // Re-export mongoose for convenience
+
 export default mongoose;

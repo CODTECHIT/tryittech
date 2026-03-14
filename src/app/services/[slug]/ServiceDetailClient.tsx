@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useParams, notFound } from 'next/navigation';
 import { CheckCircle2, ArrowLeft, Quote } from 'lucide-react';
 import Link from 'next/link';
+import servicesData from '@/data/services.json';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Contact from '@/components/Contact';
@@ -21,6 +22,9 @@ interface Service {
     fullDescription: string;
     benefits: string[];
     process: string[];
+    startDate?: string;
+    curriculumPdf?: string;
+    executivePerspective?: string;
 }
 
 const BACK_COLORS = [
@@ -80,7 +84,7 @@ export default function ServiceDetailClient() {
         <main className="bg-white">
             <Navbar />
             {/* Premium Integrated Service Hero */}
-            <section className="relative h-[70vh] w-full">
+            <section className="relative h-[60vh] sm:h-[70vh] w-full">
                 <div className="absolute inset-0">
                     <Image
                         src={service.image || defaultImage}
@@ -93,34 +97,35 @@ export default function ServiceDetailClient() {
                 </div>
 
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 h-full flex flex-col items-center justify-center text-center">
-                    <div className="space-y-6 max-w-4xl">
-                        <div className="flex items-center justify-center gap-4 mb-4">
-                            <span className="w-12 h-[2px]" style={{ backgroundColor: activeColor }} />
-                            <span className="font-black uppercase tracking-[0.4em] text-[10px]" style={{ color: activeColor }}>Service Excellence & Strategy</span>
-                            <span className="w-12 h-[2px]" style={{ backgroundColor: activeColor }} />
+                    <div className="space-y-4 sm:space-y-6 max-w-4xl">
+                        <div className="flex items-center justify-center gap-2 sm:gap-4 mb-4">
+                            <span className="w-8 sm:w-12 h-[2px]" style={{ backgroundColor: activeColor }} />
+                            <span className="font-black uppercase tracking-[0.4em] text-[8px] sm:text-[10px]" style={{ color: activeColor }}>Service Excellence & Strategy</span>
+                            <span className="w-8 sm:w-12 h-[2px]" style={{ backgroundColor: activeColor }} />
                         </div>
 
                         <h1
-                            className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-tight"
+                            className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl xl:text-8xl font-black tracking-tighter leading-tight"
                             style={{ color: activeColor }}
                         >
                             {service.title}
                         </h1>
 
-                        <div className="relative max-w-3xl mx-auto mt-8">
-                            <div className="relative p-6 md:p-8 bg-transparent rounded-2xl border-l-4 group shadow-sm" style={{ borderLeftColor: activeColor }}>
+                        <div className="relative max-w-2xl md:max-w-3xl mx-auto mt-4 sm:mt-8">
+                            <div className="relative p-4 sm:p-6 md:p-8 bg-transparent rounded-xl md:rounded-2xl border-l-4 group shadow-sm" style={{ borderLeftColor: activeColor }}>
                                 <Quote
-                                    className="absolute top-4 left-4 w-10 h-10 opacity-20 group-hover:opacity-40 transition-all duration-300"
+                                    className="absolute top-3 left-3 sm:top-4 sm:left-4 w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 opacity-20 group-hover:opacity-40 transition-all duration-300"
                                     style={{ color: activeColor }}
                                 />
-                                <p className="text-xl md:text-2xl font-bold text-[#020617] italic text-center relative z-10 leading-relaxed">
+                                <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-[#020617] italic text-center relative z-10 leading-relaxed px-2 sm:px-0">
                                     &ldquo;  {service.shortDescription || "Industry-leading workforce solutions designed for the future of global enterprise."}  &rdquo;
                                 </p>
                             </div>
                         </div>
 
+
                         <div
-                            className="w-24 h-1.5 mx-auto mt-12 rounded-full shadow-lg"
+                            className="w-16 sm:w-20 md:w-24 h-1 sm:h-1.5 mx-auto mt-6 sm:mt-8 md:mt-12 rounded-full shadow-lg"
                             style={{ backgroundColor: activeColor }}
                         />
                     </div>
@@ -181,7 +186,9 @@ export default function ServiceDetailClient() {
                                     <div className="absolute top-0 right-0 w-64 h-64 blur-[120px] opacity-20" style={{ backgroundColor: activeColor }} />
                                     <h4 className="font-black uppercase tracking-[0.4em] text-xs mb-8" style={{ color: activeColor }}>Executive Perspective</h4>
                                     <p className="text-2xl font-medium leading-relaxed italic opacity-95 relative z-10">
-                                        &quot;Our {service.title} engine is built to synchronize seamlessly with your internal operations, turning recruitment from a bottleneck into a competitive advantage.&quot;
+                                        &quot;{service.executivePerspective ||
+                                            (servicesData as Service[]).find(s => s.slug === service.slug)?.executivePerspective ||
+                                            ((service.title?.toLowerCase().includes('onshore') || service.title?.toLowerCase().includes('on shore')) ? "Our Onshore Recruitment services align closely with your internal operations, enabling faster hiring, access to local talent, and efficient workforce management that transforms recruitment challenges into opportunities for business growth." : `Our ${service.title} engine is built to synchronize seamlessly with your internal operations, turning recruitment from a bottleneck into a competitive advantage.`)}&quot;
                                     </p>
                                     <div className="mt-12 flex items-center gap-4">
                                         <div className="w-12 h-12 rounded-full flex items-center justify-center border" style={{ backgroundColor: `${activeColor}33`, borderColor: `${activeColor}66` }}>

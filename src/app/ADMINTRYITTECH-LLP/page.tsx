@@ -141,6 +141,44 @@ export default function AdminPanel() {
         setToasts(prev => prev.filter(t => t.id !== id));
     };
 
+    const handleLogout = React.useCallback(async () => {
+        try {
+            const res = await fetch('/api/auth/logout', { method: 'POST' });
+            if (res.ok) {
+                router.push('/ADMINTRYITTECH-LLP/login');
+            } else {
+                router.push('/ADMINTRYITTECH-LLP/login');
+            }
+        } catch (error) {
+            console.error('Logout failed:', error);
+            router.push('/ADMINTRYITTECH-LLP/login');
+        }
+    }, [router]);
+
+    // ─── Idle Auto-Logout (2 Minutes) ──────────────────────────────
+    useEffect(() => {
+        const IDLE_TIMEOUT = 2 * 60 * 1000; // 2 minutes
+        let timeoutId: NodeJS.Timeout;
+
+        const resetTimer = () => {
+            if (timeoutId) clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => {
+                console.log('User idle for 2 minutes. Logging off...');
+                handleLogout();
+            }, IDLE_TIMEOUT);
+        };
+
+        const events = ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart'];
+        resetTimer();
+
+        events.forEach(event => window.addEventListener(event, resetTimer));
+
+        return () => {
+            if (timeoutId) clearTimeout(timeoutId);
+            events.forEach(event => window.removeEventListener(event, resetTimer));
+        };
+    }, [handleLogout]);
+
     // ─── Image URL Validation Errors ──────────────────────────────
     const [imageUrlErrors, setImageUrlErrors] = useState<Record<string, string>>({});
 
@@ -301,16 +339,7 @@ export default function AdminPanel() {
         XLSX.writeFile(workbook, `${activeTab}_report_${new Date().toISOString().split('T')[0]}.xlsx`);
     };
 
-    const handleLogout = async () => {
-        try {
-            const res = await fetch('/api/auth/logout', { method: 'POST' });
-            if (res.ok) {
-                router.push('/ADMINTRYITTECH-LLP/login');
-            }
-        } catch (error) {
-            console.error('Logout failed:', error);
-        }
-    };
+
 
     const startNew = () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -367,7 +396,7 @@ export default function AdminPanel() {
         setEditingItem({ ...editingItem, details: currentDetails });
     };
 
-    const ICON_MAP: Record<string, any> = { Target, Globe, Shield, Zap, Layers, Briefcase, GraduationCap, BarChart3, Cpu };
+    const ICON_MAP: Record<string, React.ElementType> = { Target, Globe, Shield, Zap, Layers, Briefcase, GraduationCap, BarChart3, Cpu };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const renderItemCard = (item: any) => {
@@ -1329,7 +1358,7 @@ export default function AdminPanel() {
                                                                 </button>
                                                             </div>
                                                             <div className="space-y-4">
-                                                                {editingItem?.segments?.map((s: any, idx: number) => (
+                                                                {editingItem?.segments?.map((s: { title: string; description: string }, idx: number) => (
                                                                     <div key={idx} className="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex gap-4">
                                                                         <div className="flex-1 space-y-4">
                                                                             <input placeholder="Segment Title" value={s.title} onChange={e => handleArrayAction('segments', 'update', idx, { ...s, title: e.target.value })} className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 font-bold text-sm" />
@@ -1350,7 +1379,7 @@ export default function AdminPanel() {
                                                                 </button>
                                                             </div>
                                                             <div className="space-y-4">
-                                                                {editingItem?.solutions?.map((s: any, idx: number) => (
+                                                                {editingItem?.solutions?.map((s: { title: string; description: string }, idx: number) => (
                                                                     <div key={idx} className="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex gap-4">
                                                                         <div className="flex-1 space-y-4">
                                                                             <input placeholder="Solution Title" value={s.title} onChange={e => handleArrayAction('solutions', 'update', idx, { ...s, title: e.target.value })} className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 font-bold text-sm" />
@@ -1371,7 +1400,7 @@ export default function AdminPanel() {
                                                                 </button>
                                                             </div>
                                                             <div className="space-y-4">
-                                                                {editingItem?.insights?.map((s: any, idx: number) => (
+                                                                {editingItem?.insights?.map((s: { title: string; category: string; image: string }, idx: number) => (
                                                                     <div key={idx} className="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex gap-4">
                                                                         <div className="flex-1 space-y-4">
                                                                             <div className="grid grid-cols-2 gap-4">
@@ -1395,7 +1424,7 @@ export default function AdminPanel() {
                                                                 </button>
                                                             </div>
                                                             <div className="space-y-4">
-                                                                {editingItem?.edge?.map((s: any, idx: number) => (
+                                                                {editingItem?.edge?.map((s: { title: string; description: string; icon: string }, idx: number) => (
                                                                     <div key={idx} className="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex gap-4">
                                                                         <div className="flex-1 space-y-4">
                                                                             <div className="grid grid-cols-2 gap-4">

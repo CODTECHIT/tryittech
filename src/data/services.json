@@ -15,7 +15,8 @@
             "90-day replacement guarantee providing risk-free hiring confidence.",
             "Dedicated account managers specializing in your specific industry vertical."
         ],
-        "process": ["Requirement Analysis", "Strategic Sourcing", "Technical Vetting", "Client Interviews", "Onboarding Support"]
+        "process": ["Requirement Analysis", "Strategic Sourcing", "Technical Vetting", "Client Interviews", "Onboarding Support"],
+        "executivePerspective": "Our Permanent Hiring engine integrates with your internal operations to deliver efficient, strategic recruitment, connecting you with high-quality talent that drives long-term value and transforms hiring into a competitive advantage."
     },
     {
         "id": "02",
@@ -33,7 +34,8 @@
             "Shorter hiring cycles with access to 50,000+ active contractors.",
             "Flexible \"Contract-to-Hire\" models for evaluating potential before permanent offers."
         ],
-        "process": ["Resource Profiling", "Vetting & Screening", "Client Evaluation", "Compliance Setup", "Resource Deployment"]
+        "process": ["Resource Profiling", "Vetting & Screening", "Client Evaluation", "Compliance Setup", "Resource Deployment"],
+        "executivePerspective": "Our seamless contract staffing that integrates with your operations, providing on-demand talent, improving workforce flexibility, and helping your organization maintain productivity while adapting quickly to changing business needs."
     },
     {
         "id": "03",
@@ -51,7 +53,8 @@
             "Full management of Indian tax, labor law, and local compliance.",
             "Overnight turnaround cycles with efficient 24/7 delivery frameworks."
         ],
-        "process": ["GCC Strategy", "Infrastructure Setup", "Talent Pod Building", "Knowledge Transfer", "Operational Scale"]
+        "process": ["GCC Strategy", "Infrastructure Setup", "Talent Pod Building", "Knowledge Transfer", "Operational Scale"],
+        "executivePerspective": "Our Offshore IT Hub integrates with your operations to deliver scalable technology talent, faster project execution, and cost efficiency, helping organizations convert talent gaps into opportunities for innovation and growth."
     },
     {
         "id": "04",
@@ -87,7 +90,8 @@
             "Strategic scalability to manage massive hiring surges (100+ hires).",
             "Improved quality of hire through multi-tiered assessment frameworks."
         ],
-        "process": ["Hiring Audit", "Branding Strategy", "Technology Integration", "Candidate Pipeline Building", "Full-Cycle Hiring"]
+        "process": ["Hiring Audit", "Branding Strategy", "Technology Integration", "Candidate Pipeline Building", "Full-Cycle Hiring"],
+        "executivePerspective": "Our recruitment process outsourcing model designed to align with your internal teams, improving hiring speed, ensuring quality talent acquisition, and enabling organizations to scale recruitment with efficiency and consistency."
     },
     {
         "id": "06",
@@ -105,6 +109,7 @@
             "Direct handling of all salary-related employee queries.",
             "Comprehensive monthly and annual compliance reporting for audits."
         ],
-        "process": ["Policy Alignment", "Employee Data Setup", "Calculation & Processing", "Statutory Filing", "Query Management"]
+        "process": ["Policy Alignment", "Employee Data Setup", "Calculation & Processing", "Statutory Filing", "Query Management"],
+        "executivePerspective": "Our reliable payroll solution designed to work alongside your internal processes, delivering accuracy, compliance, and operational efficiency so your organization can concentrate on innovation, growth, and strategic success."
     }
 ]

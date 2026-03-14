@@ -9,30 +9,20 @@ export default function StyledComponentsRegistry({
 }: {
     children: React.ReactNode
 }) {
-    // Only create the stylesheet on the server
-    const [styledComponentsStyleSheet] = useState(() => {
-        if (typeof window === 'undefined') {
-            return new ServerStyleSheet()
-        }
-        return null
-    })
+    // Only create stylesheet once on mount
+    const [styledComponentsStyleSheet] = useState(() => new ServerStyleSheet())
 
     useServerInsertedHTML(() => {
-        if (!styledComponentsStyleSheet) return null
         const styles = styledComponentsStyleSheet.getStyleElement()
         styledComponentsStyleSheet.instance.clearTag()
         return <>{styles}</>
     })
 
-    // Always wrap children with StyleSheetManager when server-side styles are available
-    // This ensures consistent class name generation between server and client
-    if (styledComponentsStyleSheet) {
-        return (
-            <StyleSheetManager sheet={styledComponentsStyleSheet.instance}>
-                {children}
-            </StyleSheetManager>
-        )
-    }
+    if (typeof window !== 'undefined') return <>{children}</>
 
-    return <>{children}</>
+    return (
+        <StyleSheetManager sheet={styledComponentsStyleSheet.instance}>
+            {children}
+        </StyleSheetManager>
+    )
 }

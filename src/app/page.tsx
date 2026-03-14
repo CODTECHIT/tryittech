@@ -12,9 +12,7 @@ import Hero from '@/components/Hero';
 const IndustriesOrbit = dynamic(() => import('@/components/IndustriesOrbit'), {
   loading: () => <div className="min-h-[600px] flex items-center justify-center animate-pulse bg-slate-50/50 rounded-3xl mx-4 mb-20 text-slate-400 font-bold uppercase tracking-widest">Initialising Orbit...</div>
 });
-const Services = dynamic(() => import('@/components/Services'), {
-  ssr: true, // Keep SSR for SEO on core services
-});
+const ServicesWrapper = dynamic(() => import('@/components/ServicesWrapper'));
 const TrainingSection = dynamic(() => import('@/components/TrainingSection'), {
   loading: () => <div className="min-h-[400px] bg-[#020617] flex items-center justify-center text-blue-400 font-black uppercase tracking-widest animate-pulse">Syncing Training Ecosystem...</div>
 });
@@ -128,7 +126,7 @@ export default async function Home() {
           initialIndustries={industries}
         />
         <IndustriesOrbit initialData={industries} />
-        <Services initialData={services} />
+        <ServicesWrapper initialData={services} />
         <TrainingSection initialData={trainings} />
         <ClientTrust />
         <Contact />
@@ -137,4 +135,3 @@ export default async function Home() {
     </>
   );
 }
-

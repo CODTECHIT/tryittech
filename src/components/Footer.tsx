@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Mail, Linkedin, MessageSquare, Phone, Quote } from 'lucide-react';
+import { Mail, MessageSquare, Phone, Quote } from 'lucide-react';
 
 const staticSections = [
     {

@@ -1,0 +1,27 @@
+﻿
+> tryittech-web@0.1.0 lint
+> eslint
+
+
+C:\Users\MAHAJAN ASHOK\OneDrive\Desktop\TRYITTECH LLP\scripts\check_auth.js
+  1:12  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  2:14  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\Users\MAHAJAN ASHOK\OneDrive\Desktop\TRYITTECH LLP\src\app\ADMINTRYITTECH-LLP\page.tsx
+   163:8    warning  React Hook useEffect has a missing dependency: 'handleLogout'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+   408:36   error    Unexpected any. Specify a different type                                                                         @typescript-eslint/no-explicit-any
+  1192:96   error    Unexpected any. Specify a different type                                                                         @typescript-eslint/no-explicit-any
+  1198:111  error    Unexpected any. Specify a different type                                                                         @typescript-eslint/no-explicit-any
+  1427:97   error    Unexpected any. Specify a different type                                                                         @typescript-eslint/no-explicit-any
+  1448:98   error    Unexpected any. Specify a different type                                                                         @typescript-eslint/no-explicit-any
+  1469:97   error    Unexpected any. Specify a different type                                                                         @typescript-eslint/no-explicit-any
+  1493:93   error    Unexpected any. Specify a different type                                                                         @typescript-eslint/no-explicit-any
+
+C:\Users\MAHAJAN ASHOK\OneDrive\Desktop\TRYITTECH LLP\src\app\api\licenses\route.ts
+  1:10  warning  'isAuthenticated' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\MAHAJAN ASHOK\OneDrive\Desktop\TRYITTECH LLP\src\app\api\trainers\route.ts
+  1:10  warning  'isAuthenticated' is defined but never used  @typescript-eslint/no-unused-vars
+
+Γ£û 12 problems (9 errors, 3 warnings)
+

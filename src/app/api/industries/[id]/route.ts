@@ -1,3 +1,4 @@
+import { isAuthenticated } from '@/lib/security';
 import { NextRequest, NextResponse } from 'next/server';
 import { updateIndustry, deleteIndustry } from '@/lib/industries';
 
@@ -5,6 +6,9 @@ export async function PUT(
     req: NextRequest,
     { params }: { params: Promise<{ id: string }> }
 ) {
+    if (!await isAuthenticated(req)) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
     try {
         const { id } = await params;
         const data = await req.json();
@@ -19,9 +23,12 @@ export async function PUT(
 }
 
 export async function DELETE(
-    _req: NextRequest,
+    req: NextRequest,
     { params }: { params: Promise<{ id: string }> }
 ) {
+    if (!await isAuthenticated(req)) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
     try {
         const { id } = await params;
         const success = await deleteIndustry(id);

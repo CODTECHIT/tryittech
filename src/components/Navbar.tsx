@@ -155,20 +155,20 @@ export default function Navbar() {
     <nav className={`fixed w-full z-50 transition-all duration-300 ${navBg}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
         <Link href="/" className="group flex flex-col items-start" onClick={() => setIsOpen(false)}>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <Image
               src="/images/clients/logoo.png"
               alt="TRYITTECH LLP Logo"
               width={250}
               height={80}
-              className="h-12 md:h-20 w-auto transition-transform group-hover:scale-105"
+              className="h-10 sm:h-12 md:h-20 w-auto transition-transform group-hover:scale-105"
               priority
             />
             <div className="flex flex-col">
-              <span className={`text-xl md:text-2xl font-black tracking-tight leading-none ${textColor}`}>
+              <span className={`text-lg sm:text-xl md:text-2xl font-black tracking-tight leading-none ${textColor}`}>
                 TRYITTECH <span className="text-[#008CC8]">LLP</span>
               </span>
-              <span className={`text-[10px] font-bold tracking-[0.2em] uppercase mt-1 ${(isHome && !isScrolled) ? 'text-slate-400' : 'text-slate-500'}`}>
+              <span className={`text-[8px] sm:text-[10px] font-bold tracking-[0.2em] uppercase mt-0.5 sm:mt-1 ${(isHome && !isScrolled) ? 'text-slate-400' : 'text-slate-500'}`}>
                 Staffing for What&apos;s Next
               </span>
             </div>
@@ -265,7 +265,7 @@ export default function Navbar() {
 
       {/* Mobile Menu Sidebar */}
       <div className={`fixed inset-0 z-[60] bg-[#020617]/50 md:hidden transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} onClick={() => setIsOpen(false)} />
-      <div className={`fixed top-0 right-0 h-full w-80 bg-white z-[70] shadow-2xl md:hidden transition-transform duration-300 transform ${isOpen ? 'translate-x-0' : 'translate-x-full'} flex flex-col p-8`}>
+      <div className={`fixed top-0 right-0 h-full w-full sm:w-80 bg-white z-[70] shadow-2xl md:hidden transition-transform duration-300 transform ${isOpen ? 'translate-x-0' : 'translate-x-full'} flex flex-col p-6 sm:p-8`}>
         <div className="flex justify-between items-center mb-12">
           <div className="flex items-center gap-3">
             <Image src="/images/clients/logoo.png" alt="TRYITTECH LLP Logo" width={180} height={60} className="h-16 w-auto" />

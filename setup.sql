@@ -72,7 +72,18 @@ CREATE TABLE IF NOT EXISTS licenses (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS audit_logs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    admin_id VARCHAR(255) NOT NULL,
+    action VARCHAR(100) NOT NULL,
+    target_id VARCHAR(255),
+    details JSON,
+    ip VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 INSERT INTO trainings (slug, title, description, longDescription, icon, image, modules) VALUES ('it-training', 'IT Training', 'Master modern technologies with our comprehensive IT training programs.', 'Our IT Training programs are designed to equip you with the latest skills in the tech industry. Whether you are a beginner looking to start a career in coding or a professional aiming to upskill, our expert-led courses cover everything from foundational programming to advanced cloud computing and data science.', 'Laptop', 'https://img.freepik.com/free-photo/team-database-admins-analyzing-source-code-wall-screen-tv-comparing-errors-using-digital-tablet-busy-server-room-two-cloud-programers-debugging-algorithm-software-innovation-office_482257-43976.jpg', '["Software Development","Web Development","Data Science","Cloud Computing","Cybersecurity Basics","DevOps Engineering","Mobile App Development","AI & Machine Learning"]');
+
 INSERT INTO trainings (slug, title, description, longDescription, icon, image, modules) VALUES ('general-training', 'General Trainings', 'Comprehensive professional development and competitive exam preparation.', 'Boost your career prospects with our General Training programs. specialized in competitive exam preparation for government jobs and professional skills development to enhance your workplace effectiveness.', 'BookOpen', 'https://img.freepik.com/free-photo/business-startup-strategy-goals-concept_53876-120909.jpg', '["Government Jobs Preparation","Professional Skills Development","Communication Skills","Leadership & Management","Time Management","Critical Thinking","Interview Preparation"]');
 INSERT INTO trainings (slug, title, description, longDescription, icon, image, modules) VALUES ('ehs-training', 'EHS Training', 'Essential Environment, Health, and Safety training for a secure workplace.', 'Safety is paramount in any industry. Our EHS (Environment, Health, and Safety) training ensures your workforce is compliant, safe, and prepared for emergencies. We cover international safety standards and practical emergency response techniques.', 'ShieldCheck', 'https://img.freepik.com/free-photo/female-construction-engineers-working-together-discussing-project-plan_114579-14641.jpg', '["Safety Training","Safety, Fire Extinguisher, CPR","Workplace Hazard Identification","First Aid Certification","Industrial Safety Protocols","Environmental Compliance"]');
 INSERT INTO trainings (slug, title, description, longDescription, icon, image, modules) VALUES ('kids-language', 'Kids & Language', 'Foundational courses in public speaking, phonics, and creative skills.', 'Nurture your child''s potential with our specialized courses for kids. We focus on building confidence, creativity, and strong communication skills from an early age through interactive and engaging learning methods.', 'Gamepad2', 'https://img.freepik.com/free-photo/cute-girl-writing-notes-while-elearning-laptop-home_637285-9354.jpg', '["Public Speaking & Creative Writing","Phonics","Mathematical Ability","Logic & Reasoning","Language Learning (Basics)","Art & Creativity Workshop"]');
